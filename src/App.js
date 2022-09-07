@@ -1,25 +1,41 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect, useState } from 'react'
+import { Router } from 'react-router-dom'
+import AppRouter from './AppRouter'
+import Auth from './Auth'
+import firebase from './fbase'
+import { authService } from './fbase'
+import { onAuthStateChanged } from 'firebase/auth'
+
+//깃허브로그인 설정 비밀번호 123456789
 
 function App() {
+
+  const [isLoggedIn,setIsLoggedIn]=useState(authService.currentUser)
+
+  const [init, setInit] = useState(false) 
+  //Firebase가 다 로드 될 때까지 
+  //기다리게 하기 위한 상태값
+
+  //console.log(authService.currentUser)
+
+  useEffect(()=>{
+    onAuthStateChanged(authService,(user)=>{
+      if(user){
+        setIsLoggedIn(true)
+      }
+      else{
+        setIsLoggedIn(false)
+      }
+      setInit(true)
+    })
+  })
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <>
+      {init?<AppRouter isLoggedIn={isLoggedIn} /> : 'Initializing...'}
+      <footer>&copy; {new Date().getFullYear()} SKU</footer>
+    </>
+     );
 }
 
 export default App;
