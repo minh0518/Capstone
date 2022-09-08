@@ -6,10 +6,11 @@ import {
     Link,
     Navigate,
   } from 'react-router-dom'
-import Auth from './Auth'
-import Home from './Home'
+import Auth from '../components/Auth'
+import Home from '../components/Home'
+import Profile from '../components/Profile'
 import Navigation from './Navigation'
-import Profile from './Profile'
+
 
 const AppRouter = ({ isLoggedIn }) => {
   return (
