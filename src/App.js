@@ -11,7 +11,6 @@ import { onAuthStateChanged } from 'firebase/auth'
 function App() {
 
   const [isLoggedIn,setIsLoggedIn]=useState(authService.currentUser)
-
   const [init, setInit] = useState(false) 
   //Firebase가 다 로드 될 때까지 
   //기다리게 하기 위한 상태값
