@@ -7,13 +7,14 @@ import {
   GithubAuthProvider,
   signInWithPopup,
 } from 'firebase/auth'
+import { useNavigate } from 'react-router-dom'
 
-import { Link } from 'react-router-dom'
-
-const Auth = () => {
+const Join = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
+
+  const navigate = useNavigate()
 
   const onChange = (e) => {
     const { name, value } = e.target
@@ -30,7 +31,7 @@ const Auth = () => {
     e.preventDefault()
 
     try {
-      const data = await signInWithEmailAndPassword(
+      const data = await createUserWithEmailAndPassword(
         authService,
         email,
         password,
@@ -39,25 +40,13 @@ const Auth = () => {
       console.log(e.message)
       setError(e.message)
     }
-  }
 
-  const onSocialClick = async (e) => {
-    const { name, value } = e.target
-
-    let provider
-
-    if (name === 'google') {
-      provider = new GoogleAuthProvider()
-    } else if (name == 'github') {
-      provider = new GithubAuthProvider()
-    }
-
-    const data = await signInWithPopup(authService, provider)
-    console.log(data)
+    navigate('/')
   }
 
   return (
     <div>
+    <h3>이메일 , 비밀번호 입력</h3>
       <form onSubmit={onSubmit}>
         <input
           name="email"
@@ -75,24 +64,11 @@ const Auth = () => {
           value={password}
           onChange={onChange}
         />
-        <input type="submit" value="Log In" />
+        <input type="submit" value="회원가입" />
         {error}
       </form>
-
-      <b>
-        <Link to="/join">회원가입</Link>
-      </b>
-
-      <div>
-        <button onClick={onSocialClick} name="google">
-          Goolge Login
-        </button>
-        <button onClick={onSocialClick} name="github">
-          GitHub Login
-        </button>
-      </div>
     </div>
   )
 }
 
-export default Auth
+export default Join

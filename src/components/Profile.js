@@ -9,7 +9,7 @@ const Profile = () => {
     navigate('/')
   }
 
-  //useNavigate()»ç¿ë
+  //useNavigate()ì‚¬ìš©
   const navigate = useNavigate()
 
   return (
