@@ -4,7 +4,8 @@ import axios from 'axios'
 import CATEGORIES from '../categories'
 import {Link} from 'react-router-dom'
 
-const Home = () => {
+
+const Home = ({setMovieInfo}) => {
   const [koficInfo, setKoficInfo] = useState([])
   const [naverInfo, setNaverInfo] = useState([])
   const [nationCategory, setNationCategories] = useState('')
@@ -41,12 +42,12 @@ const Home = () => {
         const multiQuery = multiCategory ? `&multiMovieYn=${multiCategory}` : ''
 
         const date = makeDate()
-        console.log(date)
+       // console.log(date)
         let response = await axios.get(
           `http://kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json?key=a5ff207b0075a51ed12c42d6c4b67218&targetDt=${date}${nationQuery}${multiQuery}`,
         )
 
-        console.log(nationQuery)
+       // console.log(nationQuery)
 
         let list = response.data.boxOfficeResult.dailyBoxOfficeList
         setKoficInfo(list)
@@ -86,12 +87,19 @@ const Home = () => {
 
       //console.log(tmp)
       setNaverInfo(NaverInfoArr)
+      setMovieInfo(NaverInfoArr) //여기서 카테고리로 만들어진 영화들이 상위까지 전달
     }
     getMovies()
   }, [koficInfo])
 
-  console.log(naverInfo)
-
+  
+  //setMovieInfo를 사용하는데  Home컴포넌트에서 사용되는 상태값인 naverInfo를 사용하면 ( setMovieInfo(naverInfo) ) 
+  //에러가 발생한다
+  //react-dom.development.js:86 Warning: Cannot update a component (`App`) while rendering a different component (`Home`). To locate the bad setState() call inside `Home` ..
+  
+  
+  //console.log(naverInfo)
+  
   return (
     <div>
       <h1>Select Movie</h1>
@@ -142,7 +150,7 @@ const Home = () => {
                 </li>
                 <li>
                   누적 관객 수
-                  {i.kofic.audiAcc.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,')}{' '}
+                  {i.kofic.audiAcc.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,')}
                   명
                 </li>
                 {i.kofic.rankOldAndNew === 'NEW' ? (
@@ -158,7 +166,7 @@ const Home = () => {
                 </li>
               </ul>
 
-              <button>More</button>
+              <button><Link to={`/detail/${index + 1}`}>More</Link></button>
             </div>
           )
         })}

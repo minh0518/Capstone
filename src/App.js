@@ -14,8 +14,14 @@ function App() {
   const [init, setInit] = useState(false) 
   //Firebase가 다 로드 될 때까지 
   //기다리게 하기 위한 상태값
+  
 
-  //console.log(authService.currentUser)
+  //그냥 setState함수 하나만 계속 보내고
+  //Home에서 이걸 사용하는거야
+  //여기에다가는 info변수로 계속 받아주고
+
+  const[movieInfo,setMovieInfo]=useState([])
+
 
   useEffect(()=>{
     onAuthStateChanged(authService,(user)=>{
@@ -29,9 +35,10 @@ function App() {
     })
   })
 
+  console.log(movieInfo)
   return (
     <>
-      {init?<AppRouter isLoggedIn={isLoggedIn} /> : 'Initializing...'}
+      {init?<AppRouter isLoggedIn={isLoggedIn} setMovieInfo={setMovieInfo} movieInfo={movieInfo}/> : 'Initializing...'}
       <footer>&copy; {new Date().getFullYear()} SKU</footer>
     </>
      );

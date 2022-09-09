@@ -13,7 +13,7 @@ import Profile from '../components/Profile'
 import Navigation from './Navigation'
 
 
-const AppRouter = ({ isLoggedIn }) => {
+const AppRouter = ({ isLoggedIn ,setMovieInfo,movieInfo }) => {
   return (
     <Router>
   {isLoggedIn && <Navigation/>} 
@@ -21,9 +21,9 @@ const AppRouter = ({ isLoggedIn }) => {
       <Routes>
         {isLoggedIn ? (
           <>
-            <Route path="/" element={<Home />}></Route>
+            <Route path="/" element={<Home setMovieInfo={setMovieInfo}/>}></Route>
             <Route path="/profile" element={<Profile/>}></Route>
-            <Route path='/detail' element={<Detail/>}></Route>
+            <Route path='/detail/:id' element={<Detail movieInfo={movieInfo}/>}></Route>
           </>
         ) : (
           <Route path="/" element={<Auth />}></Route>
