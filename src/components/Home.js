@@ -2,14 +2,20 @@ import React from 'react'
 import { useEffect, useState } from 'react'
 import axios from 'axios'
 import CATEGORIES from '../categories'
-import {Link} from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
+import { collection, addDoc ,deleteDoc ,doc } from 'firebase/firestore'
+import { dbService } from '../fbase'
 
-const Home = ({setMovieInfo}) => {
+const Home = ({ setMovieInfo }) => {
   const [koficInfo, setKoficInfo] = useState([])
   const [naverInfo, setNaverInfo] = useState([])
   const [nationCategory, setNationCategories] = useState('')
   const [multiCategory, setMultiCategorie] = useState('')
+
+  const [movieTitles, setMovieTitles] = useState([])
+  const [lastMovieTitlesId,setLastMovieTitlesId]=useState('')
+  //documentID 상태
 
 
   const styleObj = {
@@ -42,12 +48,12 @@ const Home = ({setMovieInfo}) => {
         const multiQuery = multiCategory ? `&multiMovieYn=${multiCategory}` : ''
 
         const date = makeDate()
-       // console.log(date)
+        // console.log(date)
         let response = await axios.get(
           `http://kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json?key=a5ff207b0075a51ed12c42d6c4b67218&targetDt=${date}${nationQuery}${multiQuery}`,
         )
 
-       // console.log(nationQuery)
+        // console.log(nationQuery)
 
         let list = response.data.boxOfficeResult.dailyBoxOfficeList
         setKoficInfo(list)
@@ -92,14 +98,37 @@ const Home = ({setMovieInfo}) => {
     getMovies()
   }, [koficInfo])
 
-  
-  //setMovieInfo를 사용하는데  Home컴포넌트에서 사용되는 상태값인 naverInfo를 사용하면 ( setMovieInfo(naverInfo) ) 
+  //setMovieInfo를 사용하는데  Home컴포넌트에서 사용되는 상태값인 naverInfo를 사용하면 ( setMovieInfo(naverInfo) )
   //에러가 발생한다
   //react-dom.development.js:86 Warning: Cannot update a component (`App`) while rendering a different component (`Home`). To locate the bad setState() call inside `Home` ..
-  
-  
+
   //console.log(naverInfo)
+
+
+//영화 제목들 firestroe에 추가
+  useEffect(()=>{
+  const saveTitles = async () => {
+    const titles = koficInfo.map((i) => i.movieNm)
+
+    if (JSON.stringify(titles) !== JSON.stringify(movieTitles)) {
+      setMovieTitles(titles)
+
+      //await deleteDoc(doc(dbService, "tweets", `${nweetObj.id}`));
   
+      let tmp=await addDoc(collection(dbService, 'movieTitles'), {
+        'bbb':'a'
+      })
+      //console.log(tmp._key.path.segments[1])
+      //document Id
+    }
+    
+  }
+
+    saveTitles()
+  },[koficInfo])
+
+  console.log(movieTitles)
+
   return (
     <div>
       <h1>Select Movie</h1>
@@ -145,9 +174,7 @@ const Home = ({setMovieInfo}) => {
                 {i.kofic.movieNm}
               </p>
               <ul style={{ paddingLeft: '0px', listStyle: 'none' }}>
-                <li>
-                  개봉일 {i.kofic.openDt}
-                </li>
+                <li>개봉일 {i.kofic.openDt}</li>
                 <li>
                   누적 관객 수
                   {i.kofic.audiAcc.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,')}
@@ -158,15 +185,18 @@ const Home = ({setMovieInfo}) => {
                 ) : (
                   ''
                 )}
+                <li>네이버 평점 {i.naver.userRating}</li>
                 <li>
-                  네이버 평점 {i.naver.userRating}
-                </li>
-                <li>
-                  출연 {(i.naver.actor).length>10 ? `${(i.naver.actor).slice(0,10)}...`: i.naver.actor}
+                  출연{' '}
+                  {i.naver.actor.length > 10
+                    ? `${i.naver.actor.slice(0, 10)}...`
+                    : i.naver.actor}
                 </li>
               </ul>
 
-              <button><Link to={`/detail/${index + 1}`}>More</Link></button>
+              <button>
+                <Link to={`/movie/detail/${index + 1}`}>More</Link>
+              </button>
             </div>
           )
         })}
@@ -177,10 +207,10 @@ const Home = ({setMovieInfo}) => {
 
 export default Home
 
-//노마드 강의의 경우, 영화 전체를 보여주는 api와 디테일 api를 받는 
+//노마드 강의의 경우, 영화 전체를 보여주는 api와 디테일 api를 받는
 //url이 각각 나뉘어져 있었다
 //그래서 전체에서 usePramas로 id를 받아서 디테일페이지에서 다시 받았다
 
 //근데 나의 경우는 좀 복잡한게
-//2개의 api를 동시에 사용하고 이걸 그대로 들고가서 
+//2개의 api를 동시에 사용하고 이걸 그대로 들고가서
 //여기서 세부내용을 뽑아내야 한다

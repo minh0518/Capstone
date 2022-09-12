@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { useParams } from 'react-router-dom'
+import { useParams,Link } from 'react-router-dom'
+
 
 const Detail = ({movieInfo}) => {
 
@@ -20,8 +21,15 @@ const Detail = ({movieInfo}) => {
                     <li>평점 {detailInfo.naver.userRating}</li>
                 </ul>
             </div>
+
+
+            <Link to='reviews'>Reviews</Link>
         </div>
     );
 };
+
+
+//https://movie.naver.com/movie/bi/mi/basic.naver?code=201641
+//https://movie.naver.com/movie/bi/mi/review.naver?code=201641
 
 export default Detail;
