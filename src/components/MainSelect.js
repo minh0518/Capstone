@@ -12,7 +12,7 @@ const MainSelect = () => {
 
   return (
     <div style={styleObj}>
-      <Link to="/moive" >
+      <Link to="/movie" >
         Movie
       </Link>
       |<Link to="/social">Social</Link>

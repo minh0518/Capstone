@@ -105,28 +105,6 @@ const Home = ({ setMovieInfo }) => {
   //console.log(naverInfo)
 
 
-//영화 제목들 firestroe에 추가
-  useEffect(()=>{
-  const saveTitles = async () => {
-    const titles = koficInfo.map((i) => i.movieNm)
-
-    if (JSON.stringify(titles) !== JSON.stringify(movieTitles)) {
-      setMovieTitles(titles)
-
-      //await deleteDoc(doc(dbService, "tweets", `${nweetObj.id}`));
-  
-      let tmp=await addDoc(collection(dbService, 'movieTitles'), {
-        'bbb':'a'
-      })
-      //console.log(tmp._key.path.segments[1])
-      //document Id
-    }
-    
-  }
-
-    saveTitles()
-  },[koficInfo])
-
   console.log(movieTitles)
 
   return (

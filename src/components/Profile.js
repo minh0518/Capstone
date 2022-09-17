@@ -3,7 +3,7 @@ import { signOut } from 'firebase/auth'
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
 
-const Profile = () => {
+const Profile = ({userObj}) => {
   const onLogOutClick = () => {
     signOut(authService)
     navigate('/')

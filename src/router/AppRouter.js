@@ -16,7 +16,7 @@ import Reviews from '../components/Reviews'
 import Navigation from './Navigation'
 
 
-const AppRouter = ({ isLoggedIn ,setMovieInfo,movieInfo }) => {
+const AppRouter = ({ isLoggedIn ,setMovieInfo,movieInfo,userObj }) => {
   return (
     <Router>
   {isLoggedIn && <Navigation/>} 
@@ -25,10 +25,9 @@ const AppRouter = ({ isLoggedIn ,setMovieInfo,movieInfo }) => {
         {isLoggedIn ? ( //로그인 됐을 때
           <>
             <Route path="/" element={<MainSelect/>}></Route>
-            <Route path="/moive" element={<Home setMovieInfo={setMovieInfo}/>}></Route>
-            <Route path="/profile" element={<Profile/>}></Route>
-            <Route path='/movie/detail/:id' element={<Detail movieInfo={movieInfo}/>}></Route>
-            <Route path='/movie/detail/:id/reviews' element={<Reviews movieInfo={movieInfo}/>}></Route>
+            <Route path="/movie" element={<Home setMovieInfo={setMovieInfo}/>}></Route>
+            <Route path="/profile" element={<Profile userObj={userObj}/>}></Route>
+            <Route path='/movie/detail/:id' element={<Detail movieInfo={movieInfo} userObj={userObj}/>}></Route>
 
 
             <Route path='/social' element={<></>}></Route>
