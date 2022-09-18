@@ -50,13 +50,11 @@ const WriteReview = ({ detailInfo, userObj }) => {
 
   return (
     <div>
-      {/* 여기에 추가로 영화 선택 드롭박스(이 또한 DB에 따로 저장하고 가져와야 함) 
-        (그리고 리뷰에 영화 제목도 같이 추가) */}
 
       <form onSubmit={onSubmit}>
         <input
           name="context"
-          value={newReview.context} //패턴 필기
+          value={newReview.context} 
           onChange={onChange}
           type="text"
           placeholder="What's on yout mind about this movie"

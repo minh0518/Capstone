@@ -55,7 +55,6 @@ const Detail = ({ movieInfo,userObj }) => {
       </button>
       {reviewMode ? (
         <>
-        {/* 이 부분에 리뷰 보여줘야 함 */}
         <ShowReview detailInfo={detailInfo} userObj={userObj} />
           <button name="writeMode" onClick={onToggleChange}>
             작성하기
