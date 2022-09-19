@@ -105,7 +105,7 @@ const Home = ({ setMovieInfo }) => {
   //console.log(naverInfo)
 
 
-  console.log(movieTitles)
+  //console.log(movieTitles)
 
   return (
     <div>

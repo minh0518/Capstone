@@ -13,7 +13,9 @@ const ShowReview = ({ detailInfo, userObj }) => {
       dbReviews.forEach((i) => {
         let obj = {
           ...i.data(),
-          id: i.id, //fireStore의 각 문서의 고유한 id값
+          id: i.id, //fireStore의 각 문서의 고유한 id값. documentId
+          //이 documentId를 사용하는 이유는 수정,삭제를 할 때 
+          //해당 문서에 접근하기 위함입니다
         }
 
         setReviews((prev) => [obj, ...prev])
@@ -42,12 +44,12 @@ const ShowReview = ({ detailInfo, userObj }) => {
     <div>
       <ul>
         {thisReview.map((i,index) => (
-          <Reviews key={index} thisReview={i} isOwner={i.id===userObj.uid}/>
+          <Reviews key={index} thisReview={i} isOwner={i.userId===userObj.uid}/>
         ))}
+
+      
       </ul>
 
-      {/* 삭제,수정을 위해 isOwner도 같이 사용 */}
-      {/* <Reviews thisReview={thisReview} isOwner={(userObj.uid===thisReview.userId)}/> */}
     </div>
   )
 }

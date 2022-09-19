@@ -51,13 +51,13 @@ function App() {
     })
   },[])
 
-  console.log(userObj)
+  //console.log(userObj)
 
 
   //여기선 애초에 개인 프로필 자체가 없으므로
   //프로필 업뎃같은 기능은 뺌
 
-  console.log(movieInfo)
+  //console.log(movieInfo)
   
   return (
     <>

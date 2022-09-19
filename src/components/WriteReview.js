@@ -51,6 +51,7 @@ const WriteReview = ({ detailInfo, userObj }) => {
   return (
     <div>
 
+
       <form onSubmit={onSubmit}>
         <input
           name="context"
