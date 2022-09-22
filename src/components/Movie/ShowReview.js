@@ -1,6 +1,6 @@
 import { getDocs, addDoc, collection } from 'firebase/firestore'
 import React, { useEffect, useState } from 'react'
-import { dbService } from '../fbase'
+import { dbService } from '../../fbase'
 import Reviews from './Reviews'
 
 const ShowReview = ({ detailInfo, userObj }) => {
@@ -35,7 +35,7 @@ const ShowReview = ({ detailInfo, userObj }) => {
 
     getThisReviews()
   }, [reviews])
-  //useEffect분리하는거 패턴 필기
+
 
   //console.log(reviews)
   console.log(thisReview)

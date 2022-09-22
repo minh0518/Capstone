@@ -1,6 +1,6 @@
 import { addDoc, collection } from 'firebase/firestore'
 import React, { useState } from 'react'
-import { dbService } from '../fbase'
+import { dbService } from '../../fbase'
 
 const WriteReview = ({ detailInfo, userObj }) => {
   const [newReview, setNewReview] = useState({
@@ -38,7 +38,7 @@ const WriteReview = ({ detailInfo, userObj }) => {
       setNewReview((prev) => ({
         ...prev,
         context: value,
-      })) //패턴필기
+      })) 
     }
     if (name === 'rating') {
       setNewReview((prev) => ({

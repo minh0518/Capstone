@@ -1,11 +1,9 @@
 import React from 'react'
 import { useEffect, useState } from 'react'
 import axios from 'axios'
-import CATEGORIES from '../categories'
+import CATEGORIES from '../../categories'
 import { Link } from 'react-router-dom'
 
-import { collection, addDoc ,deleteDoc ,doc } from 'firebase/firestore'
-import { dbService } from '../fbase'
 
 const Home = ({ setMovieInfo }) => {
   const [koficInfo, setKoficInfo] = useState([])

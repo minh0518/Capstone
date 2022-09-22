@@ -6,13 +6,12 @@ import {
     Link,
     Navigate,
   } from 'react-router-dom'
-import Auth from '../components/Auth'
-import Detail from '../components/Detail'
-import Home from '../components/Home'
-import Join from '../components/Join'
-import MainSelect from '../components/MainSelect'
+import Auth from '../components/Main/Auth'
+import Detail from '../components/Movie/Detail'
+import Home from '../components/Movie/Home'
+import Join from '../components/Main/Join'
+import MainSelect from '../components/Main/MainSelect'
 import Profile from '../components/Profile'
-import Reviews from '../components/Reviews'
 import Navigation from './Navigation'
 
 

@@ -1,4 +1,4 @@
-import { authService } from '../fbase'
+import { authService } from '../../fbase'
 import React, { useState } from 'react'
 import {
   createUserWithEmailAndPassword,

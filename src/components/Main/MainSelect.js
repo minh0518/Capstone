@@ -6,16 +6,21 @@ const MainSelect = () => {
     display:'flex',
     height:'100%',
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
   }
 
 
   return (
     <div style={styleObj}>
-      <Link to="/movie" >
+      <h1>
+      <Link to="/movie" style={{textDecoration:'none'}}>
         Movie
       </Link>
-      |<Link to="/social">Social</Link>
+      </h1>
+      &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+      <h1>
+      <Link to="/social" style={{textDecoration:'none'}}>Social</Link>
+      </h1>
     </div>
   )
 }

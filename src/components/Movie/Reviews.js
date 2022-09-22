@@ -6,9 +6,7 @@ import {
   deleteDoc,
   updateDoc,
 } from 'firebase/firestore'
-import { dbService } from '../fbase'
-import { Link } from 'react-router-dom'
-import WriteReview from './WriteReview'
+import { dbService } from '../../fbase'
 
 const Reviews = ({ thisReview, isOwner }) => {
   const [editing, setEditing] = useState(false)
@@ -78,7 +76,7 @@ const Reviews = ({ thisReview, isOwner }) => {
           ) : (
             <div>
               <h4>{thisReview.userName}</h4>
-              {`${thisReview.rating} ${thisReview.context} ${thisReview.time}`}
+              {`평점 : ${thisReview.rating} ${thisReview.context} 작성시간 : ${thisReview.time}`}
               {isOwner && (
                 <>
                   <button onClick={onDeleteClick}>삭제하기</button>

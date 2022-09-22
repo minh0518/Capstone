@@ -5,7 +5,7 @@ const CATEGORIES = {
       text: '',
     },
     {
-      name: '한국영화',
+      name: '국내영화',
       text: 'K',
     },
     {

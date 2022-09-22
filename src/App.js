@@ -1,8 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Router } from 'react-router-dom'
 import AppRouter from './router/AppRouter'
-import Auth from './components/Auth'
-import firebase from './fbase'
 import { authService } from './fbase'
 import { onAuthStateChanged,updateProfile } from 'firebase/auth'
 
