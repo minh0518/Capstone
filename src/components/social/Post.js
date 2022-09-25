@@ -1,11 +1,11 @@
 import React from 'react';
 
-const Social = () => {
+const Post = () => {
     return (
         <div>
-            
+            Post
         </div>
     );
 };
 
-export default Social;
+export default Post;
