@@ -4,11 +4,8 @@ import { addDoc, collection } from 'firebase/firestore'
 
 const Post = ({ movieTitle, theater, region, userObj }) => {
 
-
-  const [selectedTitle, setSelectedTitle] = useState('')
-  const [selectedTheater, setSelectedTheater] = useState('')
-
   const [post, setPost] = useState({
+    postTitle:'',
     context: '',
     movieTitle: '',
     theater: '',
@@ -20,16 +17,19 @@ const Post = ({ movieTitle, theater, region, userObj }) => {
   const onChange = (e) => {
     const { name, value } = e.target
 
-    if (name === 'title') {
-      setSelectedTitle(value)
+    if(name==='postTitle'){
       setPost({
         ...post,
-        movieTitle: value, //value대신 selectedTitle를 하면 비동기처리때문에 꼬임
-                          //즉, 반영이 안됨
+        postTitle: value, 
+      })
+    }
+    if (name === 'movieTitle') {
+      setPost({
+        ...post,
+        movieTitle: value, 
       })
     }
     if (name === 'theater') {
-      setSelectedTheater(value)
       setPost({
         ...post,
         theater: value,
@@ -61,12 +61,12 @@ const Post = ({ movieTitle, theater, region, userObj }) => {
     e.preventDefault()
 
 
-    console.log('did it work?')
     const doc = await addDoc(collection(dbService, 'posts'), {
       ...post,
       time: new Date().toLocaleString(),
     })
     setPost({
+      postTitle:'',
       context: '',
       movieTitle: '',
       theater: '',
@@ -75,16 +75,14 @@ const Post = ({ movieTitle, theater, region, userObj }) => {
       userId: userObj.uid,
     })
 
-    console.log('yes')
-
     window.alert('등록이 완료 되었습니다!')
   }
 
   return (
     <div>
       <form onSubmit={onSubmit}>
-        <label htmlFor="title">영화 :</label>
-        <select id="title" name="title" onChange={onChange}>
+        <label htmlFor="movieTitle">영화 제목 :</label>
+        <select id="movieTitle" name="movieTitle" onChange={onChange}>
           <option value="default" disabled>
             영화를 선택하세요
           </option>
@@ -124,6 +122,10 @@ const Post = ({ movieTitle, theater, region, userObj }) => {
             )
           })}
         </select>
+        <br />
+        <br />
+        <label htmlFor="postTitle">제목 : </label>
+        <input id="postTitle" name='postTitle' onChange={onChange} value={post.PostTitle}></input>
         <br />
         <br />
         <textarea

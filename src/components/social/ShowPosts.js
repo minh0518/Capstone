@@ -224,7 +224,7 @@ const ShowPosts = ({ movieTitle, theater, region }) => {
 
   return (
     <div>
-      <label htmlFor="title">영화 :</label>
+      <label htmlFor="title">영화 제목 :</label>
       <select id="title" name="title" onChange={onChange}>
         <option value="default" disabled>
           영화를 선택하세요
@@ -268,19 +268,26 @@ const ShowPosts = ({ movieTitle, theater, region }) => {
 
       <div>
         <table>
-          <th>제목</th>
+        <th>영화제목</th>
           <th>지역</th>
           <th>영화관</th>
-          <th>내용</th>
+          <th>작성자</th>
+          
+
+          
+          {/* 근데 이거 굳이 테이블로 만들어야 하나...*/}
+          {/* 게시글 수정 삭제는 리뷰와는 다르게 세부 페이지에서 */}
 
           {categorizedPosts.map((i) => {
             return (
               <>
                 <tr>
-                  <td>{i.movieTitle}</td>
+                  <td>{i.movieTitle.length > 10 ? `${i.movieTitle.slice(0,10)}...` : i.movieTitle }</td>
                   <td>{i.region}</td>
                   <td>{i.theater}</td>
-                  <td>{i.context}</td>
+                  <td>{i.userName}</td>
+                  <td>{i.postTitle}</td>
+                  <td>{i.time}</td>
                   <td><button>자세히</button></td>
                 </tr>
               </>
