@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import WritePost from './WritePost'
-import ShowLists from './ShowLists'
+import ShowPosts from './ShowPosts'
 
 const Social = ({userObj}) => {
   const [mode, setMode] = useState('list')
@@ -102,8 +102,10 @@ const Social = ({userObj}) => {
         Write
       </button>
 
+      {/* 여기에 넘겨주는 영화제목,지역같은 리스트들은
+      단지 각 컴포넌트에서 select태그에 들어갈 목록에만 사용됨 */}
       {mode === 'list' ? (
-        <ShowLists movieTitle={movieTitle} theater={theater} region={region} userObj={userObj} />
+        <ShowPosts movieTitle={movieTitle} theater={theater} region={region} userObj={userObj} />
       ) : (
         <WritePost movieTitle={movieTitle} theater={theater} region={region} userObj={userObj}/>
       )}

@@ -24,7 +24,8 @@ const Post = ({ movieTitle, theater, region, userObj }) => {
       setSelectedTitle(value)
       setPost({
         ...post,
-        movieTitle: value,
+        movieTitle: value, //value대신 selectedTitle를 하면 비동기처리때문에 꼬임
+                          //즉, 반영이 안됨
       })
     }
     if (name === 'theater') {
@@ -53,7 +54,14 @@ const Post = ({ movieTitle, theater, region, userObj }) => {
   const onSubmit = async (e) => {
     //등록을 하고 자동으로 새로고침을 해주기 위해서
     // e.preventDefault()를 사용하지 않음
+    //으로 하려 했는데 그러면 부분적으로 안되는 경우가 생김
+    //이유는 모르겠으나 추측컨데, firebase에 등록이 되기도 전에
+    //새로고침이 먼저 되어서?
+    
+    e.preventDefault()
 
+
+    console.log('did it work?')
     const doc = await addDoc(collection(dbService, 'posts'), {
       ...post,
       time: new Date().toLocaleString(),
@@ -67,6 +75,7 @@ const Post = ({ movieTitle, theater, region, userObj }) => {
       userId: userObj.uid,
     })
 
+    console.log('yes')
 
     window.alert('등록이 완료 되었습니다!')
   }
