@@ -14,6 +14,7 @@ import MainSelect from '../components/main/MainSelect'
 import Profile from '../components/Profile'
 import Navigation from './Navigation'
 import Social from '../components/social/Social'
+import Post from '../components/social/Post'
 
 
 const AppRouter = ({ isLoggedIn ,setMovieInfo,movieInfo,userObj }) => {
@@ -29,6 +30,7 @@ const AppRouter = ({ isLoggedIn ,setMovieInfo,movieInfo,userObj }) => {
             <Route path="/profile" element={<Profile userObj={userObj}/>}></Route>
             <Route path='/movie/detail/:id' element={<Detail movieInfo={movieInfo} userObj={userObj}/>}></Route>
             <Route path='/social' element={<Social userObj={userObj}/>}></Route>
+            <Route path='/social/post/:documentId' element={<Post userObj={userObj}/>}></Route>
           </>
         ) : ( //로그인 안 됐을 때
           <>

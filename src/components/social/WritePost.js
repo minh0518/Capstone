@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { dbService } from '../../fbase'
 import { addDoc, collection } from 'firebase/firestore'
 
-const Post = ({ movieTitle, theater, region, userObj }) => {
+const WritePost = ({ movieTitle, theater, region, userObj }) => {
 
   const [post, setPost] = useState({
     postTitle:'',
@@ -142,4 +142,4 @@ const Post = ({ movieTitle, theater, region, userObj }) => {
   )
 }
 
-export default Post
+export default WritePost

@@ -1,5 +1,6 @@
 import { getDocs, addDoc, collection } from 'firebase/firestore'
 import React, { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
 import { dbService } from '../../fbase'
 
 const ShowPosts = ({ movieTitle, theater, region }) => {
@@ -19,7 +20,7 @@ const ShowPosts = ({ movieTitle, theater, region }) => {
       dbPosts.forEach((i) => {
         let obj = {
           ...i.data(),
-          id: i.id,
+          id: i.id, //문서아이디 자동생성된거 가져오기
         }
         setAllPost((prev) => [...prev, obj])
         setCategorizedPosts((prev) => [...prev, obj])
@@ -29,7 +30,7 @@ const ShowPosts = ({ movieTitle, theater, region }) => {
     getPosts()
   }, [])
 
-  console.log(categories)
+  console.log(categorizedPosts)
   const onChange = (e) => {
     const { name, value } = e.target
 
@@ -54,48 +55,42 @@ const ShowPosts = ({ movieTitle, theater, region }) => {
       //그리고 이 로직이 끝나게 되면 비로소 setCategories로
       //현재 선택된 movieTitle도 업뎃이 되는 것이다
 
-      let titleArr = []      
+      let titleArr = []
       //titleArr는 ALL이 선택된 경우
       //OR
       //특정 값으로 선택된 경우
       //에 따라 처리가 된다
 
-      
-
-
-
       //제목이 all이면 지역과 영화관만 가지고 수정하면 된다
       if (value === 'ALL') {
-
         //반드시 전체 내용들에서 map을 돌려야 한다
         allPost.map((i) => {
-
-          //제목이 all이고 
+          //제목이 all이고
           //영화관도 all , 지역은 선택된 값이 있을 때
           if (categories.theater === 'ALL' && categories.region !== 'ALL') {
-                                          //all이 아닌 것도 반드시 체크해야한다
-                                          //안하면 theater가 ALL이면 무조건 이 조건이
-                                          //실행되고 나머지는 if/else체이닝이라 
-                                          //아예 실행이 안된다
-
+            //all이 아닌 것도 반드시 체크해야한다
+            //안하면 theater가 ALL이면 무조건 이 조건이
+            //실행되고 나머지는 if/else체이닝이라
+            //아예 실행이 안된다
 
             //지역기반으로만 추출
             if (categories.region === i.region) {
               titleArr.push(i)
             }
           }
-          //제목이 all이고 
+          //제목이 all이고
           //지역도 all , 영화관은 선택된 값이 있을 때
-          else if (categories.region === 'ALL' && categories.theater !== 'ALL') {
-
+          else if (
+            categories.region === 'ALL' &&
+            categories.theater !== 'ALL'
+          ) {
             //영화관 기반으로 추출
             if (categories.theater === i.theater) {
               titleArr.push(i)
             }
           }
 
-
-          //제목이 all이고 
+          //제목이 all이고
           //지역도 all , 영화도all
           else if (
             categories.theater === 'ALL' &&
@@ -117,10 +112,9 @@ const ShowPosts = ({ movieTitle, theater, region }) => {
         })
       }
 
-      //제목 카테고리가 all이 아니라 
+      //제목 카테고리가 all이 아니라
       //특정 값으로 설정되었을 때
       else {
-
         //반드시 categorizedPosts기반으로 추출해야 한다
         categorizedPosts.map((i) => {
           if (i.movieTitle === value) {
@@ -143,25 +137,27 @@ const ShowPosts = ({ movieTitle, theater, region }) => {
 
       if (value === 'ALL') {
         allPost.map((i) => {
-
           if (categories.region === 'ALL' && categories.movieTitle !== 'ALL') {
             if (categories.movieTitle === i.movieTitle) {
               theaterArr.push(i)
             }
-          }
-
-          else if (categories.movieTitle === 'ALL' && categories.region !== 'ALL') {
+          } else if (
+            categories.movieTitle === 'ALL' &&
+            categories.region !== 'ALL'
+          ) {
             if (categories.region === i.region) {
               theaterArr.push(i)
             }
-          }
-
-          else if (categories.movieTitle === 'ALL' &&categories.region === 'ALL') {
+          } else if (
+            categories.movieTitle === 'ALL' &&
+            categories.region === 'ALL'
+          ) {
             theaterArr.push(i)
-          }
-
-          else {
-            if (categories.movieTitle === i.movieTitle &&categories.region === i.region) {
+          } else {
+            if (
+              categories.movieTitle === i.movieTitle &&
+              categories.region === i.region
+            ) {
               theaterArr.push(i)
             }
           }
@@ -185,27 +181,28 @@ const ShowPosts = ({ movieTitle, theater, region }) => {
       let regionArr = []
 
       if (value === 'ALL') {
-
         allPost.map((i) => {
-          
           if (categories.theater === 'ALL' && categories.movieTitle !== 'ALL') {
-                                         
             if (categories.movieTitle === i.movieTitle) {
               regionArr.push(i)
             }
-          }
-          else if (categories.movieTitle === 'ALL'&& categories.theater !== 'ALL') {
-
+          } else if (
+            categories.movieTitle === 'ALL' &&
+            categories.theater !== 'ALL'
+          ) {
             if (categories.theater === i.theater) {
               regionArr.push(i)
             }
-          }
-          
-          else if (categories.theater === 'ALL' &&categories.movieTitle === 'ALL') {
+          } else if (
+            categories.theater === 'ALL' &&
+            categories.movieTitle === 'ALL'
+          ) {
             regionArr.push(i)
-          }
-          else {
-            if (categories.theater === i.theater &&categories.movieTitle === i.movieTitle) {
+          } else {
+            if (
+              categories.theater === i.theater &&
+              categories.movieTitle === i.movieTitle
+            ) {
               regionArr.push(i)
             }
           }
@@ -222,6 +219,19 @@ const ShowPosts = ({ movieTitle, theater, region }) => {
     }
   }
 
+  const styleObj = {
+    display: 'flex',
+    alignItems: 'center',
+  }
+
+  const styleObj2 = {
+    flex: '1',
+  }
+
+  const styleObj3 = {
+    display: 'flex',
+    justifyContent: 'center',
+  }
   return (
     <div>
       <label htmlFor="title">영화 제목 :</label>
@@ -266,34 +276,28 @@ const ShowPosts = ({ movieTitle, theater, region }) => {
         })}
       </select>
 
-      <div>
-        <table>
-        <th>영화제목</th>
-          <th>지역</th>
-          <th>영화관</th>
-          <th>작성자</th>
-          
-
-          
-          {/* 근데 이거 굳이 테이블로 만들어야 하나...*/}
-          {/* 게시글 수정 삭제는 리뷰와는 다르게 세부 페이지에서 */}
-
+      <div style={styleObj3}>
+        <div style={{ width: '600px' }}>
           {categorizedPosts.map((i) => {
             return (
               <>
-                <tr>
-                  <td>{i.movieTitle.length > 10 ? `${i.movieTitle.slice(0,10)}...` : i.movieTitle }</td>
-                  <td>{i.region}</td>
-                  <td>{i.theater}</td>
-                  <td>{i.userName}</td>
-                  <td>{i.postTitle}</td>
-                  <td>{i.time}</td>
-                  <td><button>자세히</button></td>
-                </tr>
+                <div style={styleObj}>
+                  <div style={styleObj2}>
+                    <h4>{i.userName}</h4>
+                  </div>
+                  <div>{i.time}</div>
+                </div>
+                <Link
+                  style={{ textDecoration: 'none', color: 'black' }}
+                  to={`/social/post/${i.id}`} //documentId를 사용
+                >
+                  <strong>{i.postTitle}</strong>
+                </Link>
+                <hr />
               </>
             )
           })}
-        </table>
+        </div>
       </div>
     </div>
   )
