@@ -8,9 +8,9 @@ const WritePost = ({ movieTitle, theater, region, userObj }) => {
   const [post, setPost] = useState({
     postTitle: '',
     context: '',
-    movieTitle: '',
-    theater: '',
-    region: '',
+    movieTitle: 'ALL',
+    theater: 'ALL',
+    region: 'ALL',
     userName: userObj.displayName,
     userId: userObj.uid,
   })
@@ -65,15 +65,24 @@ const WritePost = ({ movieTitle, theater, region, userObj }) => {
       ...post,
       time: new Date().toLocaleString(),
     })
-    setPost({
-      postTitle: '',
-      context: '',
-      movieTitle: '',
-      theater: '',
-      region: '',
-      userName: userObj.displayName,
-      userId: userObj.uid,
-    })
+
+    // console.log(post)
+
+    // setPost({
+    //   postTitle: '',
+    //   context: '',
+    //   movieTitle: 'ALL',
+    //   theater: 'ALL',
+    //   region: 'ALL',
+    //   userName: userObj.displayName,
+    //   userId: userObj.uid,
+    // })
+    //이걸 사용하면 다음 등록할때 movieTitle,region,theater전부다 직접 
+    //선택하지 않으면
+    //값이 여기서 설정해준 빈 문자열로 들어가게 된다
+    //패이지를 새로고침하는 다른 방법을 써야 할듯?
+
+    
 
     window.alert('등록이 완료 되었습니다!')
   }
