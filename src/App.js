@@ -24,7 +24,6 @@ function App() {
       if (user) { //로그인이 된 상태
         setIsLoggedIn(true)
 
-
         //이게 지금 필요한지는 모르겠는데 우선 
         //local login으로 하면 displayName이 null이므로 그걸 바꿔줌
         if (user.displayName === null) {
@@ -42,13 +41,13 @@ function App() {
         })
       } else {
         setIsLoggedIn(false)
-         setUserObj(null)
+        setUserObj(null)
       }
       setInit(true)
     })
   },[])
 
-  //console.log(userObj)
+  console.log(userObj)
 
 
   //여기선 애초에 개인 프로필 자체가 없으므로

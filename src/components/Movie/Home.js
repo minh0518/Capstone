@@ -64,6 +64,9 @@ const Home = ({ setMovieInfo }) => {
 
   let NaverInfoArr = []
 
+  console.log(naverInfo)
+  
+
   //네이버영화 정보
   useEffect(() => {
     const getMovies = async () => {

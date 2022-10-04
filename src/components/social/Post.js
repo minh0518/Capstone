@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom'
 import { getDoc, getDocs, addDoc, doc } from 'firebase/firestore'
 import { dbService } from '../../fbase'
 
-const Post = () => {
+const Post = ({ userObj }) => {
   const { documentId } = useParams()
 
   const [post, setPost] = useState({})
@@ -25,30 +25,33 @@ const Post = () => {
 
   return (
     <div style={styleObj}>
-
-      <div style={{ width: '500px' , }}>
-
-        <div style={{ display: 'flex' , marginTop:'50px',marginBottom:'50px'}}>
+      <div style={{ width: '500px' }}>
+        <div
+          style={{ display: 'flex', marginTop: '50px', marginBottom: '50px' }}
+        >
           <div style={{ flex: 1 }}>
             <h4>{post.userName}</h4>
           </div>
-          <div>{post.time}</div>
+          <div>
+            {post.time}
+            <div style={{paddingTop:'10px'}}>{userObj.uid === post.userId ? (<><button>수정하기</button><button>삭제하기</button></>) : ''}</div>
+          </div>
         </div>
 
-        <div style={{ marginTop:'50px',marginBottom:'50px'}}>
-        <h2> {post.postTitle}</h2>
+        <div style={{ marginTop: '50px', marginBottom: '50px' }}>
+          <h2> {post.postTitle}</h2>
         </div>
         <div>
-          <ul style={{  listStyle:'none' , paddingLeft:'10px'}}>
+          <ul style={{ listStyle: 'none', paddingLeft: '10px' }}>
             <li>영화 제목 : {post.movieTitle}</li>
             <li>지역 : {post.region}</li>
             <li>영화관 : {post.theater}</li>
           </ul>
         </div>
 
-        <div style={{marginTop:'100px', marginBottom:'400px'}}>{post.context}</div>
-
-
+        <div style={{ marginTop: '100px', marginBottom: '400px' }}>
+          {post.context}
+        </div>
       </div>
     </div>
   )
