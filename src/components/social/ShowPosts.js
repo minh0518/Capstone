@@ -24,7 +24,8 @@ const ShowPosts = ({ movieTitle, theater, region }) => {
         }
         setAllPost((prev) => [...prev, obj])
         setCategorizedPosts((prev) => [...prev, obj])
-        //맨 처음에는 선택이 안 되어 있으니까 전부다 받아와야 한다
+        //맨 처음에는 디폴트로 아무것도 선택이 되어 있지 않으므로 
+				//setCategorizedPosts 또한 모든 것들을 다 가져와야 한다
       })
     }
     getPosts()
@@ -115,7 +116,8 @@ const ShowPosts = ({ movieTitle, theater, region }) => {
       //제목 카테고리가 all이 아니라
       //특정 값으로 설정되었을 때
       else {
-        //반드시 categorizedPosts기반으로 추출해야 한다
+        //all일땐 categories기반으로 했지만
+        //여기선 반드시 categorizedPosts기반으로 추출해야 한다
         categorizedPosts.map((i) => {
           if (i.movieTitle === value) {
             titleArr.push(i)

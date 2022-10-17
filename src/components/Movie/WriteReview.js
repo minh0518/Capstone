@@ -19,7 +19,6 @@ const WriteReview = ({ detailInfo, userObj }) => {
       time: new Date().toLocaleString(),
     })
 
-    console.log(userObj.displayName)
     setNewReview({
       context: '',
       title: detailInfo.kofic.movieNm,

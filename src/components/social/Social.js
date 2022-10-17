@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import WritePost from './WritePost'
 import ShowPosts from './ShowPosts'
+import { Link } from 'react-router-dom'
 
 const Social = ({userObj}) => {
   const [mode, setMode] = useState('list')
@@ -109,6 +110,7 @@ const Social = ({userObj}) => {
       ) : (
         <WritePost movieTitle={movieTitle} theater={theater} region={region} userObj={userObj}/>
       )}
+
     </>
   )
 }
