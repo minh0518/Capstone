@@ -15,8 +15,8 @@ import Profile from '../components/Profile'
 import Navigation from './Navigation'
 import Social from '../components/social/Social'
 import Post from '../components/social/Post'
-import Chat from '../components/Chats/Chat'
-import ChatList from '../components/Chats/ChatList'
+import Chat from '../components/chats/Chat'
+import ChatList from '../components/chats/ChatList'
 
 
 const AppRouter = ({ isLoggedIn ,setMovieInfo,movieInfo,userObj }) => {
