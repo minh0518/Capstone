@@ -23,7 +23,7 @@ const Navigation = () => {
         </li>
         &nbsp;&nbsp;&nbsp;
         <li>
-          <Link to="/chat" style={{ textDecoration: 'none' }}>
+          <Link to="/chatList" style={{ textDecoration: 'none' }}>
             테스트용 Chat
           </Link>
         </li>

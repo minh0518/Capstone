@@ -33,8 +33,8 @@ const AppRouter = ({ isLoggedIn ,setMovieInfo,movieInfo,userObj }) => {
             <Route path='/movie/detail/:id' element={<Detail movieInfo={movieInfo} userObj={userObj}/>}></Route>
             <Route path='/social' element={<Social userObj={userObj}/>}></Route>
             <Route path='/social/post/:documentId' element={<Post userObj={userObj}/>}></Route>
-            <Route path='/chat' element={<ChatList userObj={userObj}/>}></Route>
-            <Route path='/chat/:id' element={<Chat userObj={userObj}/>}></Route>
+            <Route path='/chatList' element={<ChatList userObj={userObj}/>}></Route>
+            <Route path='/chatList/chat/:id' element={<Chat userObj={userObj}/>}></Route>
           </>
         ) : ( //로그인 안 됐을 때
           <>

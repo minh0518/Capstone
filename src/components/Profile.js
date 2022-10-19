@@ -12,6 +12,7 @@ const Profile = ({userObj}) => {
   //useNavigate()사용
   const navigate = useNavigate()
 
+
   return (
     <div>
       <button onClick={onLogOutClick}>Log Out</button>
