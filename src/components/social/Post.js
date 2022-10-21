@@ -52,6 +52,7 @@ const Post = ({ userObj }) => {
         <div style={{ marginTop: '100px', marginBottom: '400px' }}>
           {post.context}
         </div>
+
       </div>
     </div>
   )

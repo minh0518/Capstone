@@ -17,6 +17,7 @@ import Social from '../components/social/Social'
 import Post from '../components/social/Post'
 import Chat from '../components/chats/Chat'
 import ChatList from '../components/chats/ChatList'
+import EditProfile from '../components/profile/EditProfile'
 
 
 const AppRouter = ({ isLoggedIn ,setMovieInfo,movieInfo,userObj }) => {
@@ -30,6 +31,7 @@ const AppRouter = ({ isLoggedIn ,setMovieInfo,movieInfo,userObj }) => {
             <Route path="/" element={<MainSelect/>}></Route>
             <Route path="/movie" element={<Home setMovieInfo={setMovieInfo}/>}></Route>
             <Route path="/profile" element={<Profile userObj={userObj}/>}></Route>
+            <Route path="/profile/editProfile" element={<EditProfile userObj={userObj}/>}></Route>
             <Route path='/movie/detail/:id' element={<Detail movieInfo={movieInfo} userObj={userObj}/>}></Route>
             <Route path='/social' element={<Social userObj={userObj}/>}></Route>
             <Route path='/social/post/:documentId' element={<Post userObj={userObj}/>}></Route>
