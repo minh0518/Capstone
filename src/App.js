@@ -4,8 +4,6 @@ import { authService, storageService } from './fbase'
 import { onAuthStateChanged, updateProfile } from 'firebase/auth'
 import { getDownloadURL, ref, uploadString } from 'firebase/storage'
 import { v4 as uuidv4 } from 'uuid'
-import img from './img/defaultImg.PNG'
-
 
 
 

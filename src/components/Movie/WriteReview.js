@@ -9,6 +9,7 @@ const WriteReview = ({ detailInfo, userObj }) => {
     rating: '',
     userName: userObj.displayName,
     userId: userObj.uid,
+    userImg : userObj.photoURL
   })
 
   const onSubmit = async (e) => {
@@ -25,6 +26,7 @@ const WriteReview = ({ detailInfo, userObj }) => {
       rating: '',
       userName: userObj.displayName, //이것들은 로그인하는 동안 불변하는것이고 입력창에도 없는데 굳이 빈 값으로 초기화할 필요가 있나?
       userId: userObj.uid,
+      userImg : userObj.photoURL
     })
 
     console.log(newReview)

@@ -31,6 +31,7 @@ const Post = ({ userObj }) => {
         >
           <div style={{ flex: 1 }}>
             <h4>{post.userName}</h4>
+            <img src={post.userImg} width="50px" height="50px" alt="img" />
           </div>
           <div>
             {post.time}

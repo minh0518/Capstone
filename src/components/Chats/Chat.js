@@ -21,6 +21,7 @@ const Chat = ({ userObj }) => {
     context: '',
     senderName: userObj.displayName,
     senderId: userObj.uid,
+    senderImg:userObj.photoURL
   })
   //이 단위로 firestore의 dialog에 추가가 됨
 
@@ -81,6 +82,7 @@ const Chat = ({ userObj }) => {
       context: '',
       senderName: userObj.displayName,
       senderId: userObj.uid,
+      senderImg:userObj.photoURL
     })
   }
 
@@ -115,7 +117,11 @@ const Chat = ({ userObj }) => {
       <ul>
         {chat.dialog
           ? chat.dialog.map((i, index) => {
-              return <li key={index}>{i.context}</li>
+              return (
+              <div key={index}>
+              <img src={i.senderImg} width="50px" height="50px" alt="img" />
+              <li>{i.context}</li>
+              </div>)
             })
           : 'wait..'}
       </ul>

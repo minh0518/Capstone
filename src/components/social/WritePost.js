@@ -13,6 +13,7 @@ const WritePost = ({ movieTitle, theater, region, userObj }) => {
     region: 'ALL',
     userName: userObj.displayName,
     userId: userObj.uid,
+    userImg : userObj.photoURL
   })
 
   const onChange = (e) => {

@@ -285,6 +285,7 @@ const ShowPosts = ({ movieTitle, theater, region }) => {
               <>
                 <div style={styleObj}>
                   <div style={styleObj2}>
+                  <img src={i.userImg} width="50px" height="50px" alt="img" />
                     <h4>{i.userName}</h4>
                   </div>
                   <div>{i.time}</div>

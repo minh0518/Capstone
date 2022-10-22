@@ -75,6 +75,7 @@ const Reviews = ({ thisReview, isOwner }) => {
             </div>
           ) : (
             <div>
+              <img src={thisReview.userImg} width="50px" height="50px" alt="img" />
               <h4>{thisReview.userName}</h4>
               {`평점 : ${thisReview.rating} ${thisReview.context} 작성시간 : ${thisReview.time}`}
               {isOwner && (
