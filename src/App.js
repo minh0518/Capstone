@@ -1,12 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import AppRouter from './router/AppRouter'
-import { authService, storageService } from './fbase'
+import { authService, dbService } from './fbase'
 import { onAuthStateChanged, updateProfile } from 'firebase/auth'
-import { getDownloadURL, ref, uploadString } from 'firebase/storage'
+import { getDocs, addDoc, collection } from 'firebase/firestore'
 import { v4 as uuidv4 } from 'uuid'
-
-
-
 
 //깃허브로그인 설정 비밀번호 123456789
 
@@ -23,7 +20,7 @@ function App() {
   const [movieInfo, setMovieInfo] = useState([])
   const [userObj, setUserObj] = useState(null)
 
-  const [defaultProfileImg, setDefaultProfileImg] = useState('https://mblogthumb-phinf.pstatic.net/MjAyMDA2MTBfMTY1/MDAxNTkxNzQ2ODcyOTI2.Yw5WjjU3IuItPtqbegrIBJr3TSDMd_OPhQ2Nw-0-0ksg.8WgVjtB0fy0RCv0XhhUOOWt90Kz_394Zzb6xPjG6I8gg.PNG.lamute/user.png?type=w800')
+  const [profileInfo, setProfileInfo] = useState(null)
 
   useEffect(() => {
     onAuthStateChanged(authService, (user) => {
@@ -42,28 +39,63 @@ function App() {
         }
 
         // 둘이 같음. 유저관련 모든 정보를 보여주며, 여기서 필요한 것만 useObj로 사용
-        //  console.log(authService.currentUser)
+        // console.log(authService.currentUser)
         //  console.log(user)
 
-
+        //userObj는 반드시 현재 로그인 되어 있는 사용자의 정보로만 사용돼야 합니다
         setUserObj({
           //앞으로 모든 컴포넌트에서 uid나 displayName으로 유저들을 구분해야 함
           displayName: user.displayName,
           uid: user.uid,
           // profileImg: defaultProfileImg,
-          photoURL:user.photoURL,
+          photoURL: user.photoURL,
+        })
+
+        setProfileInfo({
+          displayName: user.displayName,
+          uid: user.uid,
+          birth: '',
+          preferredGenre: [],
+          bestPick: [],
+          photoURL: user.photoURL,
         })
       } else {
         setIsLoggedIn(false)
         setUserObj(null)
+        setProfileInfo(null)
       }
       setInit(true)
     })
   }, [])
 
+  useEffect(() => {
 
+    //프로필을 firestore에 등록
+    const generateProfileOnDB = async () => {
+      if (userObj) {
 
-  console.log(userObj)
+        let arr = []
+        //프로필 추가하려는데 기존에 존재하는지 확인하기위해 사용
+
+        const dbProfiles = await getDocs(collection(dbService, 'profiles'))
+
+        dbProfiles.forEach((i) => {
+          if (i.data().uid === userObj.uid) {
+            arr.push(true)
+          }
+        })
+
+        //기존에 존재하는 것이 아니라면 새로 추가
+        if (arr.length === 0) {
+          const doc = await addDoc(collection(dbService, 'profiles'), {
+            ...profileInfo,
+          })
+        }
+      }
+    }
+
+    generateProfileOnDB()
+  }, [userObj])
 
   return (
     <>

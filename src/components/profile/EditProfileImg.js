@@ -37,7 +37,7 @@ const EditProfile = ({ userObj }) => {
 
     //storage참조를 만들고
     //대화용 사진도 따로 저장해야 하므로 디렉토리 구분 (/profileImg/)
-    //읽기 편하게 userObj.uid대신 userObj.displayName로 수정
+    //읽기 편하게 폴더 이름을 userObj.uid대신 userObj.displayName로 수정
     const fileRef = ref(
       storageService,
       `${userObj.displayName}/profileImg/${uuidv4()}`,

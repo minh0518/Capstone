@@ -1,4 +1,4 @@
-import { getDocs, addDoc, collection } from 'firebase/firestore'
+import { getDocs, collection } from 'firebase/firestore'
 import React, { useEffect, useState } from 'react'
 import { dbService } from '../../fbase'
 import Reviews from './Reviews'
