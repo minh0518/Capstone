@@ -94,7 +94,7 @@ const Home = ({ setMovieInfo }) => {
 
       //console.log(tmp)
       setNaverInfo(NaverInfoArr)
-      setMovieInfo(NaverInfoArr) //여기서 카테고리로 만들어진 영화들이 상위까지 전달
+      setMovieInfo(NaverInfoArr) //여기서 카테고리로 만들어진 영화들이 상위(App.js)까지 전달
     }
     getMovies()
   }, [koficInfo])

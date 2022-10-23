@@ -1,30 +1,35 @@
 import { authService, dbService, storageService } from '../../fbase'
-import { signOut } from 'firebase/auth'
+import { signOut, updateProfile } from 'firebase/auth'
 import React, { useState, useRef, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { getDownloadURL, ref, uploadString } from 'firebase/storage'
-import { getDocs, addDoc, collection } from 'firebase/firestore'
-import { v4 as uuidv4 } from 'uuid'
+import { doc, getDocs, addDoc, collection, updateDoc } from 'firebase/firestore'
+import Recommand from './Recommand'
 
 const Profile = ({ userObj }) => {
-  const [editBirthMode, setEditBirthMode] = useState(false)
-  const [editPreferredGenreMode, setEditPreferredGenreMode] = useState(false)
-  const [editDisplayNameMode, setEditDisplayNameMode] = useState(false)
-  const [editBestPickMode, setEditBestPickMode] = useState(false)
+  const [editMode, setEditMode] = useState(false)
 
   const [profile, setProfile] = useState({
     displayName: '',
     uid: '',
     birth: '',
-    preferredGenre: [],
+    preferredGenre: '',
     bestPick: [],
     photoURL: '',
   })
 
-  const [birthValue, setBirthValue] = useState('')
-  const [preferredGenreValue, setPreferredGenreValue] = useState('')
-  const [displayNameValue, setDisplayNameValue] = useState('')
-  const [bestPickValue, setBestPickValue] = useState('')
+  const genre = {
+    ALL : '',
+    드라마: 1,
+    로맨스: 5,
+    판타지: 6,
+    모험: 6,
+    공포: 7,
+    스릴러: 7,
+    코미디: 11,
+    가족: 12,
+    SF: 19,
+    액션: 19,
+  }
 
   useEffect(() => {
     const getProfiles = async () => {
@@ -32,7 +37,10 @@ const Profile = ({ userObj }) => {
 
       profiles.forEach((i) => {
         if (i.data().uid === userObj.uid) {
-          setProfile(i.data())
+          setProfile({
+            ...i.data(),
+            documentId: i.id,
+          })
         }
       })
     }
@@ -40,7 +48,7 @@ const Profile = ({ userObj }) => {
     getProfiles()
   }, [])
 
-  console.log(profile)
+
 
   //useNavigate()사용
   const navigate = useNavigate()
@@ -50,135 +58,147 @@ const Profile = ({ userObj }) => {
     navigate('/')
   }
 
-  const onClick = (e) => {
-    let { name, value } = e.target
-
-    if (name === 'displayName') {
-      setEditDisplayNameMode(true)
-    }
-    if (name === 'birth') {
-      setEditBirthMode(true)
-    }
-    if (name === 'preferredGenre') {
-      setEditPreferredGenreMode(true)
-    }
-    if (name === 'bestPick') {
-      setEditBestPickMode(true)
-    }
-  }
-
   const onChange = (e) => {
     let { name, value } = e.target
 
     if (name === 'displayName') {
-      setDisplayNameValue(value)
+      setProfile((prev) => ({
+        ...prev,
+        displayName: value,
+      }))
     }
     if (name === 'birth') {
-      setBirthValue(value)
+      setProfile((prev) => ({
+        ...prev,
+        birth: value,
+      }))
     }
     if (name === 'preferredGenre') {
-      setPreferredGenreValue(value)
+      setProfile((prev) => ({
+        ...prev,
+        preferredGenre: value,
+      }))
+
+      
+      
     }
     if (name === 'bestPick') {
-      setBestPickValue(value)
+      setProfile((prev) => ({
+        ...prev,
+        bestPick: value,
+      }))
     }
   }
 
-  const onSubmit = async (e) => {
-
-    let { name, value } = e.target
-
-  console.log(name)
+  const onToggleChange = () => {
+    setEditMode((prev) => !prev)
   }
 
+  const onClick = async (e) => {
+    e.preventDefault()
+
+    const updateResult = doc(dbService, 'profiles', `${profile.documentId}`)
+    await updateDoc(updateResult, {
+      ...profile,
+    })
+
+    //이름은 수정과 동시에 실제 프로필에도 업뎃을 해야 함
+    if (authService.currentUser !== profile.displayName) {
+      await updateProfile(authService.currentUser, {
+        displayName: profile.displayName,
+      })
+    }
+
+    setEditMode((prev) => !prev)
+  }
+
+  
   return (
     <div>
-      <div>
-        닉네임 : {profile.displayName}
-        <button name="displayName" onClick={onClick}>
-          수정
-        </button>
-        {editDisplayNameMode ? (
-          <form onSubmit={onSubmit}>
-            <input
-              name="displayName"
-              onChange={onChange}
-              value={displayNameValue}
-            />
-            <input type="submit" value="수정하기" />
-          </form>
-        ) : (
-          ''
-        )}
-      </div>
-
-      <div>
-        생년월일 : {profile.birth}
-        <button name="birth" onClick={onClick}>
-          수정
-        </button>
-        {editBirthMode ? (
-          <form name='birth' onSubmit={onSubmit}>
-            <input name="birth" onChange={onChange} value={birthValue} />
-            <input type="submit" value="수정하기" />
-          </form>
-        ) : (
-          ''
-        )}
-      </div>
-
-      <div>
-        관심 장르 : {profile.preferredGenre}
-        <button name="preferredGenre" onClick={onClick}>
-          수정
-        </button>
-        {editPreferredGenreMode ? (
-          <form onSubmit={onSubmit}>
-            <input
-              name="preferredGenre"
-              onChange={onChange}
-              value={preferredGenreValue}
-            />
-            <input type="submit" value="수정하기" />
-          </form>
-        ) : (
-          ''
-        )}
-      </div>
-
-      <div>
-        Best Pick! {profile.bestPick}
-        <button name="bestPick" onClick={onClick}>
-          수정
-        </button>
-        {editBestPickMode ? (
-          <form onSubmit={onSubmit}>
-            <input name="bestPick" onChange={onChange} value={bestPickValue} />
-            <input type="submit" value="추가하기" />
-          </form>
-        ) : (
-          ''
-        )}
-      </div>
-
-      <br />
-      <br />
-
       <img
         src={userObj.photoURL}
         style={{ width: '50px', height: '50px' }}
         alt="profileImg"
       />
-      <h3>{userObj.displayName}</h3>
-
-      <br />
 
       <Link to="editProfileImg" style={{ textDecoration: 'none' }}>
         프로필 이미지 수정
       </Link>
 
+      <h3>{userObj.displayName}</h3>
+
+      <br />
+
+
+      <div>
+        닉네임 :
+        {editMode ? (
+          <input
+            name="displayName"
+            onChange={onChange}
+            value={profile.displayName}
+          />
+        ) : (
+          <>{profile.displayName}</>
+        )}
+      </div>
+
+      <div>
+        생년월일 :
+        {editMode ? (
+          <input name="birth" onChange={onChange} value={profile.birth} />
+        ) : (
+          <>{profile.birth}</>
+        )}
+      </div>
+
+      <div>
+        관심 장르 :
+        {editMode ? (
+          <>
+           <select id="preferredGenre" name="preferredGenre" onChange={onChange} value={profile.preferredGenre}>
+           <option value="default" disabled>
+             장르를 선택하세요
+           </option>
+           {Object.keys(genre).map((i, index) => {
+             return (
+               <option key={index} value={i}>
+                 {i}
+               </option>
+             )
+           })}
+         </select>
+      
+          </>
+        ) : (
+          <> {profile.preferredGenre}</>
+        )}
+      </div>
+
+      <div>
+        Best Pick!
+        {editMode ? (
+          <input name="bestPick" onChange={onChange} value={profile.bestPick} />
+        ) : (
+          <>{profile.bestPick}</>
+        )}
+      </div>
+
       <br />
       <br />
+
+      {editMode ? (
+        <button onClick={onClick}>완료</button>
+      ) : (
+        <button onClick={onToggleChange}>수정하기</button>
+      )}
+
+      
+      <br />
+      <br />
+
+
+      <Recommand preferredGenre={profile.preferredGenre}/>
 
       <button onClick={onLogOutClick}>Log Out</button>
     </div>
