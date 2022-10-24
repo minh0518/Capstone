@@ -97,6 +97,7 @@ const Home = ({ setMovieInfo }) => {
       //console.log(tmp)
       setNaverInfo(NaverInfoArr)
       setMovieInfo(NaverInfoArr) //여기서 카테고리로 만들어진 영화들이 상위(App.js)까지 전달
+      //AppRouter에서 Detail컴포넌트로 넘겨줄때 사용 하기때문에 이것도 반드시 해줘야 한다
     }
     getMovies()
   }, [koficInfo])

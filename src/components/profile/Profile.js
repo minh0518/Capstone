@@ -18,17 +18,27 @@ const Profile = ({ userObj }) => {
   })
 
   const genre = {
-    ALL : '',
+    ALL: '',
     드라마: 1,
+    판타지: 2,
+    서부: 3,
+    공포: 4,
     로맨스: 5,
-    판타지: 6,
     모험: 6,
-    공포: 7,
     스릴러: 7,
+    느와르: 8,
+    컬트: 9,
+    다큐멘터리: 10,
     코미디: 11,
     가족: 12,
-    SF: 19,
+    미스터리: 13,
+    전쟁: 14,
+    애니메이션: 15,
+    범죄: 16,
+    뮤지컬: 17,
+    SF: 18,
     액션: 19,
+    무협: 20,
   }
 
   useEffect(() => {
@@ -47,8 +57,6 @@ const Profile = ({ userObj }) => {
 
     getProfiles()
   }, [])
-
-
 
   //useNavigate()사용
   const navigate = useNavigate()
@@ -78,9 +86,6 @@ const Profile = ({ userObj }) => {
         ...prev,
         preferredGenre: value,
       }))
-
-      
-      
     }
     if (name === 'bestPick') {
       setProfile((prev) => ({
@@ -112,7 +117,6 @@ const Profile = ({ userObj }) => {
     setEditMode((prev) => !prev)
   }
 
-  
   return (
     <div>
       <img
@@ -128,7 +132,6 @@ const Profile = ({ userObj }) => {
       <h3>{userObj.displayName}</h3>
 
       <br />
-
 
       <div>
         닉네임 :
@@ -156,19 +159,23 @@ const Profile = ({ userObj }) => {
         관심 장르 :
         {editMode ? (
           <>
-           <select id="preferredGenre" name="preferredGenre" onChange={onChange} value={profile.preferredGenre}>
-           <option value="default" disabled>
-             장르를 선택하세요
-           </option>
-           {Object.keys(genre).map((i, index) => {
-             return (
-               <option key={index} value={i}>
-                 {i}
-               </option>
-             )
-           })}
-         </select>
-      
+            <select
+              id="preferredGenre"
+              name="preferredGenre"
+              onChange={onChange}
+              value={profile.preferredGenre}
+            >
+              <option value="default" disabled>
+                장르를 선택하세요
+              </option>
+              {Object.keys(genre).map((i, index) => {
+                return (
+                  <option key={index} value={i}>
+                    {i}
+                  </option>
+                )
+              })}
+            </select>
           </>
         ) : (
           <> {profile.preferredGenre}</>
@@ -193,12 +200,10 @@ const Profile = ({ userObj }) => {
         <button onClick={onToggleChange}>수정하기</button>
       )}
 
-      
       <br />
       <br />
 
-
-      <Recommand preferredGenre={profile.preferredGenre}/>
+      <Recommand preferredGenre={profile.preferredGenre} />
 
       <button onClick={onLogOutClick}>Log Out</button>
     </div>
