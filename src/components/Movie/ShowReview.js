@@ -4,8 +4,8 @@ import { dbService } from '../../fbase'
 import Reviews from './Reviews'
 
 const ShowReview = ({ detailInfo, userObj }) => {
-  const [reviews, setReviews] = useState([]) //firestore¿¡ ÀÖ´Â ÀüÃ¼ ¸®ºäµé ¹Þ¾Æ¿Í¼­
-  const [thisReview, setThisReview] = useState([]) //ÇØ´ç ¿µÈ­ÀÇ ¸®ºä¸¸ ¹Þ¾Æ¿È
+  const [reviews, setReviews] = useState([]) //firestoreì— ìžˆëŠ” ì „ì²´ ë¦¬ë·°ë“¤ ë°›ì•„ì™€ì„œ
+  const [thisReview, setThisReview] = useState([]) //í•´ë‹¹ ì˜í™”ì˜ ë¦¬ë·°ë§Œ ë°›ì•„ì˜´
 
   useEffect(() => {
     const getReviews = async () => {
@@ -13,10 +13,10 @@ const ShowReview = ({ detailInfo, userObj }) => {
       dbReviews.forEach((i) => {
         let obj = {
           ...i.data(),
-          id: i.id, //fireStoreÀÇ °¢ ¹®¼­ÀÇ °íÀ¯ÇÑ id°ª. documentId
-          //ÀÌ documentId¸¦ »ç¿ëÇÏ´Â ÀÌÀ¯´Â ¼öÁ¤,»èÁ¦¸¦ ÇÒ ¶§ 
-          //ÇØ´ç ¹®¼­¿¡ Á¢±ÙÇÏ±â À§ÇÔÀÔ´Ï´Ù
-          //db¿¡ ÀÖ´Â °ª¿¡ id¶ó´Â Å°°¡ ¾ø¾îµµ ÀÌ°Ç ÀÚµ¿À¸·Î »ç¿ëÇÒ ¼ö ÀÖ´Â °ÍÀÔ´Ï´Ù
+          id: i.id, //fireStoreì˜ ê° ë¬¸ì„œì˜ ê³ ìœ í•œ idê°’. documentId
+          //ì´ documentIdë¥¼ ì‚¬ìš©í•˜ëŠ” ì´ìœ ëŠ” ìˆ˜ì •,ì‚­ì œë¥¼ í•  ë•Œ 
+          //í•´ë‹¹ ë¬¸ì„œì— ì ‘ê·¼í•˜ê¸° ìœ„í•¨ìž…ë‹ˆë‹¤
+          //dbì— ìžˆëŠ” ê°’ì— idë¼ëŠ” í‚¤ê°€ ì—†ì–´ë„ ì´ê±´ ìžë™ìœ¼ë¡œ ì‚¬ìš©í•  ìˆ˜ ìžˆëŠ” ê²ƒìž…ë‹ˆë‹¤
         }
 
         setReviews((prev) => [obj, ...prev])

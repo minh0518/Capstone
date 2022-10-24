@@ -5,17 +5,17 @@ import { onAuthStateChanged, updateProfile } from 'firebase/auth'
 import { getDocs, addDoc, collection } from 'firebase/firestore'
 import { v4 as uuidv4 } from 'uuid'
 
-//±êÇãºê·Î±×ÀÎ ¼³Á¤ ºñ¹Ð¹øÈ£ 123456789
+//ê¹ƒí—ˆë¸Œë¡œê·¸ì¸ ì„¤ì • ë¹„ë°€ë²ˆí˜¸ 123456789
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(authService.currentUser)
   const [init, setInit] = useState(false)
-  //Firebase°¡ ´Ù ·Îµå µÉ ¶§±îÁö
-  //±â´Ù¸®°Ô ÇÏ±â À§ÇÑ »óÅÂ°ª
+  //Firebaseê°€ ë‹¤ ë¡œë“œ ë  ë•Œê¹Œì§€
+  //ê¸°ë‹¤ë¦¬ê²Œ í•˜ê¸° ìœ„í•œ ìƒíƒœê°’
 
-  //±×³É setStateÇÔ¼ö ÇÏ³ª¸¸ °è¼Ó º¸³»°í
-  //Home¿¡¼­ ÀÌ°É »ç¿ëÇÏ´Â °ÍÀÌ´Ù
-  //¿©±â¿¡´Ù°¡´Â infoº¯¼ö·Î °è¼Ó ¹Þ¾ÆÁØ´Ù
+  //ê·¸ëƒ¥ setStateí•¨ìˆ˜ í•˜ë‚˜ë§Œ ê³„ì† ë³´ë‚´ê³ 
+  //Homeì—ì„œ ì´ê±¸ ì‚¬ìš©í•˜ëŠ” ê²ƒì´ë‹¤
+  //ì—¬ê¸°ì—ë‹¤ê°€ëŠ” infoë³€ìˆ˜ë¡œ ê³„ì† ë°›ì•„ì¤€ë‹¤
 
   const [movieInfo, setMovieInfo] = useState([])
   const [userObj, setUserObj] = useState(null)
@@ -25,26 +25,26 @@ function App() {
   useEffect(() => {
     onAuthStateChanged(authService, (user) => {
       if (user) {
-        //·Î±×ÀÎÀÌ µÈ »óÅÂ
+        //ë¡œê·¸ì¸ì´ ëœ ìƒíƒœ
         setIsLoggedIn(true)
 
-        //ÀÌ°Ô Áö±Ý ÇÊ¿äÇÑÁö´Â ¸ð¸£°Ú´Âµ¥ ¿ì¼±
-        //local loginÀ¸·Î ÇÏ¸é displayNameÀÌ nullÀÌ¹Ç·Î ±×°É ¹Ù²ãÁÜ
+        //ì´ê²Œ ì§€ê¸ˆ í•„ìš”í•œì§€ëŠ” ëª¨ë¥´ê² ëŠ”ë° ìš°ì„ 
+        //local loginìœ¼ë¡œ í•˜ë©´ displayNameì´ nullì´ë¯€ë¡œ ê·¸ê±¸ ë°”ê¿”ì¤Œ
         if (user.displayName === null) {
           const name = user.email.split('@')[0]
-          //updateProfile »ç¿ë
+          //updateProfile ì‚¬ìš©
           updateProfile(authService.currentUser, {
             displayName: name,
           })
         }
 
-        // µÑÀÌ °°À½. À¯Àú°ü·Ã ¸ðµç Á¤º¸¸¦ º¸¿©ÁÖ¸ç, ¿©±â¼­ ÇÊ¿äÇÑ °Í¸¸ useObj·Î »ç¿ë
+        // ë‘˜ì´ ê°™ìŒ. ìœ ì €ê´€ë ¨ ëª¨ë“  ì •ë³´ë¥¼ ë³´ì—¬ì£¼ë©°, ì—¬ê¸°ì„œ í•„ìš”í•œ ê²ƒë§Œ useObjë¡œ ì‚¬ìš©
         // console.log(authService.currentUser)
         //  console.log(user)
 
-        //userObj´Â ¹Ýµå½Ã ÇöÀç ·Î±×ÀÎ µÇ¾î ÀÖ´Â »ç¿ëÀÚÀÇ Á¤º¸·Î¸¸ »ç¿ëµÅ¾ß ÇÕ´Ï´Ù
+        //userObjëŠ” ë°˜ë“œì‹œ í˜„ìž¬ ë¡œê·¸ì¸ ë˜ì–´ ìžˆëŠ” ì‚¬ìš©ìžì˜ ì •ë³´ë¡œë§Œ ì‚¬ìš©ë¼ì•¼ í•©ë‹ˆë‹¤
         setUserObj({
-          //¾ÕÀ¸·Î ¸ðµç ÄÄÆ÷³ÍÆ®¿¡¼­ uid³ª displayNameÀ¸·Î À¯ÀúµéÀ» ±¸ºÐÇØ¾ß ÇÔ
+          //ì•žìœ¼ë¡œ ëª¨ë“  ì»´í¬ë„ŒíŠ¸ì—ì„œ uidë‚˜ displayNameìœ¼ë¡œ ìœ ì €ë“¤ì„ êµ¬ë¶„í•´ì•¼ í•¨
           displayName: user.displayName,
           uid: user.uid,
           // profileImg: defaultProfileImg,
@@ -72,19 +72,19 @@ function App() {
 
   console.log(authService.currentUser)
 
-  //´Ù¸¥ °÷¿¡¼­ updateProfileÀ» »ç¿ëÇÏ¸é
-  //¿©±â¿¡µµ ¹Ù·Î ¹Ý¿µÀÌ µÇ´Â°ÇÁö È®ÀÎÀ» ÇØ¾ß ÇÔ
+  //ë‹¤ë¥¸ ê³³ì—ì„œ updateProfileì„ ì‚¬ìš©í•˜ë©´
+  //ì—¬ê¸°ì—ë„ ë°”ë¡œ ë°˜ì˜ì´ ë˜ëŠ”ê±´ì§€ í™•ì¸ì„ í•´ì•¼ í•¨
   console.log(userObj)
 
 
   useEffect(() => {
 
-    //ÇÁ·ÎÇÊÀ» firestore¿¡ µî·Ï
+    //í”„ë¡œí•„ì„ firestoreì— ë“±ë¡
     const generateProfileOnDB = async () => {
       if (userObj) {
 
         let arr = []
-        //ÇÁ·ÎÇÊÀÌ ±âÁ¸¿¡ Á¸ÀçÇÑ´Ù¸é ÇØ´ç documentId¸¦ ³Ö¾îµÒ
+        //í”„ë¡œí•„ì´ ê¸°ì¡´ì— ì¡´ìž¬í•œë‹¤ë©´ í•´ë‹¹ documentIdë¥¼ ë„£ì–´ë‘ 
 
         const dbProfiles = await getDocs(collection(dbService, 'profiles'))
 
@@ -94,13 +94,13 @@ function App() {
           }
         })
 
-        //±âÁ¸¿¡ Á¸ÀçÇÏ´Â °ÍÀÌ ¾Æ´Ï¶ó¸é »õ·Î Ãß°¡
+        //ê¸°ì¡´ì— ì¡´ìž¬í•˜ëŠ” ê²ƒì´ ì•„ë‹ˆë¼ë©´ ìƒˆë¡œ ì¶”ê°€
         if (arr.length === 0) {
           const doc = await addDoc(collection(dbService, 'profiles'), {
             ...profileInfo,
           })
         }
-        else{//±âÁ¸¿¡ Á¸ÀçÇÑ´Ù¸é ÇÁ·ÎÇÊÀ» ¾÷µ¥ÀÌÆ® (ÀÌ¹Ì Á¸ÀçÇÏ´Âµ¥ userObj°¡ ¹Ù²ï°ÍÀº ¼öÁ¤ÀÌ ¹ß»ýÇÑ °ÍÀÌ¹Ç·Î)
+        else{//ê¸°ì¡´ì— ì¡´ìž¬í•œë‹¤ë©´ í”„ë¡œí•„ì„ ì—…ë°ì´íŠ¸ (ì´ë¯¸ ì¡´ìž¬í•˜ëŠ”ë° userObjê°€ ë°”ë€ê²ƒì€ ìˆ˜ì •ì´ ë°œìƒí•œ ê²ƒì´ë¯€ë¡œ)
           
         }
       }

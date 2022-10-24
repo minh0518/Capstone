@@ -6,7 +6,7 @@ const Recommand = ({ preferredGenre }) => {
   const [naverInfo, setNaverInfo] = useState([])
 
   const genre = {
-    ALL : '',
+    ALL: '',
     드라마: 1,
     로맨스: 5,
     판타지: 6,
@@ -18,7 +18,6 @@ const Recommand = ({ preferredGenre }) => {
     SF: 19,
     액션: 19,
   }
-
 
   const makeDate = () => {
     let today = new Date()
@@ -52,7 +51,7 @@ const Recommand = ({ preferredGenre }) => {
       }
     }
     getMovies()
-  }, [])
+  }, [preferredGenre])
 
   let NaverInfoArr = []
 
@@ -64,6 +63,7 @@ const Recommand = ({ preferredGenre }) => {
       const ID_KEY = '7ZKljEdHUmg5R3Ny2sr3'
       const SECRET_KEY = 'Fk9VkXWZjQ'
 
+      console.log(genre[preferredGenre])
       for (let i = 0; i < koficInfo.length; i++) {
         let response = await axios.get(`/v1/search/movie.json`, {
           params: {
@@ -77,23 +77,58 @@ const Recommand = ({ preferredGenre }) => {
           },
         })
 
-        //kofic은 영화진흥위원회 정보 , naver는 네이버영화 정보
-        NaverInfoArr.push({
-          kofic: koficInfo[i],
-          naver: response.data.items.shift(),
-        })
+        //장르에 없는 것들은 제외하고 받음
+        //네이버의 리턴값이 배열로 된 형태라 값이 없는지 확인하기 위해 .length 사용
+        if (response.data.items.length) {
+          NaverInfoArr.push({
+            kofic: koficInfo[i],
+            naver: response.data.items.shift(),
+          })
+        }
       }
-
-      //console.log(tmp)
       setNaverInfo(NaverInfoArr)
     }
     getMovies()
-  }, [preferredGenre])
+  }, [koficInfo])
 
   return (
     <>
-    
-
+      {naverInfo.length && (
+        <div>
+          {naverInfo.map((i, index) => {
+            return (
+              <div key={index} style={{ padding: '20px', paddingTop: '0px' }}>
+                <h4>현재 {i.kofic.rank}위</h4>
+                <img src={i.naver.image} alt="img" />
+                <p style={{ height: '50px' }}>{i.kofic.movieNm}</p>
+                <ul style={{ paddingLeft: '0px', listStyle: 'none' }}>
+                  <li>개봉일 {i.kofic.openDt}</li>
+                  <li>
+                    누적 관객 수
+                    {i.kofic.audiAcc.replace(
+                      /(\d)(?=(?:\d{3})+(?!\d))/g,
+                      '$1,',
+                    )}
+                    명
+                  </li>
+                  {i.kofic.rankOldAndNew === 'NEW' ? (
+                    <li style={{ color: 'red' }}>NEW!</li>
+                  ) : (
+                    ''
+                  )}
+                  <li>네이버 평점 {i.naver.userRating}</li>
+                  <li>
+                    출연{' '}
+                    {i.naver.actor.length > 10
+                      ? `${i.naver.actor.slice(0, 10)}...`
+                      : i.naver.actor}
+                  </li>
+                </ul>
+              </div>
+            )
+          })}
+        </div>
+      )}
     </>
   )
 }

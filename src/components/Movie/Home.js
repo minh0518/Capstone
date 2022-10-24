@@ -11,11 +11,6 @@ const Home = ({ setMovieInfo }) => {
   const [nationCategory, setNationCategories] = useState('')
   const [multiCategory, setMultiCategorie] = useState('')
 
-  const [movieTitles, setMovieTitles] = useState([])
-  const [lastMovieTitlesId,setLastMovieTitlesId]=useState('')
-  //documentID 상태
-
-
   const styleObj = {
     display: 'flex',
     listStyle: 'none',
@@ -77,7 +72,7 @@ const Home = ({ setMovieInfo }) => {
         let response = await axios.get(`/v1/search/movie.json`, {
           params: {
             query: koficInfo[i].movieNm,
-            display: 3,
+            display: 10,
           },
           headers: {
             'X-Naver-Client-Id': ID_KEY,
@@ -85,10 +80,17 @@ const Home = ({ setMovieInfo }) => {
           },
         })
 
-        //kofic은 영화진흥위원회 정보 , naver는 네이버영화 정보
+        let NaverResult=[]
+
+        //response.data.items에는 네이버API로부터 받은
+        //최대 10개의 영화정보가 들어있다
+        //이것들을 필터링한 결과값을 NaverResult에 각각 1개씩 담는다
+        NaverResult.push(filterTitle(response.data.items, koficInfo[i].movieNm))
+        
+        
         NaverInfoArr.push({
           kofic: koficInfo[i],
-          naver: response.data.items.shift(),
+          naver: NaverResult.shift(),
         })
       }
 
@@ -102,11 +104,50 @@ const Home = ({ setMovieInfo }) => {
   //setMovieInfo를 사용하는데  Home컴포넌트에서 사용되는 상태값인 naverInfo를 사용하면 ( setMovieInfo(naverInfo) )
   //에러가 발생한다
   //react-dom.development.js:86 Warning: Cannot update a component (`App`) while rendering a different component (`Home`). To locate the bad setState() call inside `Home` ..
-
   //console.log(naverInfo)
-
-
   //console.log(movieTitles)
+
+
+
+  //네이버API에게 제목을 전달해주면 이상한 영화를 가져오는 경우가 많으므로
+  //필터링 로직 추가
+  const filterTitle = (arr, query) => {
+
+    if (arr.length === 1) { //받아온 것이 1개뿐이면 그걸 그대로 사용
+      return arr.shift()
+    } else {
+
+      //<b></b>태그 제거 후 제목과 완전히 같은 것만 추출
+      arr = arr.map((i) => { 
+        return {
+          ...i,
+          title: i.title.split('<b>').join('').split('</b>').join(''),
+        }
+      })
+      arr = arr.filter((i) => {
+        return i.title === query
+      })
+
+
+      //그런데도 같은 제목의 영화가 존재할 수 있음
+      //그래서 위의 필터링을 거쳤는데도 여러개가 아직 남아 있다면
+      //개봉연도 중에서 가장 최근인 것으로 추출
+      if (arr.length !== 1) { //아직 여러개가 남아 있다면
+        let mostRecent = arr[0].pubDate
+        arr.map((i) => {
+          if (i.pubDate > mostRecent) {
+            mostRecent = i.pubDate
+          }
+        })
+
+        arr = arr.filter((i) => {
+          return i.pubDate === mostRecent
+        })
+      }
+
+      return arr.shift()
+    }
+  }
 
   return (
     <div>
