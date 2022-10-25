@@ -203,6 +203,7 @@ const Profile = ({ userObj }) => {
       <br />
       <br />
 
+      <h4>이 영화는 어떠신가요?</h4>
       <Recommand preferredGenre={profile.preferredGenre} />
 
       <button onClick={onLogOutClick}>Log Out</button>

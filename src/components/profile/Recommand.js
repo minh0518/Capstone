@@ -155,12 +155,26 @@ const Recommand = ({ preferredGenre }) => {
         }
       })
       arr = arr.filter((i) => {
-        return i.title === query
+        //공백을 죄다 제거하고 비교
+        return (i.title).replace(/(\s*)/g, "") === query.replace(/(\s*)/g, "")
       })
 
+       //근데 위에서도 제목이 같이 않는다면 arr은 남는게 없다
+      //그래서 어쩔 수 없이 빈 문자열로 리턴
+      if(!arr.length){
+        return ''
+      }
+
       if (arr.length !== 1) {
-        let mostRecent = arr[0].pubDate
+
+                        ///가장 원시적인 max값을 탐색. 우선 맨 앞의 값을 최댓값으로 넣어줌
+                        //네이버에는 pubDate가 없는 경우가 있으므로 없을땐 2020사용
+        let mostRecent = (arr[0].pubDate) ? arr[0].pubDate:2020
         arr.map((i) => {
+
+           //네이버의 pubDate가 없는 경우에 그냥 2020으로 넣어줌(쩔 수 없음)
+          i.pubDate=i.pubDate?i.pubDate:2020
+
           if (i.pubDate > mostRecent) {
             mostRecent = i.pubDate
           }

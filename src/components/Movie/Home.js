@@ -85,13 +85,27 @@ const Home = ({ setMovieInfo }) => {
         //response.data.items에는 네이버API로부터 받은
         //최대 10개의 영화정보가 들어있다
         //이것들을 필터링한 결과값을 NaverResult에 각각 1개씩 담는다
-        NaverResult.push(filterTitle(response.data.items, koficInfo[i].movieNm))
+
+
+        //예술영화 같은 경우 애초에 네이버에서 받아지지 않는 경우가
+        //존재한다 그래서 이럴땐 어쩔 수 없이 빈 문자열을 리턴
+        if(response.data.items.length===0){
+          NaverInfoArr.push({
+            kofic: koficInfo[i],
+            naver: '',
+          })  
+        }
+        else{
+          NaverResult.push(filterTitle(response.data.items, koficInfo[i].movieNm))
         
         
-        NaverInfoArr.push({
-          kofic: koficInfo[i],
-          naver: NaverResult.shift(),
-        })
+          NaverInfoArr.push({
+            kofic: koficInfo[i],
+            naver: NaverResult.shift(),
+            //필터링이 실패한 경우 naver에 빈 문자열을 받을 수도 있다
+          })
+        }
+          
       }
 
       //console.log(tmp)
@@ -115,7 +129,7 @@ const Home = ({ setMovieInfo }) => {
   const filterTitle = (arr, query) => {
 
     if (arr.length === 1) { //받아온 것이 1개뿐이면 그걸 그대로 사용
-      return arr.shift()
+      return arr[0]
     } else {
 
       //<b></b>태그 제거 후 제목과 완전히 같은 것만 추출
@@ -126,16 +140,33 @@ const Home = ({ setMovieInfo }) => {
         }
       })
       arr = arr.filter((i) => {
-        return i.title === query
+        return (i.title).replace(/(\s*)/g, "") === query.replace(/(\s*)/g, "")
+        //영진회에서 주는 제목과 네이버에서 받아온 제목이 다를 수가 있다
+        //대표적인 예가 띄워쓰기인데 
+        //영진회 > 블랙 팬서 , 네이버 > 블랙팬서
+        //이럴때 위의 제목비교에서 에러를 발생한다
+        //비교할 때 무조건 공백을 제거하고 비교
       })
+
+      //근데 위에서도 제목이 같이 않는다면 arr은 남는게 없다
+      //그래서 어쩔 수 없이 빈 문자열로 리턴
+      if(!arr.length){
+        return ''
+      }
 
 
       //그런데도 같은 제목의 영화가 존재할 수 있음
       //그래서 위의 필터링을 거쳤는데도 여러개가 아직 남아 있다면
       //개봉연도 중에서 가장 최근인 것으로 추출
       if (arr.length !== 1) { //아직 여러개가 남아 있다면
-        let mostRecent = arr[0].pubDate
+                         //가장 원시적인 max값을 탐색. 우선 맨 앞의 값을 최댓값으로 넣어줌
+                        //네이버에는 pubDate가 없는 경우가 있으므로 없을땐 2020사용
+        let mostRecent = (arr[0].pubDate) ? arr[0].pubDate:2020
         arr.map((i) => {
+
+          //네이버의 pubDate가 없는 경우에 그냥 2020으로 넣어줌(쩔 수 없음)
+          i.pubDate=i.pubDate?i.pubDate:2020
+
           if (i.pubDate > mostRecent) {
             mostRecent = i.pubDate
           }
@@ -146,7 +177,7 @@ const Home = ({ setMovieInfo }) => {
         })
       }
 
-      return arr.shift()
+      return arr[0] //shift해도 상관은 없는데 콘솔로그창에 찍어보기 위해
     }
   }
 
@@ -187,39 +218,47 @@ const Home = ({ setMovieInfo }) => {
 
       <div style={styleObj}>
         {naverInfo.map((i, index) => {
-          return (
-            <div key={index} style={{ padding: '20px', paddingTop: '0px' }}>
-              <h4>{index + 1}</h4>
-              <img src={i.naver.image} alt="img" />
-              <p key={index} style={{ height: '50px' }}>
-                {i.kofic.movieNm}
-              </p>
-              <ul style={{ paddingLeft: '0px', listStyle: 'none' }}>
-                <li>개봉일 {i.kofic.openDt}</li>
-                <li>
-                  누적 관객 수
-                  {i.kofic.audiAcc.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,')}
-                  명
-                </li>
-                {i.kofic.rankOldAndNew === 'NEW' ? (
-                  <li style={{ color: 'red' }}>NEW!</li>
-                ) : (
-                  ''
-                )}
-                <li>네이버 평점 {i.naver.userRating}</li>
-                <li>
-                  출연{' '}
-                  {i.naver.actor.length > 10
-                    ? `${i.naver.actor.slice(0, 10)}...`
-                    : i.naver.actor}
-                </li>
-              </ul>
 
-              <button>
-                <Link to={`/movie/detail/${index + 1}`}>More</Link>
-              </button>
-            </div>
-          )
+          // 빈 문자열 받으면 어쩔 수 없이 공백
+          if(i.naver===''){
+            return <h4>해당 영화 정보가 존재하지 않습니다</h4>
+          }
+          else{
+            return (
+              <div key={index} style={{ padding: '20px', paddingTop: '0px' }}>
+                <h4>{index + 1}</h4>
+                <img src={i.naver.image} alt="img" />
+                <p key={index} style={{ height: '50px' }}>
+                  {i.kofic.movieNm}
+                </p>
+                <ul style={{ paddingLeft: '0px', listStyle: 'none' }}>
+                  <li>개봉일 {i.kofic.openDt}</li>
+                  <li>
+                    누적 관객 수
+                    {i.kofic.audiAcc.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,')}
+                    명
+                  </li>
+                  {i.kofic.rankOldAndNew === 'NEW' ? (
+                    <li style={{ color: 'red' }}>NEW!</li>
+                  ) : (
+                    ''
+                  )}
+                  <li>네이버 평점 {i.naver.userRating}</li>
+                  <li>
+                    출연{' '}
+                    {i.naver.actor.length > 10
+                      ? `${i.naver.actor.slice(0, 10)}...`
+                      : i.naver.actor}
+                  </li>
+                </ul>
+  
+                <button>
+                  <Link to={`/movie/detail/${index + 1}`}>More</Link>
+                </button>
+              </div>
+            )
+          }
+
         })}
       </div>
     </div>
