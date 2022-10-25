@@ -87,7 +87,7 @@ const Recommand = ({ preferredGenre }) => {
         //장르에 없는 것들은 제외하고 받음
         //네이버의 리턴값이 배열로 된 형태라 값이 없는지 확인하기 위해 .length 사용
         if (response.data.items.length) {
-          console.log(response.data.items)
+          //console.log(response.data.items)
 
           let NaverResult = []
 
@@ -97,8 +97,8 @@ const Recommand = ({ preferredGenre }) => {
             koficInfo[i].openDt,
           )
 
-          console.log(koficInfo[i])
-          console.log(result)
+          // console.log(koficInfo[i])
+          // console.log(result)
 
           if(result){
             NaverResult.push(result)
@@ -138,7 +138,6 @@ const Recommand = ({ preferredGenre }) => {
 
     //영진회에서 제공한 연도+-2 필터링
       arr = arr.filter((i) => {
-      console.log(i.pubDate)
       return (
         Number(i.pubDate) >= openDt - 2 && Number(i.pubDate) <= openDt + 2
       )
@@ -184,7 +183,7 @@ const Recommand = ({ preferredGenre }) => {
           return i.pubDate === mostRecent
         })
 
-        console.log(arr)
+        //console.log(arr)
 
         //영진회에서 제공한 연도+-2 필터링
         arr = arr.filter((i) => {

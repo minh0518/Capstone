@@ -70,11 +70,11 @@ function App() {
 
 
 
-  console.log(authService.currentUser)
+  //console.log(authService.currentUser)
 
   //다른 곳에서 updateProfile을 사용하면
   //여기에도 바로 반영이 되는건지 확인을 해야 함
-  console.log(userObj)
+  //console.log(userObj)
 
 
   useEffect(() => {
