@@ -24,8 +24,8 @@ const ShowPosts = ({ movieTitle, theater, region }) => {
         }
         setAllPost((prev) => [...prev, obj])
         setCategorizedPosts((prev) => [...prev, obj])
-        //맨 처음에는 디폴트로 아무것도 선택이 되어 있지 않으므로 
-				//setCategorizedPosts 또한 모든 것들을 다 가져와야 한다
+        //맨 처음에는 디폴트로 아무것도 선택이 되어 있지 않으므로
+        //setCategorizedPosts 또한 모든 것들을 다 가져와야 한다
       })
     }
     getPosts()
@@ -285,8 +285,15 @@ const ShowPosts = ({ movieTitle, theater, region }) => {
               <>
                 <div style={styleObj}>
                   <div style={styleObj2}>
-                  <img src={i.userImg} width="50px" height="50px" alt="img" />
-                    <h4>{i.userName}</h4>
+                    <img src={i.userImg} width="50px" height="50px" alt="img" />
+
+                    {/* 프로필 링크로 분리 */}
+                    <Link
+                      style={{ textDecoration: 'none', color: 'black' }}
+                      to={`/userProfile/${i.userId}`}
+                    >
+                      <h4>{i.userName}</h4>
+                    </Link>
                   </div>
                   <div>{i.time}</div>
                 </div>

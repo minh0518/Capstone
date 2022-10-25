@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useParams, Link } from 'react-router-dom'
 import { getDoc, getDocs, addDoc, doc } from 'firebase/firestore'
 import { dbService } from '../../fbase'
 
@@ -30,12 +30,27 @@ const Post = ({ userObj }) => {
           style={{ display: 'flex', marginTop: '50px', marginBottom: '50px' }}
         >
           <div style={{ flex: 1 }}>
-            <h4>{post.userName}</h4>
+            {/* 프로필 링크로 분리 필요 */}
+            <Link
+              style={{ textDecoration: 'none', color: 'black' }}
+              to={`/userProfile/${post.userId}`}
+            >
+              <h4>{post.userName}</h4>
+            </Link>
             <img src={post.userImg} width="50px" height="50px" alt="img" />
           </div>
           <div>
             {post.time}
-            <div style={{paddingTop:'10px'}}>{userObj.uid === post.userId ? (<><button>수정하기</button><button>삭제하기</button></>) : ''}</div>
+            <div style={{ paddingTop: '10px' }}>
+              {userObj.uid === post.userId ? (
+                <>
+                  <button>수정하기</button>
+                  <button>삭제하기</button>
+                </>
+              ) : (
+                ''
+              )}
+            </div>
           </div>
         </div>
 
@@ -53,7 +68,6 @@ const Post = ({ userObj }) => {
         <div style={{ marginTop: '100px', marginBottom: '400px' }}>
           {post.context}
         </div>
-
       </div>
     </div>
   )

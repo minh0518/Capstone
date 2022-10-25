@@ -17,7 +17,7 @@ const Navigation = () => {
         </li>
         &nbsp;&nbsp;&nbsp;
         <li>
-          <Link to="/profile" style={{ textDecoration: 'none' }}>
+          <Link to="/myProfile" style={{ textDecoration: 'none' }}>
             My Profile
           </Link>
         </li>

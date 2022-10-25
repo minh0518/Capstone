@@ -101,6 +101,7 @@ const Profile = ({ userObj }) => {
 
   const onClick = async (e) => {
     e.preventDefault()
+    
 
     const updateResult = doc(dbService, 'profiles', `${profile.documentId}`)
     await updateDoc(updateResult, {
@@ -112,6 +113,7 @@ const Profile = ({ userObj }) => {
       await updateProfile(authService.currentUser, {
         displayName: profile.displayName,
       })
+    
     }
 
     setEditMode((prev) => !prev)

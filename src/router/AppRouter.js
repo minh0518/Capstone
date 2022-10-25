@@ -11,13 +11,14 @@ import Detail from '../components/movie/Detail'
 import Home from '../components/movie/Home'
 import Join from '../components/main/Join'
 import MainSelect from '../components/main/MainSelect'
-import Profile from '../components/profile/Profile'
+import MyProfile from '../components/profile/MyProfile'
 import Navigation from './Navigation'
 import Social from '../components/social/Social'
 import Post from '../components/social/Post'
 import Chat from '../components/chats/Chat'
 import ChatList from '../components/chats/ChatList'
 import EditProfileImg from '../components/profile/EditProfileImg'
+import UserProfile from '../components/profile/UserProfile'
 
 
 const AppRouter = ({ isLoggedIn ,setMovieInfo,movieInfo,userObj }) => {
@@ -30,8 +31,9 @@ const AppRouter = ({ isLoggedIn ,setMovieInfo,movieInfo,userObj }) => {
           <>
             <Route path="/" element={<MainSelect/>}></Route>
             <Route path="/movie" element={<Home setMovieInfo={setMovieInfo}/>}></Route>
-            <Route path="/profile" element={<Profile userObj={userObj}/>}></Route>
-            <Route path="/profile/editProfileImg" element={<EditProfileImg userObj={userObj}/>}></Route>
+            <Route path="/myProfile" element={<MyProfile userObj={userObj}/> }></Route>
+            <Route path="/myProfile/editProfileImg" element={<EditProfileImg userObj={userObj}/>}></Route>
+            <Route path="/userProfile/:id" element={<UserProfile userObj={userObj}/>}></Route>
             <Route path='/movie/detail/:id' element={<Detail movieInfo={movieInfo} userObj={userObj}/>}></Route>
             <Route path='/social' element={<Social userObj={userObj}/>}></Route>
             <Route path='/social/post/:documentId' element={<Post userObj={userObj}/>}></Route>
