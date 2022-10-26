@@ -6,6 +6,9 @@ import { Link } from 'react-router-dom'
 import Button from 'react-bootstrap/Button'
 import ButtonGroup from 'react-bootstrap/ButtonGroup'
 import Card from 'react-bootstrap/Card'
+import Container from 'react-bootstrap/Container'
+import Row from 'react-bootstrap/Row'
+import Col from 'react-bootstrap/Col'
 
 import '../../styles/main.scss'
 
@@ -180,7 +183,6 @@ const Home = ({ setMovieInfo }) => {
 
   return (
     <div>
-      <h1>Select Movie</h1>
       <h2>Box Office</h2>
 
       <div style={styleObj}>
@@ -216,7 +218,38 @@ const Home = ({ setMovieInfo }) => {
         </ButtonGroup>
       </div>
 
-      <div style={styleObj}>
+      <Container>
+        <Row>
+          {naverInfo.map((i, index) => {
+            // 빈 문자열 받으면 어쩔 수 없이 공백
+            if (i.naver === '') {
+              return (
+                ''
+              )
+            } else {
+              return (
+                <Col lg={2} md={3} sm={6}>
+                  <Card style={{ width: '9rem' }}>
+                    <Card.Img variant="top" src={i.naver.image} />
+                    <Card.Body>
+                      <Card.Title>현재{index + 1}위</Card.Title>
+                      <Card.Text>
+                        <span>{i.kofic.movieNm}</span>
+                      </Card.Text>
+                      <Card.Text>개봉일 {i.kofic.openDt}</Card.Text>
+
+                      <Link variant="primary" to={`/movie/detail/${index + 1}`}>
+                        More
+                      </Link>
+                    </Card.Body>
+                  </Card>
+                </Col>
+              )
+            }
+          })}
+        </Row>
+      </Container>
+      {/* <div style={styleObj}>
         {naverInfo.map((i, index) => {
           // 빈 문자열 받으면 어쩔 수 없이 공백
           if (i.naver === '') {
@@ -257,24 +290,11 @@ const Home = ({ setMovieInfo }) => {
                   <Link to={`/movie/detail/${index + 1}`}>More</Link>
                 </button>
 
-                {/* <Card style={{ width: '8rem' }}>
-                  <Card.Img variant="top" src={i.naver.image} />
-                  <Card.Body>
-                    <Card.Title>
-                      <h5>{i.kofic.movieNm}</h5>
-                    </Card.Title>
-                    <Card.Text>개봉일 {i.kofic.openDt}</Card.Text>
-
-                    <Link variant="primary" to={`/movie/detail/${index + 1}`}>
-                      More
-                    </Link>
-                  </Card.Body>
-                </Card> */}
               </div>
             )
           }
         })}
-      </div>
+      </div> */}
     </div>
   )
 }
