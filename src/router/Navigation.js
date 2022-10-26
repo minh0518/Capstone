@@ -4,19 +4,18 @@ import { Link } from 'react-router-dom'
 import Container from 'react-bootstrap/Container'
 import Nav from 'react-bootstrap/Nav'
 import Navbar from 'react-bootstrap/Navbar'
-import NavDropdown from 'react-bootstrap/NavDropdown'
+import '../styles/test.scss'
 
 const Navigation = () => {
-  const styleObj = {
-    display: 'flex',
-    listStyle: 'none',
-  }
+  // const styleObj = {
+  //   display: 'flex',
+  //   listStyle: 'none',
+  // }
 
   return (
     <nav>
       <>
-
-        <Navbar bg="$gray-600" expand="lg" >
+        <Navbar bg="light" expand="lg">
           <Container>
             <Navbar.Brand href="#home">Menu</Navbar.Brand>
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
