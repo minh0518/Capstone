@@ -19,6 +19,7 @@ import Chat from '../components/chats/Chat'
 import ChatList from '../components/chats/ChatList'
 import EditProfileImg from '../components/profile/EditProfileImg'
 import UserProfile from '../components/profile/UserProfile'
+import { Container } from '../styles/Container.styled'
 
 
 const AppRouter = ({ isLoggedIn ,setMovieInfo,movieInfo,userObj }) => {
@@ -26,6 +27,7 @@ const AppRouter = ({ isLoggedIn ,setMovieInfo,movieInfo,userObj }) => {
     <Router>
   {isLoggedIn && <Navigation/>} 
 
+    <Container>
       <Routes>
         {isLoggedIn ? ( //로그인 됐을 때
           <>
@@ -47,7 +49,9 @@ const AppRouter = ({ isLoggedIn ,setMovieInfo,movieInfo,userObj }) => {
           </>
         )}
       </Routes>
+      </Container>
     </Router>
+    
   )
 }
 

@@ -3,7 +3,7 @@ import AppRouter from './router/AppRouter'
 import { authService, dbService } from './fbase'
 import { onAuthStateChanged, updateProfile } from 'firebase/auth'
 import { getDocs, addDoc, collection } from 'firebase/firestore'
-import { v4 as uuidv4 } from 'uuid'
+import { Container } from './styles/Container.styled'
 
 //깃허브로그인 설정 비밀번호 123456789
 
@@ -68,21 +68,16 @@ function App() {
     })
   }, [])
 
-
-
   //console.log(authService.currentUser)
 
   //다른 곳에서 updateProfile을 사용하면
   //여기에도 바로 반영이 되는건지 확인을 해야 함
   //console.log(userObj)
 
-
   useEffect(() => {
-
     //프로필을 firestore에 등록
     const generateProfileOnDB = async () => {
       if (userObj) {
-
         let arr = []
         //프로필이 기존에 존재한다면 해당 documentId를 넣어둠
 
@@ -99,9 +94,8 @@ function App() {
           const doc = await addDoc(collection(dbService, 'profiles'), {
             ...profileInfo,
           })
-        }
-        else{//기존에 존재한다면 프로필을 업데이트 (이미 존재하는데 userObj가 바뀐것은 수정이 발생한 것이므로)
-          
+        } else {
+          //기존에 존재한다면 프로필을 업데이트 (이미 존재하는데 userObj가 바뀐것은 수정이 발생한 것이므로)
         }
       }
     }
