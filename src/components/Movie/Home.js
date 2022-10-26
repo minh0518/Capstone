@@ -257,18 +257,19 @@ const Home = ({ setMovieInfo }) => {
                   <Link to={`/movie/detail/${index + 1}`}>More</Link>
                 </button>
 
-                {/*                 
-               <Card style={{ width: '8rem' }}>
-      <Card.Img variant="top" src={i.naver.image} />
-      <Card.Body>
-        <Card.Title><h5>{i.kofic.movieNm}</h5></Card.Title>
-        <Card.Text>
-        개봉일 {i.kofic.openDt}
-        </Card.Text>
-        
-        <Link  variant="primary" to={`/movie/detail/${index + 1}`}>More</Link>
-      </Card.Body>
-    </Card> */}
+                {/* <Card style={{ width: '8rem' }}>
+                  <Card.Img variant="top" src={i.naver.image} />
+                  <Card.Body>
+                    <Card.Title>
+                      <h5>{i.kofic.movieNm}</h5>
+                    </Card.Title>
+                    <Card.Text>개봉일 {i.kofic.openDt}</Card.Text>
+
+                    <Link variant="primary" to={`/movie/detail/${index + 1}`}>
+                      More
+                    </Link>
+                  </Card.Body>
+                </Card> */}
               </div>
             )
           }
