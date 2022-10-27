@@ -2,9 +2,14 @@ import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import WritePost from './WritePost'
 import ShowPosts from './ShowPosts'
-import { Link } from 'react-router-dom'
+import ButtonGroup from 'react-bootstrap/ButtonGroup'
+import Button from 'react-bootstrap/Button'
+import '../../styles/social.scss'
 
-const Social = ({userObj}) => {
+const Social = ({ userObj }) => {
+
+  
+
   const [mode, setMode] = useState('list')
 
   //Post List 보여줄 기본 카테고리들은 여기서 받아옴
@@ -96,21 +101,30 @@ const Social = ({userObj}) => {
 
   return (
     <>
-      <button onClick={onClick} name="list">
-        List
-      </button>
-      <button onClick={onClick} name="write">
-        Write
-      </button>
+      
+        <ButtonGroup className="mb-2">
+          <Button id="modeButton" onClick={onClick} name="list">List</Button>
+          <Button id="modeButton" onClick={onClick} name="write">Write</Button>
+        </ButtonGroup>
+      
 
       {/* 여기에 넘겨주는 영화제목,지역같은 리스트들은
       단지 각 컴포넌트에서 select태그에 들어갈 목록에만 사용됨 */}
       {mode === 'list' ? (
-        <ShowPosts movieTitle={movieTitle} theater={theater} region={region} userObj={userObj} />
+        <ShowPosts
+          movieTitle={movieTitle}
+          theater={theater}
+          region={region}
+          userObj={userObj}
+        />
       ) : (
-        <WritePost movieTitle={movieTitle} theater={theater} region={region} userObj={userObj}/>
+        <WritePost
+          movieTitle={movieTitle}
+          theater={theater}
+          region={region}
+          userObj={userObj}
+        />
       )}
-
     </>
   )
 }
