@@ -102,7 +102,7 @@ const Social = ({ userObj }) => {
   return (
     <>
       
-        <ButtonGroup className="mb-2">
+        <ButtonGroup className="mb-2" style={{marginTop:'30px'}}>
           <Button id="modeButton" onClick={onClick} name="list">List</Button>
           <Button id="modeButton" onClick={onClick} name="write">Write</Button>
         </ButtonGroup>

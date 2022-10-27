@@ -2,6 +2,10 @@ import { getDocs, addDoc, collection } from 'firebase/firestore'
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { dbService } from '../../fbase'
+import { Select } from '../../styles/Container.styled'
+import Container from 'react-bootstrap/Container'
+import Row from 'react-bootstrap/Row'
+import Col from 'react-bootstrap/Col'
 
 const ShowPosts = ({ movieTitle, theater, region }) => {
   const [allPost, setAllPost] = useState([])
@@ -230,85 +234,103 @@ const ShowPosts = ({ movieTitle, theater, region }) => {
     flex: '1',
   }
 
-  const styleObj3 = {
-    display: 'flex',
-    justifyContent: 'center',
-  }
+  // const styleObj3 = {
+  //   display: 'flex',
+  //   justifyContent: 'center',
+  // }
+
   return (
     <div>
-      <label htmlFor="title">영화 제목 :</label>
-      <select id="title" name="title" onChange={onChange}>
-        <option value="default" disabled>
-          영화를 선택하세요
-        </option>
-        {movieTitle.map((i, index) => {
-          return (
-            <option key={index} value={i}>
-              {i}
-            </option>
-          )
-        })}
-      </select>
-      <br />
-      <label htmlFor="theater">영화관 :</label>
-      <select id="theater" name="theater" onChange={onChange}>
-        <option value="default" disabled>
-          영화관을 선택하세요
-        </option>
-        {theater.map((i, index) => {
-          return (
-            <option key={index} value={i}>
-              {i}
-            </option>
-          )
-        })}
-      </select>
-      <br />
-      <label htmlFor="region">지역(구) : </label>
-      <select id="region" name="region" onChange={onChange}>
-        <option value="default" disabled>
-          지역(구)을 선택하세요
-        </option>
-        {region.map((i, index) => {
-          return (
-            <option key={index} value={i}>
-              {i}
-            </option>
-          )
-        })}
-      </select>
+      <Container style={{marginTop:'60px'}}>
+        <Row>
+          <Col  xs={12} md={12} lg={6}>
+            <label htmlFor="title">영화 제목</label>
+            <Select
+              className="selectBox"
+              id="title"
+              name="title"
+              onChange={onChange}
+            >
+              <option value="default" disabled>
+                영화를 선택하세요
+              </option>
+              {movieTitle.map((i, index) => {
+                return (
+                  <option key={index} value={i}>
+                    {i}
+                  </option>
+                )
+              })}
+            </Select>
+            <br />
+            <label htmlFor="theater">영화관</label>
+            <Select id="theater" name="theater" onChange={onChange}>
+              <option value="default" disabled>
+                영화관을 선택하세요
+              </option>
+              {theater.map((i, index) => {
+                return (
+                  <option key={index} value={i}>
+                    {i}
+                  </option>
+                )
+              })}
+            </Select>
+            <br />
+            <label htmlFor="region">지역(구)</label>
+            <Select id="region" name="region" onChange={onChange}>
+              <option value="default" disabled>
+                지역(구)을 선택하세요
+              </option>
+              {region.map((i, index) => {
+                return (
+                  <option key={index} value={i}>
+                    {i}
+                  </option>
+                )
+              })}
+            </Select>
+          </Col>
+          <Col xs={12} md={12} lg={6}>
+            <div>
+              <div style={{ width: '600px' }}>
+                {categorizedPosts.map((i) => {
+                  return (
+                    <>
+                      <div style={styleObj}>
+                        <div style={styleObj2}>
+                          <img
+                            src={i.userImg}
+                            width="50px"
+                            height="50px"
+                            alt="img"
+                          />
 
-      <div style={styleObj3}>
-        <div style={{ width: '600px' }}>
-          {categorizedPosts.map((i) => {
-            return (
-              <>
-                <div style={styleObj}>
-                  <div style={styleObj2}>
-                    <img src={i.userImg} width="50px" height="50px" alt="img" />
-
-                    {/* 프로필 링크로 분리 */}
-                    <Link
-                      style={{ textDecoration: 'none', color: 'black' }}
-                      to={`/userProfile/${i.userId}`}
-                    >
-                      <h4>{i.userName}</h4>
-                    </Link>
-                  </div>
-                  <div>{i.time}</div>
-                </div>
-                <Link
-                  style={{ textDecoration: 'none', color: 'black' }}
-                  to={`/social/post/${i.id}`} //documentId를 사용
-                >
-                  <strong>{i.postTitle}</strong>
-                </Link>
-                <hr />
-              </>
-            )
-          })}
-        </div>
-      </div>
+                          {/* 프로필 링크로 분리 */}
+                          <Link
+                            style={{ textDecoration: 'none', color: 'black' }}
+                            to={`/userProfile/${i.userId}`}
+                          >
+                            <h4>{i.userName}</h4>
+                          </Link>
+                        </div>
+                        <div>{i.time}</div>
+                      </div>
+                      <Link
+                        style={{ textDecoration: 'none', color: 'black' }}
+                        to={`/social/post/${i.id}`} //documentId를 사용
+                      >
+                        <strong>{i.postTitle}</strong>
+                      </Link>
+                      <hr />
+                    </>
+                  )
+                })}
+              </div>
+            </div>
+          </Col>
+        </Row>
+      </Container>
     </div>
   )
 }
