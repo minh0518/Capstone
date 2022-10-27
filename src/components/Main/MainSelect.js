@@ -2,6 +2,7 @@ import React from 'react'
 import { Routes, Route, Link, Navigate } from 'react-router-dom'
 //import {Container} from '../../styles/Container.styled'
 import styled from 'styled-components'
+import '../../styles/mainSelect.scss'
 
 const MainSelect = () => {
   const Container = styled.div`
@@ -15,6 +16,7 @@ const MainSelect = () => {
     <Container>
       <div>
         <Link
+          className='mainMenuButton'
           to="/movie"
           style={{
             textDecoration: 'none',
@@ -26,6 +28,7 @@ const MainSelect = () => {
         </Link>
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         <Link
+          className='mainMenuButton'
           to="/social"
           style={{
             textDecoration: 'none',

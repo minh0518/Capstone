@@ -1,0 +1,10 @@
+.mainMenuButton{
+    border:1px solid transparent; 
+    -webkit-transition: all 0.4s cubic-bezier(.5, .24, 0, 1);
+   transition: all 0.4s cubic-bezier(.5, .24, 0, 1);
+}
+
+  .mainMenuButton:hover{
+    border-bottom:1px solid gray;
+
+  }

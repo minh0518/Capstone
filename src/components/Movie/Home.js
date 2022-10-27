@@ -9,8 +9,8 @@ import Card from 'react-bootstrap/Card'
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
-
-import '../../styles/main.scss'
+import '../../styles/home.scss'
+import {Box} from '../../styles/Container.styled'
 
 const Home = ({ setMovieInfo }) => {
   const [koficInfo, setKoficInfo] = useState([])
@@ -18,10 +18,11 @@ const Home = ({ setMovieInfo }) => {
   const [nationCategory, setNationCategories] = useState('')
   const [multiCategory, setMultiCategorie] = useState('')
 
-  const styleObj = {
-    display: 'flex',
-    listStyle: 'none',
-  }
+  // const styleObj = {
+  //   display: 'flex',
+  //   listStyle: 'none',
+  // }
+
 
   const makeDate = () => {
     let today = new Date()
@@ -185,7 +186,7 @@ const Home = ({ setMovieInfo }) => {
     <div>
       <h2>Box Office</h2>
 
-      <div style={styleObj}>
+      <Box>
         <ButtonGroup className="mb-2">
           {CATEGORIES.nationCategories.map((i, index) => {
             return (
@@ -200,8 +201,8 @@ const Home = ({ setMovieInfo }) => {
             )
           })}
         </ButtonGroup>
-      </div>
-      <div style={styleObj}>
+      </Box>
+      <Box>
         <ButtonGroup className="mb-2">
           {CATEGORIES.multiCategories.map((i, index) => {
             return (
@@ -216,7 +217,7 @@ const Home = ({ setMovieInfo }) => {
             )
           })}
         </ButtonGroup>
-      </div>
+      </Box>
 
       <Container>
         <Row>
@@ -229,14 +230,14 @@ const Home = ({ setMovieInfo }) => {
             } else {
               return (
                 <Col lg={2} md={3} sm={6}>
-                  <Card style={{ width: '9rem' }}>
+                  <Card id='test'>
                     <Card.Img variant="top" src={i.naver.image} />
                     <Card.Body>
                       <Card.Title>현재{index + 1}위</Card.Title>
                       <Card.Text>
                         <span>{i.kofic.movieNm}</span>
                       </Card.Text>
-                      <Card.Text>개봉일 {i.kofic.openDt}</Card.Text>
+                      <Card.Text>개봉일 <br/>{i.kofic.openDt}</Card.Text>
 
                       <Link variant="primary" to={`/movie/detail/${index + 1}`}>
                         More
