@@ -3,7 +3,6 @@ import styled from 'styled-components'
 export const Container = styled.div`
      background:white;
      height: 95vh;
-     
 `
 
 export const Box = styled.div`
