@@ -6,9 +6,13 @@ import { doc, getDocs, addDoc, collection, updateDoc } from 'firebase/firestore'
 import Recommand from './Recommand'
 import Card from 'react-bootstrap/Card'
 import ListGroup from 'react-bootstrap/ListGroup'
+import Button from 'react-bootstrap/Button'
+import {ProfileBox} from '../../styles/Container.styled'
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 
 const Profile = ({ userObj }) => {
-
   const [editMode, setEditMode] = useState(false)
 
   const [profile, setProfile] = useState({
@@ -191,7 +195,13 @@ const Profile = ({ userObj }) => {
 
   return (
     <div>
-      <Card style={{ width: '18rem' }}>
+      <br/>
+      <br/>
+
+  
+    <ProfileBox>
+    <div>
+      <Card style={{ width: '20rem' }}>
         <Card.Img variant="top" src={userObj.photoURL} />
         <Card.Body>
           <Card.Title>
@@ -278,31 +288,31 @@ const Profile = ({ userObj }) => {
           <ListGroup.Item>거주지 </ListGroup.Item>
         </ListGroup>
         <Card.Body>
-          <Link to="editProfileImg" style={{ textDecoration: 'none' }}>
+          {/* <Link to="editProfileImg" style={{ textDecoration: 'none' }}>
             프로필 이미지 수정
+          </Link> */}
+          <Link to="editProfileImg" style={{ textDecoration: 'none' }}>
+            <Button variant="outline-dark">프로필 이미지 수정</Button>
           </Link>
           {editMode ? (
-            <button onClick={onClick}>완료</button>
+            <Button variant="outline-dark" onClick={onClick}>
+              완료
+            </Button>
           ) : (
-            <button onClick={onToggleChange}>수정하기</button>
+            <Button variant="outline-dark" onClick={onToggleChange}>
+              수정하기
+            </Button>
           )}
           {/* <Card.Link href="#">Another Link</Card.Link> */}
         </Card.Body>
       </Card>
 
-
-
-
-
-      <h4>이 영화는 어떠신가요?</h4>
-      <Recommand preferredGenre={profile.preferredGenre} />
-
-
-      
-
-
       {/* <button onClick={onLogOutClick}>Log Out</button> */}
     </div>
+    </ProfileBox>
+
+  <Recommand preferredGenre={profile.preferredGenre} />
+  </div>
   )
 }
 

@@ -36,3 +36,10 @@ export const Select = styled.select`
 		border-color: black;
 	}
 `;
+
+
+export const ProfileBox = styled.div`
+display: flex;
+height: 100%;
+justify-content: center;
+`
