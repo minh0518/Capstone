@@ -17,6 +17,7 @@ const Home = ({ setMovieInfo }) => {
   const [naverInfo, setNaverInfo] = useState([])
   const [nationCategory, setNationCategories] = useState('')
   const [multiCategory, setMultiCategorie] = useState('')
+  const [tmp, setTmp] = useState(false)
 
   // const styleObj = {
   //   display: 'flex',
@@ -230,7 +231,7 @@ const Home = ({ setMovieInfo }) => {
             } else {
               return (
                 <Col lg={2} md={3} sm={6}>
-                  <Card id='test'>
+                  <Card id={`test${index}`}>
                     <Card.Img variant="top" src={i.naver.image} />
                     <Card.Body>
                       <Card.Title>현재{index + 1}위</Card.Title>

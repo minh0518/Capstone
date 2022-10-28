@@ -7,10 +7,17 @@ import Recommand from './Recommand'
 import Card from 'react-bootstrap/Card'
 import ListGroup from 'react-bootstrap/ListGroup'
 import Button from 'react-bootstrap/Button'
-import {ProfileBox} from '../../styles/Container.styled'
-import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
+import { ProfileBox } from '../../styles/Container.styled'
+import Container from 'react-bootstrap/Container'
+import Row from 'react-bootstrap/Row'
+import Col from 'react-bootstrap/Col'
+import { ProfileInput,ProfileSelect } from '../../styles/Container.styled'
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faX } from '@fortawesome/free-solid-svg-icons';
+import { faVideo } from '@fortawesome/free-solid-svg-icons';
+
+
+
 
 const Profile = ({ userObj }) => {
   const [editMode, setEditMode] = useState(false)
@@ -104,9 +111,11 @@ const Profile = ({ userObj }) => {
       }))
     }
     if (name === 'bestPick') {
-      if (value !== '') {
         setBestPickValue(value)
-      }
+        //공백일때 저장되는 것을 막기 위해 여기다가 if (value !== '') 를 걸어버리면 
+        //텍스트창에 무조건 1글자는 있어야 하므로
+        //썼다가 다 지우는게 안됨. 한 글자가 남아 있음
+      
       // setProfile((prev) => ({
       //   ...prev,
       //   bestPick: value,
@@ -118,10 +127,10 @@ const Profile = ({ userObj }) => {
     setEditMode((prev) => !prev)
   }
 
-  console.log([...bestPickArr, bestPickValue])
-
   const onClick = async (e) => {
-    const updateResult = doc(dbService, 'profiles', `${profile.documentId}`)
+
+    if(bestPickValue!==''){
+      const updateResult = doc(dbService, 'profiles', `${profile.documentId}`)
 
     await updateDoc(updateResult, {
       ...profile,
@@ -135,6 +144,7 @@ const Profile = ({ userObj }) => {
       })
     }
 
+    
     setBestPickArr([...bestPickArr, bestPickValue])
     //bestPickArr은 최초에 db에서 받아오는건 맞는데
     //그 이후에는 db를 다시 엑세스 하지 않으므로 (useEffect는 한번)
@@ -161,7 +171,10 @@ const Profile = ({ userObj }) => {
     //그러면 무한 리렌더링이라 이것만은 진짜 하면 안될 것 같다
 
     setBestPickValue('')
+    
+    }
     setEditMode((prev) => !prev)
+    
   }
 
   const onDeleteClick = async (e) => {
@@ -195,124 +208,138 @@ const Profile = ({ userObj }) => {
 
   return (
     <div>
-      <br/>
-      <br/>
-
-  
-    <ProfileBox>
-    <div>
-      <Card style={{ width: '20rem' }}>
-        <Card.Img variant="top" src={userObj.photoURL} />
-        <Card.Body>
-          <Card.Title>
-            {' '}
-            {editMode ? (
-              <input
-                name="displayName"
-                onChange={onChange}
-                value={profile.displayName}
-              />
-            ) : (
-              <>{profile.displayName}</>
-            )}
-          </Card.Title>
-          <Card.Text>
-            생년월일 :
-            {editMode ? (
-              <input name="birth" onChange={onChange} value={profile.birth} />
-            ) : (
-              <>{profile.birth}</>
-            )}
-          </Card.Text>
-        </Card.Body>
-        <ListGroup className="list-group-flush">
-          <ListGroup.Item>
-            관심 장르 :
-            {editMode ? (
-              <>
-                <select
-                  id="preferredGenre"
-                  name="preferredGenre"
-                  onChange={onChange}
-                  value={profile.preferredGenre}
-                >
-                  <option value="default" disabled>
-                    장르를 선택하세요
-                  </option>
-                  {Object.keys(genre).map((i, index) => {
-                    return (
-                      <option key={index} value={i}>
-                        {i}
-                      </option>
-                    )
-                  })}
-                </select>
-              </>
-            ) : (
-              <> {profile.preferredGenre}</>
-            )}
-          </ListGroup.Item>
-          <ListGroup.Item>
-            {' '}
-            Best Pick!
-            {editMode ? (
-              <>
-                <ul>
-                  {profile.bestPick.map((i) => {
-                    return (
-                      <li>
-                        {i}{' '}
-                        <button value={i} onClick={onDeleteClick}>
-                          삭제
-                        </button>
-                      </li>
-                    )
-                  })}
-                </ul>
-                <input
-                  name="bestPick"
-                  onChange={onChange}
-                  value={bestPickValue}
-                />
-              </>
-            ) : (
-              <>
-                <ul>
-                  {profile.bestPick.map((i) => {
-                    return <li>{i}</li>
-                  })}
-                </ul>
-              </>
-            )}
-          </ListGroup.Item>
-          <ListGroup.Item>거주지 </ListGroup.Item>
-        </ListGroup>
-        <Card.Body>
-          {/* <Link to="editProfileImg" style={{ textDecoration: 'none' }}>
+      <br />
+      <br />
+      <Container>
+        <Row>
+          <Col xs={12} md={12} lg={6}>
+            <ProfileBox>
+            <div>
+              <Card style={{ width: '20rem' }}>
+                <Card.Img variant="top" src={userObj.photoURL} />
+                <Card.Body>
+                  <Card.Title>
+                    {' '}
+                    {editMode ? (
+                      <ProfileInput
+                        name="displayName"
+                        onChange={onChange}
+                        value={profile.displayName}
+                      />
+                    ) : (
+                      <>{profile.displayName}</>
+                    )}
+                  </Card.Title>
+                  <Card.Text>
+                    생년월일 :
+                    {editMode ? (
+                      <ProfileInput
+                        name="birth"
+                        onChange={onChange}
+                        value={profile.birth}
+                      />
+                    ) : (
+                      <>{profile.birth}</>
+                    )}
+                  </Card.Text>
+                </Card.Body>
+                <ListGroup className="list-group-flush">
+                  <ListGroup.Item>
+                    관심 장르 :
+                    {editMode ? (
+                      <>
+                        <ProfileSelect
+                          id="preferredGenre"
+                          name="preferredGenre"
+                          onChange={onChange}
+                          value={profile.preferredGenre}
+                        >
+                          <option value="default" disabled>
+                            장르를 선택하세요
+                          </option>
+                          {Object.keys(genre).map((i, index) => {
+                            return (
+                              <option key={index} value={i}>
+                                {i}
+                              </option>
+                            )
+                          })}
+                        </ProfileSelect>
+                      </>
+                    ) : (
+                      <> {profile.preferredGenre}</>
+                    )}
+                  </ListGroup.Item>
+                  <ListGroup.Item>
+                    Best Pick!
+                    {editMode ? (
+                      <>
+                        <ul style={{listStyle:'none'}}>
+                          {profile.bestPick.map((i) => {
+                            return (
+                              <li>
+                                <FontAwesomeIcon icon={faVideo}  style={{paddingRight:'10px'}}/>
+                                {i}
+                                <button value={i} onClick={onDeleteClick} style={{border:'0',outline:'0',background:'transparent'}}>
+                                <FontAwesomeIcon onClick={onDeleteClick} icon={faX} style={{color:'red'}}/>
+                                {/* 왜 안되는거야 */}
+                                </button>
+                              </li>
+                            )
+                          })}
+                        </ul>
+                        <ProfileInput
+                          name="bestPick"
+                          onChange={onChange}
+                          value={bestPickValue}
+                        />
+                      </>
+                    ) : (
+                      <>
+                        <ul style={{listStyle:'none'}}>
+                          {profile.bestPick.map((i) => {
+                            return (
+                            <li>
+                               <FontAwesomeIcon icon={faVideo} style={{paddingRight:'10px'}}/>
+                              {i}
+                            </li>)
+                          })}
+                        </ul>
+                      </>
+                    )}
+                  </ListGroup.Item>
+                  <ListGroup.Item>거주지 </ListGroup.Item>
+                </ListGroup>
+                <Card.Body>
+                  {/* <Link to="editProfileImg" style={{ textDecoration: 'none' }}>
             프로필 이미지 수정
           </Link> */}
-          <Link to="editProfileImg" style={{ textDecoration: 'none' }}>
-            <Button variant="outline-dark">프로필 이미지 수정</Button>
-          </Link>
-          {editMode ? (
-            <Button variant="outline-dark" onClick={onClick}>
-              완료
-            </Button>
-          ) : (
-            <Button variant="outline-dark" onClick={onToggleChange}>
-              수정하기
-            </Button>
-          )}
-          {/* <Card.Link href="#">Another Link</Card.Link> */}
-        </Card.Body>
-      </Card>
+                  <Link to="editProfileImg" style={{ textDecoration: 'none' }}>
+                    <Button variant="outline-dark">프로필 이미지 수정</Button>
+                  </Link>
+                  {editMode ? (
+                    <Button variant="outline-dark" onClick={onClick}>
+                      완료
+                    </Button>
+                  ) : (
+                    <Button variant="outline-dark" onClick={onToggleChange}>
+                      수정하기
+                    </Button>
+                  )}
+                  {/* <Card.Link href="#">Another Link</Card.Link> */}
+                </Card.Body>
+              </Card>
 
-      {/* <button onClick={onLogOutClick}>Log Out</button> */}
+              {/* <button onClick={onLogOutClick}>Log Out</button> */}
+            </div>
+            </ProfileBox>
+          </Col>
+          <Col xs={12} md={12} lg={6}>
+            <Recommand preferredGenre={profile.preferredGenre} />
+          </Col>
+        </Row>
+      </Container>
     </div>
-    </ProfileBox>
-
-  <Recommand preferredGenre={profile.preferredGenre} />
-  </div>
   )
 }
 

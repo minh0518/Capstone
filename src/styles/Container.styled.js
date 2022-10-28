@@ -43,3 +43,25 @@ display: flex;
 height: 100%;
 justify-content: center;
 `
+
+export const ProfileInput=styled.input`
+	border: 2px solid gray;
+	border-radius: 5px;
+`
+
+
+export const ProfileSelect = styled.select`
+	margin:0px;
+	min-width: 0;
+	display: block;
+	width: 200px;
+	padding: 8px 8px;
+	line-height: inherit;
+	border: 2px solid gray;
+	border-radius: 8px;
+	color: inherit;
+	background-color: transparent;
+	&:focus {
+		border-color: black;
+	}
+`;

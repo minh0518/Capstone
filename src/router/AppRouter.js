@@ -33,7 +33,7 @@ const AppRouter = ({ isLoggedIn ,setMovieInfo,movieInfo,userObj }) => {
           <>
             <Route path="/" element={<MainSelect/>}></Route>
             <Route path="/movie" element={<Home setMovieInfo={setMovieInfo}/>}></Route>
-            <Route path="/myProfile" element={<MyProfile userObj={userObj}/> }></Route>
+            <Route path="/myProfile" element={<MyProfile userObj={userObj}/> } ></Route>
             <Route path="/myProfile/editProfileImg" element={<EditProfileImg userObj={userObj}/>}></Route>
             <Route path="/userProfile/:id" element={<UserProfile userObj={userObj}/>}></Route>
             <Route path='/movie/detail/:id' element={<Detail movieInfo={movieInfo} userObj={userObj}/>}></Route>

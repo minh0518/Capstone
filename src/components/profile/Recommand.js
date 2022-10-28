@@ -200,7 +200,7 @@ const Recommand = ({ preferredGenre }) => {
 
   return (
     <>
-      <Navbar expand="lg" style={{ height: '200px' }}>
+    {naverInfo.length? <Navbar expand="lg" style={{ height: '200px'}} >
         <Container fluid>
           <Navbar.Brand href="#recommand">이 영화는 어떠신가요?</Navbar.Brand>
           <Navbar.Toggle aria-controls="navbarScroll" />
@@ -208,6 +208,10 @@ const Recommand = ({ preferredGenre }) => {
             {naverInfo.length && (
               <div>
                 {naverInfo.map((i, index) => {
+                  if(index>=3){
+                    return
+                  }
+                  else{
                   return (
                     <Nav
                       className="me-auto my-2 my-lg-0"
@@ -250,12 +254,16 @@ const Recommand = ({ preferredGenre }) => {
                       </NavDropdown>
                     </Nav>
                   )
+                          }
                 })}
               </div>
             )}
           </Navbar.Collapse>
         </Container>
-      </Navbar>
+      </Navbar>:
+        <h4>해당 장르에 존재하는 영화가 없습니다</h4>
+      }
+      
     </>
   )
 }
