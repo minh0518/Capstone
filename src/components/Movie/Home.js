@@ -10,20 +10,18 @@ import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import '../../styles/home.scss'
-import {Box} from '../../styles/Container.styled'
+import { Box } from '../../styles/Container.styled'
 
 const Home = ({ setMovieInfo }) => {
   const [koficInfo, setKoficInfo] = useState([])
   const [naverInfo, setNaverInfo] = useState([])
   const [nationCategory, setNationCategories] = useState('')
   const [multiCategory, setMultiCategorie] = useState('')
-  const [tmp, setTmp] = useState(false)
 
   // const styleObj = {
   //   display: 'flex',
   //   listStyle: 'none',
   // }
-
 
   const makeDate = () => {
     let today = new Date()
@@ -185,7 +183,11 @@ const Home = ({ setMovieInfo }) => {
 
   return (
     <div>
-      <h2>Box Office</h2>
+      <div className="header">
+        <div>
+        <h2 className="pont">Box Office</h2>
+        </div>
+      </div>
 
       <Box>
         <ButtonGroup className="mb-2">
@@ -225,20 +227,21 @@ const Home = ({ setMovieInfo }) => {
           {naverInfo.map((i, index) => {
             // 빈 문자열 받으면 어쩔 수 없이 공백
             if (i.naver === '') {
-              return (
-                ''
-              )
+              return ''
             } else {
               return (
                 <Col lg={2} md={3} sm={6}>
-                  <Card id={`test${index}`}>
+                  <Card id="test">
                     <Card.Img variant="top" src={i.naver.image} />
                     <Card.Body>
                       <Card.Title>현재{index + 1}위</Card.Title>
                       <Card.Text>
                         <span>{i.kofic.movieNm}</span>
                       </Card.Text>
-                      <Card.Text>개봉일 <br/>{i.kofic.openDt}</Card.Text>
+                      <Card.Text>
+                        개봉일 <br />
+                        {i.kofic.openDt}
+                      </Card.Text>
 
                       <Link variant="primary" to={`/movie/detail/${index + 1}`}>
                         More

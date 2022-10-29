@@ -200,7 +200,7 @@ const Recommand = ({ preferredGenre }) => {
 
   return (
     <>
-    {naverInfo.length? <Navbar expand="lg" style={{ height: '200px'}} >
+    {naverInfo.length? <Navbar expand="sm" style={{ height: '200px'}} >
         <Container fluid>
           <Navbar.Brand href="#recommand">이 영화는 어떠신가요?</Navbar.Brand>
           <Navbar.Toggle aria-controls="navbarScroll" />
