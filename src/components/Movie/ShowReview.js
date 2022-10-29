@@ -2,6 +2,7 @@ import { getDocs, collection } from 'firebase/firestore'
 import React, { useEffect, useState } from 'react'
 import { dbService } from '../../fbase'
 import Reviews from './Reviews'
+import '../../styles/showReview.scss'
 
 const ShowReview = ({ detailInfo, userObj }) => {
   const [reviews, setReviews] = useState([]) //firestore에 있는 전체 리뷰들 받아와서
@@ -42,7 +43,7 @@ const ShowReview = ({ detailInfo, userObj }) => {
   console.log(thisReview)
 
   return (
-    <div>
+    <div className='reviews'>
       <ul>
         {thisReview.map((i,index) => (
           <Reviews key={index} thisReview={i} isOwner={i.userId===userObj.uid}/>

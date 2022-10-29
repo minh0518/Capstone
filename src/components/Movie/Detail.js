@@ -3,6 +3,8 @@ import { useParams, Link } from 'react-router-dom'
 import WriteReview from './WriteReview'
 import ShowReview from './ShowReview'
 import '../../styles/detail.scss'
+import ListGroup from 'react-bootstrap/ListGroup'
+import Charts from './Charts'
 
 const Detail = ({ movieInfo, userObj }) => {
   //왜 새로고침하면 movieInfo가 없어지는거지?
@@ -23,11 +25,11 @@ const Detail = ({ movieInfo, userObj }) => {
       setWriteMode((prev) => !prev)
     }
   }
-  
+
   return (
-    <div>
-      <div className={`movieDetail`}>
-        <div>
+    <div className="first">
+      <div className="second">
+        <div className={`imgPart${moveFlag}`}>
           <img
             src={detailInfo.naver.image}
             width="170px"
@@ -35,69 +37,58 @@ const Detail = ({ movieInfo, userObj }) => {
             alt="img"
           ></img>
         </div>
-        {moveFlag && (
-          <div className={`movieDetail`}>
-            <div>
-              <h3>{detailInfo.kofic.movieNm}</h3>
-              <ul>
-                <li>개봉일 {detailInfo.kofic.openDt}</li>
-                <li>
-                  관객수
-                  {detailInfo.kofic.audiAcc.replace(
-                    /(\d)(?=(?:\d{3})+(?!\d))/g,
-                    '$1,',
-                  )}
-                </li>
-                <li>감독 {detailInfo.naver.director.split('|').join('')}</li>
-                <li>출연 {detailInfo.naver.actor.split('|').join(',')}</li>
-                <li>평점 {detailInfo.naver.userRating}</li>
-              </ul>
-            </div>
-          </div>
+        <div className={`infoPart${moveFlag}`}>
+          <ListGroup variant="flush">
+            <ListGroup.Item>현재 {detailInfo.kofic.rank}위</ListGroup.Item>
+            <ListGroup.Item>
+              <h5>개봉일</h5>
+              {detailInfo.kofic.openDt}
+            </ListGroup.Item>
+            <ListGroup.Item>
+              <h5>관객수</h5>
+              {detailInfo.kofic.audiAcc.replace(
+                /(\d)(?=(?:\d{3})+(?!\d))/g,
+                '$1,',
+              )}
+              명
+            </ListGroup.Item>
+            <ListGroup.Item>
+              <h5>감독</h5> {detailInfo.naver.director.split('|').join('')}
+            </ListGroup.Item>
+            <ListGroup.Item>
+              <h5>출연</h5>
+              {detailInfo.naver.actor.split('|').join(',')}
+            </ListGroup.Item>
+            <ListGroup.Item>
+              <h5>네이버 평점</h5>
+              {detailInfo.naver.userRating}
+            </ListGroup.Item>
+          </ListGroup>
+        </div>
+      </div>
+
+            {/* <Charts detailInfo={detailInfo}/> */}
+      <div>
+        <button name="reviewMode" onClick={onToggleChange}>
+          리뷰
+        </button>
+        {reviewMode ? (
+          <>
+            <ShowReview detailInfo={detailInfo} userObj={userObj} />
+            <button name="writeMode" onClick={onToggleChange}>
+              작성하기
+            </button>
+            {writeMode ? (
+              <WriteReview detailInfo={detailInfo} userObj={userObj} />
+            ) : (
+              ''
+            )}
+          </>
+        ) : (
+          ''
         )}
       </div>
 
-      {moveFlag ? (
-        ''
-      ) : (
-        <div className={`movieDetail`}>
-          <div>
-            <h3>{detailInfo.kofic.movieNm}</h3>
-            <ul>
-              <li>개봉일 {detailInfo.kofic.openDt}</li>
-              <li>
-                관객수
-                {detailInfo.kofic.audiAcc.replace(
-                  /(\d)(?=(?:\d{3})+(?!\d))/g,
-                  '$1,',
-                )}
-              </li>
-              <li>감독 {detailInfo.naver.director.split('|').join('')}</li>
-              <li>출연 {detailInfo.naver.actor.split('|').join(',')}</li>
-              <li>평점 {detailInfo.naver.userRating}</li>
-            </ul>
-          </div>
-        </div>
-      )}
-
-      <button name="reviewMode" onClick={onToggleChange}>
-        리뷰
-      </button>
-      {reviewMode ? (
-        <>
-          <ShowReview detailInfo={detailInfo} userObj={userObj} />
-          <button name="writeMode" onClick={onToggleChange}>
-            작성하기
-          </button>
-          {writeMode ? (
-            <WriteReview detailInfo={detailInfo} userObj={userObj} />
-          ) : (
-            ''
-          )}
-        </>
-      ) : (
-        ''
-      )}
     </div>
   )
 }
