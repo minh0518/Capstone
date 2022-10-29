@@ -261,7 +261,7 @@ const Recommand = ({ preferredGenre }) => {
           </Navbar.Collapse>
         </Container>
       </Navbar>:
-        <h4>해당 장르에 존재하는 영화가 없습니다</h4>
+        ''
       }
       
     </>

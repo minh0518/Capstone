@@ -230,7 +230,6 @@ const Profile = ({ userObj }) => {
                   <Card.Img variant="top" src={userObj.photoURL} />
                   <Card.Body>
                     <Card.Title>
-                      {' '}
                       {editMode ? (
                         <ProfileInput
                           name="displayName"
@@ -248,6 +247,7 @@ const Profile = ({ userObj }) => {
                           name="birth"
                           onChange={onChange}
                           value={profile.birth}
+                          placeholder='YYYY.MM.DD'
                         />
                       ) : (
                         <>{profile.birth}</>
