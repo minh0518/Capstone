@@ -230,7 +230,6 @@ const Home = ({ setMovieInfo }) => {
               return ''
             } else {
               return (
-                // <Col lg={2} md={3} sm={6}>
                 <Col lg={2} md={3} sm={4}>
                   <Card id="test">
                     <Card.Img variant="top" src={i.naver.image} />

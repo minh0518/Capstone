@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import ApexCharts from 'react-apexcharts'
+import Container from 'react-bootstrap/Container'
+import Row from 'react-bootstrap/Row'
+import Col from 'react-bootstrap/Col'
 
 const Charts = ({ detailInfo }) => {
   const {
@@ -149,7 +152,6 @@ const Charts = ({ detailInfo }) => {
     return [month, date]
   }
 
-  console.log(makeDate())
   const third = {
     series: [
       {
@@ -192,29 +194,37 @@ const Charts = ({ detailInfo }) => {
 
   return (
     <div>
-      <ApexCharts
-        options={first.options}
-        series={first.series}
-        type="radar"
-        height={550}
-        width={500}
-      />
-
-      <ApexCharts
-        options={second.options}
-        series={second.series}
-        type="bar"
-        height={350}
-        width={250}
-      />
-
-      <ApexCharts
-        options={third.options}
-        series={third.series}
-        type="line"
-        height={250}
-        width={200}
-      />
+      <Container>
+        <Row>
+          <Col xs={12} md={12} lg={4}>
+            <ApexCharts
+              options={first.options}
+              series={first.series}
+              type="radar"
+              height={470}
+              width={500}
+            />
+          </Col>
+          <Col xs={12} md={12} lg={4}>
+            <ApexCharts
+              options={second.options}
+              series={second.series}
+              type="bar"
+              height={350}
+              width={450}
+            />
+          </Col>
+          <Col xs={12} md={12} lg={4}>
+            <ApexCharts
+              options={third.options}
+              series={third.series}
+              type="line"
+              height={350}
+              width={450}
+            />
+          </Col>
+        </Row>
+      </Container>
     </div>
   )
 }

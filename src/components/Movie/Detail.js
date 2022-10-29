@@ -27,9 +27,10 @@ const Detail = ({ movieInfo, userObj }) => {
   }
 
   return (
-    <div className="first">
+    <div className="first" >
+
       <div className="second">
-        <div className={`imgPart${moveFlag}`}>
+        <div>
           <img
             src={detailInfo.naver.image}
             width="170px"
@@ -37,7 +38,7 @@ const Detail = ({ movieInfo, userObj }) => {
             alt="img"
           ></img>
         </div>
-        <div className={`infoPart${moveFlag}`}>
+        <div className='info'>
           <ListGroup variant="flush">
             <ListGroup.Item>현재 {detailInfo.kofic.rank}위</ListGroup.Item>
             <ListGroup.Item>
@@ -67,7 +68,7 @@ const Detail = ({ movieInfo, userObj }) => {
         </div>
       </div>
 
-            {/* <Charts detailInfo={detailInfo}/> */}
+<Charts detailInfo={detailInfo}/>
       <div>
         <button name="reviewMode" onClick={onToggleChange}>
           리뷰

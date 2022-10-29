@@ -1,50 +1,11 @@
-// .movieDetail{
-//     display: flex;
-//     justify-content: center;
-// }
-
-
 .second{
-    margin:0 auto;
-    width: 50%;
+    display: flex;
+    justify-content: center;
+}
+.info{
+    margin-left: 20px;
 }
 
-
-.imgPartfalse{
-    margin:0 auto;
-    width:170px;
-}
-.imgParttrue{
-    margin:0 auto;
-    width:170px;
-    @media screen and (min-width:1587px) {
-        display: inline-block;
-        vertical-align: top; //vertical-align 은 top만 사용 (middle이나 bottom은 브라우저별로 달라서 >> top하고 미세하게 틀리다면 margintop으로 함)
-}
-
-
-
-  
-}
-
-
-.infoParttrue{
-    @media screen and (min-width:1587px) {
-        display: inline-block;
-        
-        animation: info 0.5s ease-in-out 0s 1 normal forwards; 
-}
-
-
-}
-@keyframes info {
-	from {
-	
-	}
-	to {
-		transform: translateX(60px);
-	}
-}
 
 
 //https://yeko90.tistory.com/entry/css-%EA%B8%B0%EC%B4%88-width-auto-%EC%99%80-width-100-%EC%B0%A8%EC%9D%B4
