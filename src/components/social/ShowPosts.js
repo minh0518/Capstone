@@ -225,25 +225,14 @@ const ShowPosts = ({ movieTitle, theater, region }) => {
     }
   }
 
-  const styleObj = {
-    display: 'flex',
-    alignItems: 'center',
-  }
-
-  const styleObj2 = {
-    flex: '1',
-  }
-
-  // const styleObj3 = {
-  //   display: 'flex',
-  //   justifyContent: 'center',
-  // }
 
   return (
     <div>
       <Container style={{ marginTop: '60px' }}>
         <Row>
           <Col xs={12} md={12} lg={6}>
+                        {/* 윗부분 여백 */}
+            <div style={{ marginTop: '50px' }}>
             <label htmlFor="title">영화 제목</label>
             <Select
               className="selectBox"
@@ -290,6 +279,7 @@ const ShowPosts = ({ movieTitle, theater, region }) => {
                 )
               })}
             </Select>
+            </div>
           </Col>
           <Col xs={12} md={12} lg={6}>
             <div>
@@ -297,14 +287,14 @@ const ShowPosts = ({ movieTitle, theater, region }) => {
                 {categorizedPosts.map((i) => {
                   return (
                     <>
-                      <div style={styleObj}>
+                      <div style={{display: 'flex',alignItems: 'center'}}>
                         <div style={{ flex: '1'}}>
                           {/* 프로필 링크로 분리 */}
                           <Link
                             style={{ textDecoration: 'none', color: 'black' }}
                             to={`/userProfile/${i.userId}`}
                           >
-                            <div style={{display:'flex'}}>
+                            <div style={{display:'flex' , marginTop:'50px'}}>
                             <img
                               src={i.userImg}
                               width="50px"
