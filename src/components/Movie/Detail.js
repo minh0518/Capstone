@@ -79,14 +79,6 @@ const Detail = ({ movieInfo, userObj }) => {
         {reviewMode ? (
           <>
             <ShowReview detailInfo={detailInfo} userObj={userObj} />
-            <button name="writeMode" onClick={onToggleChange}>
-              작성하기
-            </button>
-            {writeMode ? (
-              <WriteReview detailInfo={detailInfo} userObj={userObj} />
-            ) : (
-              ''
-            )}
           </>
         ) : (
           ''

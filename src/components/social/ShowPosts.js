@@ -241,9 +241,9 @@ const ShowPosts = ({ movieTitle, theater, region }) => {
 
   return (
     <div>
-      <Container style={{marginTop:'60px'}}>
+      <Container style={{ marginTop: '60px' }}>
         <Row>
-          <Col  xs={12} md={12} lg={6}>
+          <Col xs={12} md={12} lg={6}>
             <label htmlFor="title">영화 제목</label>
             <Select
               className="selectBox"
@@ -298,29 +298,33 @@ const ShowPosts = ({ movieTitle, theater, region }) => {
                   return (
                     <>
                       <div style={styleObj}>
-                        <div style={styleObj2}>
-                          <img
-                            src={i.userImg}
-                            width="50px"
-                            height="50px"
-                            alt="img"
-                          />
-
+                        <div style={{ flex: '1'}}>
                           {/* 프로필 링크로 분리 */}
                           <Link
                             style={{ textDecoration: 'none', color: 'black' }}
                             to={`/userProfile/${i.userId}`}
                           >
-                            <h4>{i.userName}</h4>
+                            <div style={{display:'flex'}}>
+                            <img
+                              src={i.userImg}
+                              width="50px"
+                              height="50px"
+                              alt="img"
+                              style={{borderRadius:'50px'}}
+                            />
+                            <h5 style={{marginTop:'14px' , marginLeft:'15px'}}>{i.userName}</h5>
+                            </div>
                           </Link>
                         </div>
                         <div>{i.time}</div>
                       </div>
                       <Link
-                        style={{ textDecoration: 'none', color: 'black' }}
+                        style={{ textDecoration: 'none', color: 'black'}}
                         to={`/social/post/${i.id}`} //documentId를 사용
                       >
+                        <div style={{marginTop:'20px'}}>
                         <strong>{i.postTitle}</strong>
+                        </div>
                       </Link>
                       <hr />
                     </>
