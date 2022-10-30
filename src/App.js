@@ -116,7 +116,7 @@ function App() {
         'Initializing...'
       )}
 
-      <footer>&copy; {new Date().getFullYear()} SKU</footer>
+      {/* <footer>&copy; {new Date().getFullYear()} SKU</footer> */}
     </>
   )
 }

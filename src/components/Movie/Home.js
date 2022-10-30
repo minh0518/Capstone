@@ -11,6 +11,7 @@ import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import '../../styles/home.scss'
 import { Box } from '../../styles/Container.styled'
+import Spinner from 'react-bootstrap/Spinner'
 
 const Home = ({ setMovieInfo }) => {
   const [koficInfo, setKoficInfo] = useState([])
@@ -185,7 +186,7 @@ const Home = ({ setMovieInfo }) => {
     <div>
       <div className="header">
         <div>
-        <h2 className="pont">Box Office</h2>
+          <h2 className="pont">Box Office</h2>
         </div>
       </div>
 
@@ -222,84 +223,48 @@ const Home = ({ setMovieInfo }) => {
         </ButtonGroup>
       </Box>
 
-      <Container>
-        <Row>
-          {naverInfo.map((i, index) => {
-            // 빈 문자열 받으면 어쩔 수 없이 공백
-            if (i.naver === '') {
-              return ''
-            } else {
-              return (
-                <Col lg={2} md={3} sm={4}>
-                  <Card id="test">
-                    <Card.Img variant="top" src={i.naver.image} />
-                    <Card.Body>
-                      <Card.Title>현재{index + 1}위</Card.Title>
-                      <Card.Text>
-                        <span>{i.kofic.movieNm}</span>
-                      </Card.Text>
-                      <Card.Text>
-                        개봉일 <br />
-                        {i.kofic.openDt}
-                      </Card.Text>
+      
+      {naverInfo.length ? (
+        <Container>
+          <Row>
+            {naverInfo.map((i, index) => {
+              // 빈 문자열 받으면 어쩔 수 없이 공백
+              if (i.naver === '') {
+                return ''
+              } else {
+                return (
+                  <Col lg={2} md={3} sm={4}>
+                    <Card id="test">
+                      <Card.Img variant="top" src={i.naver.image} />
+                      <Card.Body>
+                        <Card.Title>현재{index + 1}위</Card.Title>
+                        <Card.Text>
+                          <span>{i.kofic.movieNm}</span>
+                        </Card.Text>
+                        <Card.Text>
+                          개봉일 <br />
+                          {i.kofic.openDt}
+                        </Card.Text>
 
-                      <Link variant="primary" to={`/movie/detail/${index + 1}`}>
-                        More
-                      </Link>
-                    </Card.Body>
-                  </Card>
-                </Col>
-              )
-            }
-          })}
-        </Row>
-      </Container>
-      {/* <div style={styleObj}>
-        {naverInfo.map((i, index) => {
-          // 빈 문자열 받으면 어쩔 수 없이 공백
-          if (i.naver === '') {
-            return <h4>해당 영화 정보가 존재하지 않습니다</h4>
-          } else {
-            return (
-              <div key={index} style={{ padding: '20px', paddingTop: '0px' }}>
-                <h4>{index + 1}</h4>
-                <img src={i.naver.image} alt="img" />
-                <p key={index} style={{ height: '50px' }}>
-                  {i.kofic.movieNm}
-                </p>
-                <ul style={{ paddingLeft: '0px', listStyle: 'none' }}>
-                  <li>개봉일 {i.kofic.openDt}</li>
-                  <li>
-                    누적 관객 수
-                    {i.kofic.audiAcc.replace(
-                      /(\d)(?=(?:\d{3})+(?!\d))/g,
-                      '$1,',
-                    )}
-                    명
-                  </li>
-                  {i.kofic.rankOldAndNew === 'NEW' ? (
-                    <li style={{ color: 'red' }}>NEW!</li>
-                  ) : (
-                    ''
-                  )}
-                  <li>네이버 평점 {i.naver.userRating}</li>
-                  <li>
-                    출연{' '}
-                    {i.naver.actor.length > 10
-                      ? `${i.naver.actor.slice(0, 10)}...`
-                      : i.naver.actor}
-                  </li>
-                </ul>
-
-                <button>
-                  <Link to={`/movie/detail/${index + 1}`}>More</Link>
-                </button>
-
-              </div>
-            )
-          }
-        })}
-      </div> */}
+                        <Link
+                          variant="primary"
+                          to={`/movie/detail/${index + 1}`}
+                        >
+                          More
+                        </Link>
+                      </Card.Body>
+                    </Card>
+                  </Col>
+                )
+              }
+            })}
+          </Row>
+        </Container>
+      ) : (
+        <div className="loading">
+            <Spinner animation="border"/>
+        </div>
+      )}
     </div>
   )
 }
