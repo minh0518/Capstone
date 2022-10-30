@@ -7,8 +7,12 @@ import {
   updateDoc,
 } from 'firebase/firestore'
 import { dbService } from '../../fbase'
+import Col from 'react-bootstrap/Col'
+import ListGroup from 'react-bootstrap/ListGroup'
+import Row from 'react-bootstrap/Row'
+import Tab from 'react-bootstrap/Tab'
 
-const Reviews = ({ thisReview, isOwner }) => {
+const ReviewsForOthers = ({ thisReview, isOwner, linkNum }) => {
   const [editing, setEditing] = useState(false)
   //수정상태인지 아닌지
 
@@ -37,7 +41,6 @@ const Reviews = ({ thisReview, isOwner }) => {
     //수정하고 나면 다시 원래 상태로 돌아가야 하므로 false로 수정
   }
 
-
   //여기 사용된 thisReview.id는 ShowReview에서 WriteReview에서 받아온 리뷰객체에서
   //추가로 id키값에다가 documentId를 넣어준 객체를 따로 또 만듭니다
   //그리고 그 객체를 바탕으로 리뷰를 보여주면서 이 컴포넌트에도 이 객체를
@@ -56,9 +59,9 @@ const Reviews = ({ thisReview, isOwner }) => {
   }
 
   return (
-    <>
-      <div>
-        <li>
+    <Tab.Content>
+      <Tab.Pane eventKey={`#link${linkNum}`}>
+        <div>
           {editing ? (
             <div>
               <form onSubmit={onSubmit}>
@@ -75,23 +78,25 @@ const Reviews = ({ thisReview, isOwner }) => {
             </div>
           ) : (
             <div>
-              <img src={thisReview.userImg} width="50px" height="50px" alt="img" />
-              <h4>{thisReview.userName}</h4>
-              {`평점 : ${thisReview.rating} ${thisReview.context} 작성시간 : ${thisReview.time}`}
-              {isOwner && (
-                <>
-                  <button onClick={onDeleteClick}>삭제하기</button>
-                  <button onClick={toggleEditing}>수정하기</button>
-                </>
-              )}
+              <div>
+                <p>{thisReview.context}</p>
+                <p>{`평점 : ${thisReview.rating}`}</p>
+                <p>{thisReview.time}</p>
+              </div>
+              <div>
+                {isOwner && (
+                  <>
+                    <button onClick={onDeleteClick}>삭제하기</button>
+                    <button onClick={toggleEditing}>수정하기</button>
+                  </>
+                )}
+              </div>
             </div>
           )}
-        </li>
-      </div>
-    </>
+        </div>
+      </Tab.Pane>
+    </Tab.Content>
   )
 }
 
-export default Reviews
-
-
+export default ReviewsForOthers
