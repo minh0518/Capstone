@@ -231,7 +231,8 @@ const ShowPosts = ({ movieTitle, theater, region }) => {
       <Container style={{ marginTop: '60px' }}>
         <Row>
           <Col xs={12} md={12} lg={6}>
-                        {/* 윗부분 여백 */}
+
+                       {/*select 목록들의 윗부분에 여백을 줌*/}
             <div style={{ marginTop: '50px' }}>
             <label htmlFor="title">영화 제목</label>
             <Select
@@ -294,6 +295,7 @@ const ShowPosts = ({ movieTitle, theater, region }) => {
                             style={{ textDecoration: 'none', color: 'black' }}
                             to={`/userProfile/${i.userId}`}
                           >
+                                                        {/*게시글 목록들의 윗부분에 여백을 줌*/}
                             <div style={{display:'flex' , marginTop:'50px'}}>
                             <img
                               src={i.userImg}

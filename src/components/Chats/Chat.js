@@ -12,6 +12,8 @@ import {
 } from 'firebase/firestore'
 import { dbService } from '../../fbase'
 import { useParams, useNavigate } from 'react-router-dom'
+import Button from 'react-bootstrap/Button';
+import Offcanvas from 'react-bootstrap/Offcanvas';
 
 const Chat = ({ userObj }) => {
   const { id } = useParams() //각 대화방의 document를 가져옴
@@ -32,6 +34,13 @@ const Chat = ({ userObj }) => {
   //onsnapshot을 통해 방금 실시간으로 업데이트 된 대화내용을 포함해서
   //document에 있는 dialog부분을 죄다 가져옴
   //최종적으로 이걸 통해 JSX로 화면에 대화 내용이 보여짐
+
+  const [show, setShow] = useState(true);
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+
+
 
   //onsnapshot사용
   useEffect(() => {
@@ -105,6 +114,36 @@ const Chat = ({ userObj }) => {
 
   return (
     <div>
+
+    <Offcanvas show={show} onHide={handleClose}>
+        <Offcanvas.Header closeButton>
+          <Offcanvas.Title>Offcanvas</Offcanvas.Title>
+        </Offcanvas.Header>
+        <Offcanvas.Body>
+        <ul>
+        {chat.dialog
+          ? chat.dialog.map((i, index) => {
+              return (
+              <div key={index}>
+              <img src={i.senderImg} width="50px" height="50px" alt="img" />
+              <li>{i.context}</li>
+              </div>)
+            })
+          : 'wait..'}
+      </ul>
+        </Offcanvas.Body>
+        <Offcanvas.Body>
+        <form onSubmit={onSubmit}>
+        <input name="dialog" onChange={onChange} value={dialog.context}></input>
+        {dialog.context.length === 0 ? (
+          <input type="submit" value="보내기" disabled />
+        ) : (
+          <input type="submit" value="보내기" />
+        )}
+      </form>
+        </Offcanvas.Body>
+      </Offcanvas>
+
       <form onSubmit={onSubmit}>
         <input name="dialog" onChange={onChange} value={dialog.context}></input>
         {dialog.context.length === 0 ? (

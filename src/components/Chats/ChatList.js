@@ -9,6 +9,9 @@ import {
 } from 'firebase/firestore'
 import { dbService } from '../../fbase'
 import { Link } from 'react-router-dom'
+import Button from 'react-bootstrap/Button';
+import Offcanvas from 'react-bootstrap/Offcanvas';
+
 
 const ChatList = ({ userObj }) => {
 
@@ -24,6 +27,14 @@ const ChatList = ({ userObj }) => {
 
   //채팅의 documentId와 이름들을 담는 상태
   const [chatInfo, setChatInfo] = useState([])
+
+
+
+
+  const [show, setShow] = useState(false);
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
 
 
   //현재 post활동을 한 사람들 이름과 id를 가져옴
@@ -132,7 +143,8 @@ const ChatList = ({ userObj }) => {
             <div key={index}>
               <Link
                 style={{ textDecoration: 'none', color: 'black' }}
-                to={`/chatList/chat/${i.documentId}`}
+                to={`/chatList/chat/${i.documentId}`
+              }
               >
                 {i.nameList[0]} , {i.nameList[1]} 대화
               </Link>
