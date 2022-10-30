@@ -193,8 +193,10 @@ const Charts = ({ detailInfo }) => {
   }
 
   return (
-    <div>
+    <div style={{marginTop:'100px'}} > 
+
       <Container>
+      <h3>Charts</h3>
         <Row>
           <Col xs={12} md={12} lg={4}>
             <ApexCharts

@@ -8,6 +8,9 @@ import ListGroup from 'react-bootstrap/ListGroup'
 import Row from 'react-bootstrap/Row'
 import Tab from 'react-bootstrap/Tab'
 import ReviewsForOthers from './ReviewsForOthers'
+import Container from 'react-bootstrap/Container'
+
+
 
 const ShowReview = ({ detailInfo, userObj }) => {
   const [reviews, setReviews] = useState([]) //firestore에 있는 전체 리뷰들 받아와서
@@ -47,13 +50,22 @@ const ShowReview = ({ detailInfo, userObj }) => {
 
   return (
     <div className="reviews">
-      <Tab.Container id="list-group-tabs-example" defaultActiveKey="#link1">
+      
+
+
+
+      <Container>
+      <h3>Reviews</h3>
         <Row>
-          <Col sm={4}>
+         
+          <Col xs={12} md={12} lg={12}>
+          <Tab.Container id="list-group-tabs-example" defaultActiveKey="#link1">
+              <Row>
+                <Col sm={4}>
             {thisReview.map((i, index) => (
               <ReviewsForName key={index} thisReview={i} linkNum={index + 1} />
             ))}
-          </Col>
+              </Col>
 
           <Col sm={8}>
             {thisReview.map((i, index) => (
@@ -66,7 +78,14 @@ const ShowReview = ({ detailInfo, userObj }) => {
             ))}
           </Col>
         </Row>
-      </Tab.Container>
+      </Tab.Container>    
+          
+          </Col>
+       
+        </Row>
+      </Container>
+
+
     </div>
   )
 }

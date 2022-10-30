@@ -27,8 +27,7 @@ const Detail = ({ movieInfo, userObj }) => {
   }
 
   return (
-    <div className="first" >
-
+    <div className="first">
       <div className="second">
         <div>
           <img
@@ -38,7 +37,7 @@ const Detail = ({ movieInfo, userObj }) => {
             alt="img"
           ></img>
         </div>
-        <div className='info'>
+        <div className="info">
           <ListGroup variant="flush">
             <ListGroup.Item>현재 {detailInfo.kofic.rank}위</ListGroup.Item>
             <ListGroup.Item>
@@ -67,9 +66,13 @@ const Detail = ({ movieInfo, userObj }) => {
           </ListGroup>
         </div>
       </div>
+      <hr />
 
-<Charts detailInfo={detailInfo}/>
-      <div>
+      <Charts detailInfo={detailInfo} />
+
+      <hr />
+
+      <div style={{ marginTop: '50px' }}>
         <button name="reviewMode" onClick={onToggleChange}>
           리뷰
         </button>
@@ -89,7 +92,6 @@ const Detail = ({ movieInfo, userObj }) => {
           ''
         )}
       </div>
-
     </div>
   )
 }
