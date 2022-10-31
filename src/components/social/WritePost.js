@@ -3,6 +3,9 @@ import { dbService } from '../../fbase'
 import { addDoc, collection } from 'firebase/firestore'
 import { Select } from '../../styles/Container.styled'
 import ShowLocation from '../map/ShowLocation'
+import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
+import Modal from 'react-bootstrap/Modal';
 
 const WritePost = ({ movieTitle, theater, region, userObj }) => {
   const [post, setPost] = useState({
@@ -16,6 +19,14 @@ const WritePost = ({ movieTitle, theater, region, userObj }) => {
     userImg: userObj.photoURL,
     specificTheater: '',
   })
+
+
+  const [show, setShow] = useState(false);
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+
+
 
   const onChange = (e) => {
     const { name, value } = e.target
@@ -154,15 +165,53 @@ const WritePost = ({ movieTitle, theater, region, userObj }) => {
             })}
           </Select>
           <br />
-          <label htmlFor="specificTheater">원하는 곳이 따로 있으신가요?</label>
+          {/* <label htmlFor="specificTheater">원하는 곳이 따로 있으신가요?</label>
           <input
             value={post.specificTheater}
             onChange={onChange}
             name="specificTheater"
             id="specificTheater"
           />
+          <ShowLocation placeName={post.specificTheater} /> */}
 
-          <ShowLocation placeName={post.specificTheater} />
+          <Button onClick={handleShow}>원하는 곳이 따로 있으신가요?</Button>
+          {post.specificTheater? `  ${post.specificTheater}`:''}
+          <Modal show={show} onHide={handleClose}>
+            <Modal.Header closeButton>
+              <Modal.Title>영화관을 선택하세요</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              <Form>
+                <Form.Group
+                  className="mb-3"
+                  controlId="exampleForm.ControlInput1"
+                >
+        
+                  <Form.Control
+                    placeholder="ex) 건대 롯데시네마"
+                    autoFocus
+                    name="specificTheater"
+                    onChange={onChange}
+                  />
+                </Form.Group>
+                <Form.Group
+                  className="mb-3"
+                  controlId="exampleForm.ControlTextarea1"
+                >
+                  <Form.Label>KAKAO MAP</Form.Label>
+
+                  <ShowLocation placeName={post.specificTheater} />
+                  
+                </Form.Group>
+              </Form>
+            </Modal.Body>
+            <Modal.Footer>
+              <Button variant="secondary" onClick={handleClose}>
+                확인
+              </Button>
+            </Modal.Footer>
+          </Modal>
+
           <br />
           <label htmlFor="postTitle">글 제목</label>
           <input

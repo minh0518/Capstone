@@ -19,13 +19,8 @@ const Post = ({ userObj }) => {
     getReviews()
   }, [])
 
-  const styleObj = {
-    display: 'flex',
-    justifyContent: 'center',
-  }
-
   return (
-    <div style={styleObj}>
+    <div style={{ display: 'flex', justifyContent: 'center' }}>
       <div style={{ width: '500px' }}>
         <div
           style={{ display: 'flex', marginTop: '50px', marginBottom: '50px' }}
@@ -54,6 +49,7 @@ const Post = ({ userObj }) => {
             {post.specificTheater ? (
               <>
                 <ShowLocation placeName={post.specificTheater} />
+                {post.specificTheater}
               </>
             ) : (
               ''
