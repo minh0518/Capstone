@@ -6,6 +6,7 @@ import ShowLocation from '../map/ShowLocation'
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
+import ModalForMap from './ModalForMap';
 
 const WritePost = ({ movieTitle, theater, region, userObj }) => {
   const [post, setPost] = useState({
@@ -21,8 +22,9 @@ const WritePost = ({ movieTitle, theater, region, userObj }) => {
   })
 
 
-  const [show, setShow] = useState(false);
 
+  //모달창을 사용하기 위한 상태
+  const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
@@ -178,41 +180,13 @@ const WritePost = ({ movieTitle, theater, region, userObj }) => {
 
 <Button onClick={handleShow}>원하는 곳이 따로 있으신가요?</Button>
           {post.specificTheater? `  ${post.specificTheater}`:''}
-          <Modal show={show} onHide={handleClose}>
-            <Modal.Header closeButton>
-              <Modal.Title>영화관을 선택하세요</Modal.Title>
-            </Modal.Header>
-            <Modal.Body>
-              <Form>
-                <Form.Group
-                  className="mb-3"
-                  controlId="exampleForm.ControlInput1"
-                >
-        
-                  <Form.Control
-                    placeholder="ex) 건대 롯데시네마"
-                    autoFocus
-                    name="specificTheater"
-                    onChange={onChange}
-                  />
-                </Form.Group>
-                <Form.Group
-                  className="mb-3"
-                  controlId="exampleForm.ControlTextarea1"
-                >
-                  <Form.Label>KAKAO MAP</Form.Label>
 
-                  <ShowLocation placeName={post.specificTheater} />
-                  
-                </Form.Group>
-              </Form>
-            </Modal.Body>
-            <Modal.Footer>
-              <Button variant="secondary" onClick={handleClose}>
-                확인
-              </Button>
-            </Modal.Footer>
-          </Modal>
+          {show&&
+            <>
+          <ModalForMap handleClose={handleClose} handleShow={handleShow} onChange={onChange} post={post}/>
+          </>
+          }
+  
 
          
 
