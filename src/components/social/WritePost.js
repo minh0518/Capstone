@@ -165,6 +165,7 @@ const WritePost = ({ movieTitle, theater, region, userObj }) => {
             })}
           </Select>
           <br />
+
           {/* <label htmlFor="specificTheater">원하는 곳이 따로 있으신가요?</label>
           <input
             value={post.specificTheater}
@@ -174,7 +175,8 @@ const WritePost = ({ movieTitle, theater, region, userObj }) => {
           />
           <ShowLocation placeName={post.specificTheater} /> */}
 
-          <Button onClick={handleShow}>원하는 곳이 따로 있으신가요?</Button>
+
+<Button onClick={handleShow}>원하는 곳이 따로 있으신가요?</Button>
           {post.specificTheater? `  ${post.specificTheater}`:''}
           <Modal show={show} onHide={handleClose}>
             <Modal.Header closeButton>
@@ -211,6 +213,8 @@ const WritePost = ({ movieTitle, theater, region, userObj }) => {
               </Button>
             </Modal.Footer>
           </Modal>
+
+         
 
           <br />
           <label htmlFor="postTitle">글 제목</label>
