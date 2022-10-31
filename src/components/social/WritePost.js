@@ -2,10 +2,9 @@ import React, { useState } from 'react'
 import { dbService } from '../../fbase'
 import { addDoc, collection } from 'firebase/firestore'
 import { Select } from '../../styles/Container.styled'
+import ShowLocation from './ShowLocation'
 
 const WritePost = ({ movieTitle, theater, region, userObj }) => {
-  console.log(userObj)
-
   const [post, setPost] = useState({
     postTitle: '',
     context: '',
@@ -15,6 +14,7 @@ const WritePost = ({ movieTitle, theater, region, userObj }) => {
     userName: userObj.displayName,
     userId: userObj.uid,
     userImg: userObj.photoURL,
+    specificTheater: '',
   })
 
   const onChange = (e) => {
@@ -50,6 +50,12 @@ const WritePost = ({ movieTitle, theater, region, userObj }) => {
       setPost({
         ...post,
         context: value,
+      })
+    }
+    if(name==='specificTheater'){
+      setPost({
+        ...post,
+        specificTheater:value,
       })
     }
   }
@@ -148,6 +154,15 @@ const WritePost = ({ movieTitle, theater, region, userObj }) => {
             })}
           </Select>
           <br />
+          <label htmlFor="specificTheater">원하는 곳이 따로 있으신가요?</label>
+          <input
+            value={post.specificTheater}
+            onChange={onChange}
+            name="specificTheater"
+            id="specificTheater"
+          />
+
+          <ShowLocation specificTheater={post.specificTheater} />
           <br />
           <label htmlFor="postTitle">글 제목</label>
           <input

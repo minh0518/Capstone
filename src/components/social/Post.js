@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import { getDoc, getDocs, addDoc, doc } from 'firebase/firestore'
 import { dbService } from '../../fbase'
+import ShowLocation from './ShowLocation'
 
 const Post = ({ userObj }) => {
   const { documentId } = useParams()
@@ -30,7 +31,6 @@ const Post = ({ userObj }) => {
           style={{ display: 'flex', marginTop: '50px', marginBottom: '50px' }}
         >
           <div style={{ flex: 1 }}>
-            {/* 프로필 링크로 분리 필요 */}
             <Link
               style={{ textDecoration: 'none', color: 'black' }}
               to={`/userProfile/${post.userId}`}
@@ -44,13 +44,19 @@ const Post = ({ userObj }) => {
             <div style={{ paddingTop: '10px' }}>
               {userObj.uid === post.userId ? (
                 <>
-                  <button>수정하기</button>
                   <button>삭제하기</button>
                 </>
               ) : (
                 ''
               )}
             </div>
+            {post.specificTheater ? (
+              <>
+                <ShowLocation specificTheater={post.specificTheater} />
+              </>
+            ) : (
+              ''
+            )}
           </div>
         </div>
 

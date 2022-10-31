@@ -36,25 +36,25 @@ const Profile = ({ userObj }) => {
 
   const genre = {
     ALL: '',
+    SF: 18,
+    액션: 19,
     드라마: 1,
     판타지: 2,
-    서부: 3,
+    코미디: 11,
+    가족: 12,
     공포: 4,
     로맨스: 5,
     모험: 6,
     스릴러: 7,
+    뮤지컬: 17,
     느와르: 8,
     컬트: 9,
     다큐멘터리: 10,
-    코미디: 11,
-    가족: 12,
     미스터리: 13,
     전쟁: 14,
+    서부: 3,
     애니메이션: 15,
     범죄: 16,
-    뮤지컬: 17,
-    SF: 18,
-    액션: 19,
     무협: 20,
   }
 
@@ -332,7 +332,9 @@ const Profile = ({ userObj }) => {
                         </>
                       )}
                     </ListGroup.Item>
-                    <ListGroup.Item>거주지 </ListGroup.Item>
+                    <ListGroup.Item>자주 가는 영화관
+                    
+                    </ListGroup.Item>
                   </ListGroup>
                   <Card.Body>
                     {/* <Link to="editProfileImg" style={{ textDecoration: 'none' }}>
