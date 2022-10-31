@@ -270,7 +270,7 @@ const Home = ({ setMovieInfo }) => {
                   <h5>{index + 1}위</h5>
                   <img src={i.naver.image} alt="MovieImg" style={{marginBottom:'20px'}}></img>
                   <Link variant="primary" to={`/movie/detail/${index + 1}`} style={{ textDecoration: 'none' , color:'black'}}>
-                    <h4>{i.kofic.movieNm}</h4>
+                    <h4>{i.kofic.movieNm.length>10? `${(i.kofic.movieNm).slice(0,10)}...`:i.kofic.movieNm}</h4>
                   </Link>
                 </div>
               )
