@@ -42,12 +42,15 @@ const Chat = ({ userObj }) => {
   const handleClose = () => setShow(false)
   const handleShow = () => setShow(true)
 
+  //useNavigate()사용
+  const navigate = useNavigate()
+
   //onsnapshot사용
   useEffect(() => {
     //이전 실습과는 달리 onsnapshot을 doc단위로 사용
+
     onSnapshot(doc(dbService, 'chatTest', `${id}`), (snapshot) => {
       const newChat = snapshot.data()
-
       setChat(newChat)
     })
   }, [])
@@ -70,7 +73,8 @@ const Chat = ({ userObj }) => {
     if (name === 'dialog') {
       //메세지 단위인 dialog상태 업뎃
       setDialog((prev) => ({
-        //이거 내가 prev를 왜 썼지? 그냥 context만 바꿔도 될 것 같은데..
+        //이거 내가 prev를 왜 썼었지? 그냥 context만 바꿔도 될 것 같은데..
+        //아마 혹시 몰라서 그냥 사용한 것 같다
         ...prev,
         context: value,
       }))
@@ -95,8 +99,6 @@ const Chat = ({ userObj }) => {
     })
   }
 
-  const navigate = useNavigate()
-
   const onDeleteClick = async () => {
     const ok = window.confirm('대화를 나가면 대화의 모든 기록이 사라집니다.')
 
@@ -109,7 +111,12 @@ const Chat = ({ userObj }) => {
   }
 
   const goBack = () => {
+    if(chat===undefined){
+      window.alert('상대방이 대화를 종료했습니다')
+    }
     navigate('/chatList', { replace: true })
+
+    
   }
 
   return (
@@ -121,6 +128,11 @@ const Chat = ({ userObj }) => {
           <Offcanvas.Title>Offcanvas</Offcanvas.Title>
         </Offcanvas.Header>
         <Offcanvas.Body>
+
+          {chat===undefined? goBack():''} 
+          {/* 이 방법이 맞는지는 모르겠지만 도중에 상대방이 나가기를 눌러버리면
+          다른 한 쪽에서는 에러가 발생하므로 그 쪽에서도 자동으로 뒤로가기 */}
+
           {chat.dialog
             ? chat.dialog.map((i, index) => {
                 let flexDirection

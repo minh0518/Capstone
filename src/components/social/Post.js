@@ -50,6 +50,7 @@ const Post = ({ userObj }) => {
                 ''
               )}
             </div>
+            {/* specificTheater가 지정된 경우에만 보여줌 */}
             {post.specificTheater ? (
               <>
                 <ShowLocation placeName={post.specificTheater} />

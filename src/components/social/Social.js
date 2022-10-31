@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import WritePost from './WritePost'
-import ShowPosts from './ShowPosts'
+import ShowPostsList from './ShowPostsList'
 import ButtonGroup from 'react-bootstrap/ButtonGroup'
 import Button from 'react-bootstrap/Button'
 import '../../styles/social.scss'
@@ -111,7 +111,7 @@ const Social = ({ userObj }) => {
       {/* 여기에 넘겨주는 영화제목,지역같은 리스트들은
       단지 각 컴포넌트에서 select태그에 들어갈 목록에만 사용됨 */}
       {mode === 'list' ? (
-        <ShowPosts
+        <ShowPostsList
           movieTitle={movieTitle}
           theater={theater}
           region={region}
