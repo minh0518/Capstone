@@ -237,7 +237,7 @@ const Home = ({ setMovieInfo }) => {
                     <Card id="test">
                       <Card.Img variant="top" src={i.naver.image} />
                       <Card.Body>
-                        <Card.Title>현재{index + 1}위</Card.Title>
+                        <Card.Title><b>{index + 1}위</b></Card.Title>
                         <Card.Text>
                           <span>{i.kofic.movieNm}</span>
                         </Card.Text>

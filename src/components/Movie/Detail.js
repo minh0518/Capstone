@@ -5,6 +5,9 @@ import ShowReview from './ShowReview'
 import '../../styles/detail.scss'
 import ListGroup from 'react-bootstrap/ListGroup'
 import Charts from './Charts'
+import Col from 'react-bootstrap/Col'
+import Row from 'react-bootstrap/Row'
+import Container from 'react-bootstrap/Container'
 
 const Detail = ({ movieInfo, userObj }) => {
   //왜 새로고침하면 movieInfo가 없어지는거지?
@@ -73,9 +76,15 @@ const Detail = ({ movieInfo, userObj }) => {
       <hr />
 
       <div style={{ marginTop: '50px' }}>
-        <button name="reviewMode" onClick={onToggleChange}>
-          리뷰
-        </button>
+        <Container>
+          <Row>
+            <Col xs={12} md={12} lg={12}>
+              <button name="reviewMode" onClick={onToggleChange}>
+                리뷰
+              </button>
+            </Col>
+          </Row>
+        </Container>
         {reviewMode ? (
           <>
             <ShowReview detailInfo={detailInfo} userObj={userObj} />
