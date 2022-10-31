@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import { getDoc, getDocs, addDoc, doc } from 'firebase/firestore'
 import { dbService } from '../../fbase'
-import ShowLocation from './ShowLocation'
+import ShowLocation from '../map/ShowLocation'
 
 const Post = ({ userObj }) => {
   const { documentId } = useParams()
@@ -52,7 +52,7 @@ const Post = ({ userObj }) => {
             </div>
             {post.specificTheater ? (
               <>
-                <ShowLocation specificTheater={post.specificTheater} />
+                <ShowLocation placeName={post.specificTheater} />
               </>
             ) : (
               ''

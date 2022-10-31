@@ -58,6 +58,7 @@ function App() {
           preferredGenre: [],
           bestPick: [],
           photoURL: user.photoURL,
+          favoriteTheater:''
         })
       } else {
         setIsLoggedIn(false)

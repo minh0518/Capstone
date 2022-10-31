@@ -2,7 +2,10 @@ import React, { useEffect } from 'react'
 
 const { kakao } = window
 
-const ShowLocation = ({ specificTheater }) => {
+const ShowLocation = ({ placeName }) => {
+  console.log(placeName)
+
+
   useEffect(() => {
     const container = document.getElementById('myMap')
     let infowindow = new kakao.maps.InfoWindow({ zIndex: 1 })
@@ -14,7 +17,7 @@ const ShowLocation = ({ specificTheater }) => {
 
     const ps = new kakao.maps.services.Places()
 
-    ps.keywordSearch(`${specificTheater}`, placesSearchCB)
+    ps.keywordSearch(`${placeName}`, placesSearchCB)
 
     function placesSearchCB(data, status, pagination) {
       if (status === kakao.maps.services.Status.OK) {
@@ -46,7 +49,7 @@ const ShowLocation = ({ specificTheater }) => {
         infowindow.open(map, marker)
       })
     }
-  }, [specificTheater])
+  }, [placeName])
 
   return (
     <div

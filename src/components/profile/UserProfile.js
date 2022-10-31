@@ -12,6 +12,7 @@ import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faVideo } from '@fortawesome/free-solid-svg-icons'
+import ShowLocation from '../map/ShowLocation'
 
 const UserProfile = ({ userObj }) => {
   const { id } = useParams()
@@ -23,6 +24,7 @@ const UserProfile = ({ userObj }) => {
     preferredGenre: '',
     bestPick: [],
     photoURL: '',
+    favoriteTheater: '',
   })
 
   useEffect(() => {
@@ -74,6 +76,19 @@ const UserProfile = ({ userObj }) => {
                       </ul>
                     </ListGroup.Item>
                     <ListGroup.Item>거주지 </ListGroup.Item>
+                     <ListGroup.Item>
+                      자주 가는 영화관
+                      {profile.favoriteTheater ? (
+                            <>
+                              <ShowLocation
+                                placeName={profile.favoriteTheater}
+                              />
+                              {profile.favoriteTheater}
+                            </>
+                          ) : (
+                            '아직 선택되지 않았습니다'
+                          )}
+                    </ListGroup.Item>
                   </ListGroup>
                 </Card>
               </div>

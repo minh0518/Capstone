@@ -15,6 +15,7 @@ import { ProfileInput, ProfileSelect } from '../../styles/Container.styled'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faX } from '@fortawesome/free-solid-svg-icons'
 import { faVideo } from '@fortawesome/free-solid-svg-icons'
+import ShowLocation from '../map/ShowLocation'
 
 const Profile = ({ userObj }) => {
   const [editMode, setEditMode] = useState(false)
@@ -26,6 +27,7 @@ const Profile = ({ userObj }) => {
     preferredGenre: '',
     bestPick: [],
     photoURL: '',
+    favoriteTheater: '',
   })
 
   const [bestPickValue, setBestPickValue] = useState('')
@@ -64,6 +66,12 @@ const Profile = ({ userObj }) => {
 
       profiles.forEach((i) => {
         if (i.data().uid === userObj.uid) {
+          //DB에 저장된 profile상태를 업뎃해주는데
+          //bestPick은 따로 실시간으로 추가해야 하므로
+          //따로 bestPick 상태를 업데이트 해주고
+          //(근데 지금 보니까 이거 왜 하는지 모르겠다 그냥 ...i.data()하면 자동으로
+          //되는게 아닌가?)
+          //documenetId를 추가해서 업데이트
           setProfile({
             ...i.data(),
             bestPick: i.data().bestPick,
@@ -117,6 +125,13 @@ const Profile = ({ userObj }) => {
       //   ...prev,
       //   bestPick: value,
       // }))
+    }
+
+    if (name === 'favoriteTheater') {
+      setProfile((prev) => ({
+        ...prev,
+        favoriteTheater: value,
+      }))
     }
   }
 
@@ -332,8 +347,29 @@ const Profile = ({ userObj }) => {
                         </>
                       )}
                     </ListGroup.Item>
-                    <ListGroup.Item>자주 가는 영화관
-                    
+                    <ListGroup.Item>
+                      자주 가는 영화관
+                      {editMode ? (
+                        <ProfileInput
+                          name="favoriteTheater"
+                          onChange={onChange}
+                          value={profile.favoriteTheater}
+                        />
+                      ) : (
+                        //  profile.favoriteTheater가 있을 경우에만 지도로 보여줌
+                        <>
+                          {profile.favoriteTheater ? (
+                            <>
+                              <ShowLocation
+                                placeName={profile.favoriteTheater}
+                              />
+                              {profile.favoriteTheater}
+                            </>
+                          ) : (
+                            '아직 선택되지 않았습니다'
+                          )}
+                        </>
+                      )}
                     </ListGroup.Item>
                   </ListGroup>
                   <Card.Body>

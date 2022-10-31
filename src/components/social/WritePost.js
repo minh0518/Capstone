@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { dbService } from '../../fbase'
 import { addDoc, collection } from 'firebase/firestore'
 import { Select } from '../../styles/Container.styled'
-import ShowLocation from './ShowLocation'
+import ShowLocation from '../map/ShowLocation'
 
 const WritePost = ({ movieTitle, theater, region, userObj }) => {
   const [post, setPost] = useState({
@@ -162,7 +162,7 @@ const WritePost = ({ movieTitle, theater, region, userObj }) => {
             id="specificTheater"
           />
 
-          <ShowLocation specificTheater={post.specificTheater} />
+          <ShowLocation placeName={post.specificTheater} />
           <br />
           <label htmlFor="postTitle">글 제목</label>
           <input
