@@ -12,6 +12,10 @@ import Col from 'react-bootstrap/Col'
 import '../../styles/home.scss'
 import { Box } from '../../styles/Container.styled'
 import Spinner from 'react-bootstrap/Spinner'
+import Slider from 'react-slick'
+import 'slick-carousel/slick/slick.css'
+import 'slick-carousel/slick/slick-theme.css'
+import styled from 'styled-components'
 
 const Home = ({ setMovieInfo }) => {
   const [koficInfo, setKoficInfo] = useState([])
@@ -182,6 +186,37 @@ const Home = ({ setMovieInfo }) => {
     }
   }
 
+  const settings = {
+    className: 'center',
+    centerMode: true, //중앙모드?
+    infinite: false,
+    centerPadding: '150px', //크기를 늘리면 요소 사이의 간격이 줄어듦 ,  0px 하면 슬라이드 끝쪽 이미지가 안잘림?
+    slidesToShow: 3,
+    speed: 500,
+    dots: true, // 슬라이드 밑에 점 보이게
+  }
+
+  //커스텀
+  const StyledSlider = styled(Slider)`
+    // height: 90%; //슬라이드 컨테이너 영역
+
+    .slick-list {
+      //슬라이드 스크린
+      width: 100%;
+      height: 100%;
+      margin-top: 150px;
+      overflow-x: hidden;
+    }
+
+    .slick-slide div { //슬라이더  컨텐츠
+
+    }
+
+    .slick-dots {
+      //슬라이드의 위치
+    }
+  `
+
   return (
     <div>
       <div className="header">
@@ -223,46 +258,28 @@ const Home = ({ setMovieInfo }) => {
         </ButtonGroup>
       </Box>
 
-      
       {naverInfo.length ? (
-        <Container>
-          <Row>
-            {naverInfo.map((i, index) => {
-              // 빈 문자열 받으면 어쩔 수 없이 공백
-              if (i.naver === '') {
-                return ''
-              } else {
-                return (
-                  <Col lg={2} md={3} sm={4}>
-                    <Card id="test">
-                      <Card.Img variant="top" src={i.naver.image} />
-                      <Card.Body>
-                        <Card.Title><b>{index + 1}위</b></Card.Title>
-                        <Card.Text>
-                          <span>{i.kofic.movieNm}</span>
-                        </Card.Text>
-                        <Card.Text>
-                          개봉일 <br />
-                          {i.kofic.openDt}
-                        </Card.Text>
-
-                        <Link
-                          variant="primary"
-                          to={`/movie/detail/${index + 1}`}
-                        >
-                          More
-                        </Link>
-                      </Card.Body>
-                    </Card>
-                  </Col>
-                )
-              }
-            })}
-          </Row>
-        </Container>
+        <StyledSlider {...settings}>
+          {naverInfo.map((i, index) => {
+            // 빈 문자열 받으면 어쩔 수 없이 공백
+            if (i.naver === '') {
+              return ''
+            } else {
+              return (
+                <div>
+                  <h5>{index + 1}위</h5>
+                  <img src={i.naver.image} alt="MovieImg" style={{marginBottom:'20px'}}></img>
+                  <Link variant="primary" to={`/movie/detail/${index + 1}`} style={{ textDecoration: 'none' , color:'black'}}>
+                    <h4>{i.kofic.movieNm}</h4>
+                  </Link>
+                </div>
+              )
+            }
+          })}
+        </StyledSlider>
       ) : (
         <div className="loading">
-            <Spinner animation="border"/>
+          <Spinner animation="border" />
         </div>
       )}
     </div>
