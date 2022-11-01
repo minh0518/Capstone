@@ -21,7 +21,7 @@ const Navigation = ({ userObj }) => {
 
       dbProfiles.forEach((i) => {
         console.log(i.data())
-        if ((i.data()).uid === userObj.uid) {
+        if (i.data().uid === userObj.uid) {
           setCurrentLogin({
             userImg: i.data().photoURL,
             userDisplayName: i.data().displayName,
@@ -31,7 +31,7 @@ const Navigation = ({ userObj }) => {
     }
 
     getProfile()
-  },[])
+  }, [])
 
   //useNavigate()사용
   const navigate = useNavigate()
@@ -39,7 +39,7 @@ const Navigation = ({ userObj }) => {
     signOut(authService)
     navigate('/')
   }
-  
+
   console.log(userObj)
   console.log(currentLogin)
 
@@ -49,15 +49,26 @@ const Navigation = ({ userObj }) => {
         {[false].map((expand) => (
           <Navbar key={expand} bg="light" expand={expand} className="mb-3">
             <Container fluid>
-              <Navbar.Brand href="/">로고자리?<img
-                              src={currentLogin.userImg}
-                              width="50px"
-                              height="50px"
-                              alt="img"
-                              style={{borderRadius:'50px'}}
-                            />
-                            <h5 style={{marginTop:'14px' , marginLeft:'15px'}}>{currentLogin.userDisplayName}</h5> </Navbar.Brand>
-              
+              <Navbar.Brand href="/">
+                로고자리
+                <img
+                  src={currentLogin.userImg}
+                  width="50px"
+                  height="50px"
+                  alt="img"
+                  style={{ borderRadius: '50px', marginLeft: '70px' }}
+                />
+                <h5
+                  style={{
+                    marginTop: '14px',
+                    marginLeft: '15px',
+                    display: 'inline-block',
+                  }}
+                >
+                  {currentLogin.userDisplayName}
+                </h5>
+              </Navbar.Brand>
+
               <Navbar.Toggle
                 aria-controls={`offcanvasNavbar-expand-${expand}`}
               />

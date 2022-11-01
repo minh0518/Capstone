@@ -1,15 +1,60 @@
-import { authService, storageService } from '../../fbase'
+import { authService, storageService , dbService } from '../../fbase'
 import { updateProfile } from 'firebase/auth'
-import React, { useState, useRef } from 'react'
+import React, { useState, useRef , useEffect} from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { getDownloadURL, ref, uploadString } from 'firebase/storage'
 import { v4 as uuidv4 } from 'uuid'
 import { doc, getDocs, addDoc, collection, updateDoc } from 'firebase/firestore'
 
-const EditProfile = ({ userObj }) => {
+
+
+
+
+
+//지금까지 프로필 업데이트를 하면 authService.currentUser , userObj , profile(firestore) 에 변경이 일어났다
+//authService.currentUser를 변경하면 자동으로 userObj가 바뀌도록 했으므로 그건 상관이 없었으므로
+//프로필을 변경하면 authService.currentUser와 profile(firestore) 두 군데를 바꿔줬다
+//근데 미처 프로필 이미지를 바꿔주면 profile(firestore)를 바꿔놓지 않았다
+
+//근데 직접profile을 참조하기 전까지 몰랐던 이유가
+//post에서는 userObj기반으로 작성하고 post를 보여줄땐 post에 작성된 것을 기반으로 보여줬으며
+//chat에서는 post기반으로 상대방 정보를 가져오고 , 내가 보내는 메세지는 userObj기반으로 사용했다
+
+//심지어 MyProfile컴포넌트에서도 유저들의 정보를 userObj를 바탕으로 보여주고 있다 profile(firestore)의 값으로 해주는게
+//훨씬 안정적일것 같다(추후 리팩토링 필요)
+
+//그래서 여기서도 반드시, 프로필 이미지를 변경할 때 profile(firestore)또한 업데이트 해줘야 한다
+
+
+const EditProfileImg = ({ userObj }) => {
   //이미지 관련 상태 추가
   const [attachment, setAttachment] = useState('')
+
+
+  const [profileID, setProfileID] = useState({
+    documentId:''
+  })
   
+  useEffect(() => {
+    const getProfiles = async () => {
+      const profiles = await getDocs(collection(dbService, 'profiles'))
+
+      profiles.forEach((i) => {
+        if (i.data().uid === userObj.uid) {
+         
+          setProfileID({
+            documentId: i.id,
+          })
+        }
+      })
+    }
+
+    getProfiles()
+  }, [])
+
+  console.log(profileID)
+
+
 
   const onFileChange = (e) => {
     const theFile = e.target.files[0]
@@ -58,10 +103,14 @@ const EditProfile = ({ userObj }) => {
       })
 
 
-
+      //위에서 말한 profile(firestore) 사진부분 업데이트
+      //실제로 사용할 때 여기까지 진행되려면 시간이 걸리므로 최소 3초 이상은 기다려야 함
+      await updateDoc(doc(dbService, 'profiles', `${profileID.documentId}`), {
+        photoURL:attachmentUrl
+      })
     }
 
-    
+
   }
 
   return (
@@ -86,4 +135,4 @@ const EditProfile = ({ userObj }) => {
   )
 }
 
-export default EditProfile
+export default EditProfileImg
