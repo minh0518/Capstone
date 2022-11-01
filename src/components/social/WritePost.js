@@ -3,10 +3,10 @@ import { dbService } from '../../fbase'
 import { addDoc, collection } from 'firebase/firestore'
 import { Select } from '../../styles/Container.styled'
 import ShowLocation from '../map/ShowLocation'
-import Button from 'react-bootstrap/Button';
-import Form from 'react-bootstrap/Form';
-import Modal from 'react-bootstrap/Modal';
-import ModalForMap from './ModalForMap';
+import Button from 'react-bootstrap/Button'
+import Form from 'react-bootstrap/Form'
+import Modal from 'react-bootstrap/Modal'
+import ModalForMap from './ModalForMap'
 
 const WritePost = ({ movieTitle, theater, region, userObj }) => {
   const [post, setPost] = useState({
@@ -21,14 +21,10 @@ const WritePost = ({ movieTitle, theater, region, userObj }) => {
     specificTheater: '',
   })
 
-
-
   //모달창을 사용하기 위한 상태
-  const [show, setShow] = useState(false);
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
-
-
+  const [show, setShow] = useState(false)
+  const handleClose = () => setShow(false)
+  const handleShow = () => setShow(true)
 
   const onChange = (e) => {
     const { name, value } = e.target
@@ -65,10 +61,10 @@ const WritePost = ({ movieTitle, theater, region, userObj }) => {
         context: value,
       })
     }
-    if(name==='specificTheater'){
+    if (name === 'specificTheater') {
       setPost({
         ...post,
-        specificTheater:value,
+        specificTheater: value,
       })
     }
   }
@@ -177,18 +173,19 @@ const WritePost = ({ movieTitle, theater, region, userObj }) => {
           />
           <ShowLocation placeName={post.specificTheater} /> */}
 
+          <Button onClick={handleShow}>영화관 선택하기</Button>
+          {post.specificTheater ? `  ${post.specificTheater}` : ''}
 
-<Button onClick={handleShow}>원하는 곳이 따로 있으신가요?</Button>
-          {post.specificTheater? `  ${post.specificTheater}`:''}
-
-          {show&&
+          {show && (
             <>
-          <ModalForMap handleClose={handleClose} handleShow={handleShow} onChange={onChange} post={post}/>
-          </>
-          }
-  
-
-         
+              <ModalForMap
+                handleClose={handleClose}
+                handleShow={handleShow}
+                onChange={onChange}
+                post={post}
+              />
+            </>
+          )}
 
           <br />
           <label htmlFor="postTitle">글 제목</label>

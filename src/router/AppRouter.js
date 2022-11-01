@@ -25,7 +25,7 @@ import { Container } from '../styles/Container.styled'
 const AppRouter = ({ isLoggedIn ,setMovieInfo,movieInfo,userObj }) => {
   return (
     <Router>
-  {isLoggedIn && <Navigation/>} 
+  {isLoggedIn && <Navigation userObj={userObj}/>} 
 
     <Container>
       <Routes>

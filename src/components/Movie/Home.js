@@ -5,10 +5,6 @@ import CATEGORIES from '../../categories'
 import { Link } from 'react-router-dom'
 import Button from 'react-bootstrap/Button'
 import ButtonGroup from 'react-bootstrap/ButtonGroup'
-import Card from 'react-bootstrap/Card'
-import Container from 'react-bootstrap/Container'
-import Row from 'react-bootstrap/Row'
-import Col from 'react-bootstrap/Col'
 import '../../styles/home.scss'
 import { Box } from '../../styles/Container.styled'
 import Spinner from 'react-bootstrap/Spinner'
@@ -268,8 +264,8 @@ const Home = ({ setMovieInfo }) => {
               return (
                 <div>
                   <h5>{index + 1}위</h5>
-                  <img src={i.naver.image} alt="MovieImg" style={{marginBottom:'20px'}}></img>
                   <Link variant="primary" to={`/movie/detail/${index + 1}`} style={{ textDecoration: 'none' , color:'black'}}>
+                  <img src={i.naver.image} alt="MovieImg" style={{marginBottom:'20px'}}></img>
                     <h4>{i.kofic.movieNm.length>10? `${(i.kofic.movieNm).slice(0,10)}...`:i.kofic.movieNm}</h4>
                   </Link>
                 </div>

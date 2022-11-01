@@ -1,24 +1,47 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { authService, dbService, storageService } from '../fbase'
 import { signOut, updateProfile } from 'firebase/auth'
+import { getDocs, addDoc, collection } from 'firebase/firestore'
 
 import Container from 'react-bootstrap/Container'
 import Nav from 'react-bootstrap/Nav'
 import Navbar from 'react-bootstrap/Navbar'
-
-import Button from 'react-bootstrap/Button'
-import Form from 'react-bootstrap/Form'
-import NavDropdown from 'react-bootstrap/NavDropdown'
 import Offcanvas from 'react-bootstrap/Offcanvas'
 
-const Navigation = () => {
+const Navigation = ({ userObj }) => {
+  const [currentLogin, setCurrentLogin] = useState({
+    userImg: '',
+    userDisplayName: '',
+  })
+
+  useEffect(() => {
+    const getProfile = async () => {
+      const dbProfiles = await getDocs(collection(dbService, 'profiles'))
+
+      dbProfiles.forEach((i) => {
+        console.log(i.data())
+        if ((i.data()).uid === userObj.uid) {
+          setCurrentLogin({
+            userImg: i.data().photoURL,
+            userDisplayName: i.data().displayName,
+          })
+        }
+      })
+    }
+
+    getProfile()
+  },[])
+
   //useNavigate()사용
   const navigate = useNavigate()
   const onLogOutClick = () => {
     signOut(authService)
     navigate('/')
   }
+  
+  console.log(userObj)
+  console.log(currentLogin)
 
   return (
     <nav>
@@ -26,7 +49,15 @@ const Navigation = () => {
         {[false].map((expand) => (
           <Navbar key={expand} bg="light" expand={expand} className="mb-3">
             <Container fluid>
-              <Navbar.Brand href="/">로고자리?</Navbar.Brand>
+              <Navbar.Brand href="/">로고자리?<img
+                              src={currentLogin.userImg}
+                              width="50px"
+                              height="50px"
+                              alt="img"
+                              style={{borderRadius:'50px'}}
+                            />
+                            <h5 style={{marginTop:'14px' , marginLeft:'15px'}}>{currentLogin.userDisplayName}</h5> </Navbar.Brand>
+              
               <Navbar.Toggle
                 aria-controls={`offcanvasNavbar-expand-${expand}`}
               />

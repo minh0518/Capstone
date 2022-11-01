@@ -142,9 +142,12 @@ const Profile = ({ userObj }) => {
   const onClick = async (e) => {
     const updateResult = doc(dbService, 'profiles', `${profile.documentId}`)
 
+    
     //bestPickValue !== '' 를 여러곳에 사용해서 bestPickValue값의 유뮤에 따른 로직을 분리
     //다른건 profile속성을 그대로 사용해서 상관이 없지만 bestPick은 따로 상태로 관리하기 때문에
     //공백인 경우를 분리해야줘야 한다. 안 그러면 빈 값이 계속해서 들어감
+
+
 
     if (bestPickValue !== '') {
       await updateDoc(updateResult, {

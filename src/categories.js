@@ -19,7 +19,7 @@ const CATEGORIES = {
       text: '',
     },
     {
-      name: '다양성 영화',
+      name: '예술 영화',
       text: 'Y',
     },
     {

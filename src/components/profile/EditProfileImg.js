@@ -4,10 +4,12 @@ import React, { useState, useRef } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { getDownloadURL, ref, uploadString } from 'firebase/storage'
 import { v4 as uuidv4 } from 'uuid'
+import { doc, getDocs, addDoc, collection, updateDoc } from 'firebase/firestore'
 
 const EditProfile = ({ userObj }) => {
   //이미지 관련 상태 추가
   const [attachment, setAttachment] = useState('')
+  
 
   const onFileChange = (e) => {
     const theFile = e.target.files[0]
@@ -54,6 +56,9 @@ const EditProfile = ({ userObj }) => {
       await updateProfile(authService.currentUser, {
         photoURL: attachmentUrl,
       })
+
+
+
     }
 
     
