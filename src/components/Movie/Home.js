@@ -13,7 +13,9 @@ import 'slick-carousel/slick/slick.css'
 import 'slick-carousel/slick/slick-theme.css'
 import styled from 'styled-components'
 
+
 const Home = ({ setMovieInfo }) => {
+  
   const [koficInfo, setKoficInfo] = useState([])
   const [naverInfo, setNaverInfo] = useState([])
   const [nationCategory, setNationCategories] = useState('')
@@ -215,11 +217,13 @@ const Home = ({ setMovieInfo }) => {
 
   return (
     <div>
-      <div className="header">
+      {/* <div className="header">
         <div>
           <h2 className="pont">Box Office</h2>
         </div>
-      </div>
+      </div> */}
+
+        <h2 className='boxOfficePont'>Box Office</h2>
 
       <Box>
         <ButtonGroup className="mb-2">
