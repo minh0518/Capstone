@@ -15,7 +15,9 @@ import { faVideo } from '@fortawesome/free-solid-svg-icons'
 import ShowLocation from '../map/ShowLocation'
 
 const UserProfile = ({ userObj }) => {
+  
   const { id } = useParams()
+
 
   const [profile, setProfile] = useState({
     displayName: '',
@@ -40,7 +42,7 @@ const UserProfile = ({ userObj }) => {
     getProfiles()
   }, [])
 
-  console.log(profile)
+  
 
   return (
     <div>
@@ -53,7 +55,7 @@ const UserProfile = ({ userObj }) => {
             <ProfileBox>
               <div>
                 <Card style={{ width: '30rem' }}>
-                  <Card.Img variant="top" src={userObj.photoURL} />
+                  <Card.Img variant="top" src={profile.photoURL} />
                   <Card.Body>
                     <Card.Title>{profile.displayName}</Card.Title>
                     <Card.Text>생년월일 :{profile.birth}</Card.Text>

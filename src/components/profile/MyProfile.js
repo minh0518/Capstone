@@ -202,6 +202,7 @@ const Profile = ({ userObj }) => {
   }
 
   const onDeleteClick = async (e) => {
+    
     let arr = profile.bestPick
 
     arr = arr.filter((i) => {
@@ -315,14 +316,10 @@ const Profile = ({ userObj }) => {
                                       border: '0',
                                       outline: '0',
                                       background: 'transparent',
+                                      color:'red'
                                     }}
                                   >
-                                    <FontAwesomeIcon
-                                      onClick={onDeleteClick}
-                                      icon={faX}
-                                      style={{ color: 'red' }}
-                                    />
-                                    {/* 왜 안되는거야 */}
+                                    X
                                   </button>
                                 </li>
                               )

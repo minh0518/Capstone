@@ -8,6 +8,8 @@ import Container from 'react-bootstrap/Container'
 import Nav from 'react-bootstrap/Nav'
 import Navbar from 'react-bootstrap/Navbar'
 import Offcanvas from 'react-bootstrap/Offcanvas'
+import Button from 'react-bootstrap/Button';
+
 
 const Navigation = ({ userObj }) => {
   const [currentLogin, setCurrentLogin] = useState({
@@ -51,6 +53,8 @@ const Navigation = ({ userObj }) => {
             <Container fluid>
               <Navbar.Brand href="/">
                 로고자리
+                
+                <Link to='/myProfile' style={{ textDecoration: 'none', color:'black'}}>
                 <img
                   src={currentLogin.userImg}
                   width="50px"
@@ -67,6 +71,8 @@ const Navigation = ({ userObj }) => {
                 >
                   {currentLogin.userDisplayName}
                 </h5>
+                </Link>
+                
               </Navbar.Brand>
 
               <Navbar.Toggle
@@ -90,6 +96,8 @@ const Navigation = ({ userObj }) => {
                     <Nav.Link href="/movie">Movie</Nav.Link>
                     <Nav.Link href="/social">Social</Nav.Link>
                     <Nav.Link onClick={onLogOutClick}>Log Out</Nav.Link>
+
+                    
                   </Nav>
                 </Offcanvas.Body>
               </Navbar.Offcanvas>
