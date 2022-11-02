@@ -24,7 +24,7 @@ const MainSelect = () => {
             color: 'grey',
           }}
         >
-          Charts
+          Box Office
         </Link>
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         <Link

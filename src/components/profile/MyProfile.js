@@ -233,7 +233,7 @@ const Profile = ({ userObj }) => {
 
   return (
     <div>
-      <h2 className='profilePont'>Profile</h2>
+      <h2 className='profilePont'>{`${userObj.displayName}'s Profile`}</h2>
       <br />
       <br />
       <Container>
@@ -350,7 +350,7 @@ const Profile = ({ userObj }) => {
                       )}
                     </ListGroup.Item>
                     <ListGroup.Item>
-                      자주 가는 영화관
+                      <b>자주 가는 영화관</b>
                       {editMode ? (
                         <ProfileInput
                           name="favoriteTheater"
@@ -365,7 +365,8 @@ const Profile = ({ userObj }) => {
                               <ShowLocation
                                 placeName={profile.favoriteTheater}
                               />
-                              {profile.favoriteTheater}
+                              <h5><b>{profile.favoriteTheater}</b></h5>
+                              
                             </>
                           ) : (
                             '아직 선택되지 않았습니다'
