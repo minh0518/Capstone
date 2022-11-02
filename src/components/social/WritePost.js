@@ -186,7 +186,8 @@ const WritePost = ({ movieTitle, theater, region, userObj }) => {
               />
             </>
           )}
-
+          <br />
+          <br />
           <br />
           <label htmlFor="postTitle">글 제목</label>
           <input

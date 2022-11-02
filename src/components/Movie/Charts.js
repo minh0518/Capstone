@@ -37,6 +37,7 @@ const Charts = ({ detailInfo }) => {
       },
     ],
     options: {
+      colors: ['black'],
       chart: {
         height: 350,
         type: 'radar',
@@ -47,7 +48,7 @@ const Charts = ({ detailInfo }) => {
       xaxis: {
         categories: [
           '전일 대비 관객수 증감 비율',
-          '해당일자 매출총액 대비 매출비율',
+          '매출총액 대비 매출비율',
           '전일 대비 매출액 증감 비율',
         ],
       },
@@ -62,6 +63,7 @@ const Charts = ({ detailInfo }) => {
       },
     ],
     options: {
+      colors: ['black'],
       chart: {
         height: 350,
         type: 'bar',
@@ -160,6 +162,7 @@ const Charts = ({ detailInfo }) => {
       },
     ],
     options: {
+      colors: ['black'],
       chart: {
         height: 350,
         type: 'line',
@@ -203,8 +206,8 @@ const Charts = ({ detailInfo }) => {
               options={first.options}
               series={first.series}
               type="radar"
-              height={470}
-              width={500}
+              height={450}
+              width={420}
             />
           </Col>
           <Col xs={12} md={12} lg={4}>
@@ -213,7 +216,7 @@ const Charts = ({ detailInfo }) => {
               series={second.series}
               type="bar"
               height={350}
-              width={450}
+              width={400}
             />
           </Col>
           <Col xs={12} md={12} lg={4}>
@@ -222,7 +225,7 @@ const Charts = ({ detailInfo }) => {
               series={third.series}
               type="line"
               height={350}
-              width={450}
+              width={400}
             />
           </Col>
         </Row>

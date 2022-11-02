@@ -7,9 +7,6 @@ import Button from 'react-bootstrap/Button'
 import '../../styles/social.scss'
 
 const Social = ({ userObj }) => {
-
-  
-
   const [mode, setMode] = useState('list')
 
   //Post List 보여줄 기본 카테고리들은 여기서 받아옴
@@ -101,12 +98,16 @@ const Social = ({ userObj }) => {
 
   return (
     <>
-      
-        <ButtonGroup className="mb-2" style={{marginTop:'30px'}}>
-          <Button id="modeButton" onClick={onClick} name="list">List</Button>
-          <Button id="modeButton" onClick={onClick} name="write">Write</Button>
-        </ButtonGroup>
-      
+      <h2 className="socialPont">Social</h2>
+
+      <ButtonGroup className="mb-2" style={{ margin: '50px 12%' }}>
+        <Button id="modeButton" onClick={onClick} name="list">
+          List
+        </Button>
+        <Button id="modeButton" onClick={onClick} name="write">
+          Write
+        </Button>
+      </ButtonGroup>
 
       {/* 여기에 넘겨주는 영화제목,지역같은 리스트들은
       단지 각 컴포넌트에서 select태그에 들어갈 목록에만 사용됨 */}

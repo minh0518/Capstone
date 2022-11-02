@@ -44,12 +44,15 @@ const UserProfile = ({ userObj }) => {
 
   return (
     <div>
+      <h2 className='profilePont'>Profile</h2>
+      <br />
+      <br />
       <Container>
         <Row xs={12} md={12} lg={12}>
           <Col>
             <ProfileBox>
               <div>
-                <Card style={{ width: '20rem' }}>
+                <Card style={{ width: '30rem' }}>
                   <Card.Img variant="top" src={userObj.photoURL} />
                   <Card.Body>
                     <Card.Title>{profile.displayName}</Card.Title>

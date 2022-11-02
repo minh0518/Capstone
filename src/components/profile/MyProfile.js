@@ -16,6 +16,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faX } from '@fortawesome/free-solid-svg-icons'
 import { faVideo } from '@fortawesome/free-solid-svg-icons'
 import ShowLocation from '../map/ShowLocation'
+import '../../styles/profiles.scss'
 
 const Profile = ({ userObj }) => {
   const [editMode, setEditMode] = useState(false)
@@ -231,6 +232,7 @@ const Profile = ({ userObj }) => {
 
   return (
     <div>
+      <h2 className='profilePont'>Profile</h2>
       <br />
       <br />
       <Container>
@@ -238,7 +240,7 @@ const Profile = ({ userObj }) => {
           <Col>
             <ProfileBox>
               <div>
-                <Card style={{ width: '20rem' }}>
+                <Card style={{ width: '30rem' }}>
                   <Card.Img variant="top" src={userObj.photoURL} />
                   <Card.Body>
                     <Card.Title>
