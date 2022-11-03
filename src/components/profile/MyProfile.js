@@ -30,6 +30,8 @@ import '../../styles/profiles.scss'
   //새로고침안해도 즉각적으로 authService.currentUser는 바뀐다
   //그렇지만  userObj는 최소한 새로고침은 해줘야 한다
   //바로 즉각적으로 바뀌진 않는다
+  //그래서 최소한 프로필사진이든 이름이든 수정하고나서 그 페이지에서 새로고침을 해주고
+  //프로필화면과 , 상단 nav바의 상태가 바뀐 것을 확인하고 넘어가야 한다
 
 
 
@@ -67,6 +69,9 @@ const Profile = ({ userObj }) => {
 
 
   const[changeReviewDisplayName,setChangeReviewDisplayName]=useState([])
+
+
+  const [changePostDisplayName,setChangePostDisplayName]=useState([])
 
   const genre = {
     ALL: '',
@@ -294,6 +299,47 @@ const Profile = ({ userObj }) => {
 
 
 
+
+  //changePostDisplayName,setChangePostDisplayName
+ //3.닉네임 변경 시, post 닉네임 수정
+ useEffect(()=>{
+
+  const getPostList=async ()=>{
+    let result = []
+
+    const reviews = await getDocs(collection(dbService, 'posts'))
+
+    reviews.forEach(i=>{
+      if(i.data().userId===userObj.uid){
+        result.push({
+          targetDocumentId: i.id
+        })
+      }
+    })
+
+    setChangePostDisplayName(result)
+  }
+
+  getPostList()
+
+ },[profile])
+
+ //3.changePostDisplayName를 바탕으로 updateDoc 진행
+ useEffect(()=>{
+
+  const changePostsDisplayName=async ()=>{
+    for (let i = 0; i < changePostDisplayName.length; i++) {
+      await updateDoc(
+        doc(dbService, 'posts', `${changePostDisplayName[i].targetDocumentId}`),{
+          userName:userObj.displayName
+        }
+      )
+    }
+  }
+
+  changePostsDisplayName()
+
+ },[changePostDisplayName])
 
 
   const onChange = (e) => {

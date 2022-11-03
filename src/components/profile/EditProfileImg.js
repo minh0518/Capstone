@@ -203,6 +203,9 @@ const EditProfileImg = ({ userObj }) => {
 
   },[ImgUrl])
 
+
+  console.log(ImgUrl)
+
   //3.changeImgOnPost를 바탕으로 updateDoc 진행
   useEffect(()=>{
 
