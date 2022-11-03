@@ -18,6 +18,28 @@ import { faVideo } from '@fortawesome/free-solid-svg-icons'
 import ShowLocation from '../map/ShowLocation'
 import '../../styles/profiles.scss'
 
+
+
+
+
+
+
+
+//프로필 사진이든 닉네임이든 authService.currentUser에 해당하는 사항을 변경하고
+  //updateProfile해주면
+  //새로고침안해도 즉각적으로 authService.currentUser는 바뀐다
+  //그렇지만  userObj는 최소한 새로고침은 해줘야 한다
+  //바로 즉각적으로 바뀌진 않는다
+
+
+
+
+
+
+
+
+
+
 const Profile = ({ userObj }) => {
   const [editMode, setEditMode] = useState(false)
 
@@ -103,6 +125,9 @@ const Profile = ({ userObj }) => {
   //   signOut(authService)
   //   navigate('/')
   // }
+
+  console.log(authService.currentUser) 
+  console.log(userObj)
 
   
   //1. 닉네임 변경시 대화목록의 닉네임 , 대화내용의 닉네임 수정 

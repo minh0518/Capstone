@@ -34,11 +34,14 @@ const EditProfileImg = ({ userObj }) => {
   const [ImgUrl, setImgUrl] = useState('')
 
   //프로필사진이 변경됐을 때, 채팅의 대화창에 있는 프로필사진 수정을 위해 존재
-  const [changeImgonChatDialogInfo, setChangeImgonChatDialogInfo] = useState([])
+  const [changeImgOnChatDialogInfo, setChangeImgOnChatDialogInfo] = useState([])
 
 
 
-  const [changeImgonReviews,setChangeImgonReviews]=useState('')
+  const [changeImgOnReviews,setChangeImgOnReviews]=useState([])
+
+  
+  const [changeImgOnPost,setChangeImgOnPost]=useState([])
 
   
 
@@ -98,22 +101,22 @@ const EditProfileImg = ({ userObj }) => {
         }
       })
 
-      setChangeImgonChatDialogInfo(result)
+      setChangeImgOnChatDialogInfo(result)
     }
 
     getTargetDialog()
   }, [ImgUrl])
 
-  console.log(changeImgonChatDialogInfo)
+  console.log(changeImgOnChatDialogInfo)
 
   //1.changeImgonChatDialogInfo를 바탕으로 updateDoc진행
   useEffect(() => {
 
     const changeImg = async () => {
-      for (let i = 0; i < changeImgonChatDialogInfo.length; i++) {
+      for (let i = 0; i < changeImgOnChatDialogInfo.length; i++) {
         await updateDoc(
-          doc(dbService, 'chatTest', `${changeImgonChatDialogInfo[i].targetDocumentId}`),{
-            dialog:changeImgonChatDialogInfo[i].targetDialog
+          doc(dbService, 'chatTest', `${changeImgOnChatDialogInfo[i].targetDocumentId}`),{
+            dialog:changeImgOnChatDialogInfo[i].targetDialog
           }
         )
       }
@@ -121,17 +124,13 @@ const EditProfileImg = ({ userObj }) => {
 
     changeImg()
 
-  }, [changeImgonChatDialogInfo])
+  }, [changeImgOnChatDialogInfo])
 
 
   console.log(userObj)
 
-
-
-  //아니 근데 프로필 사진을 변경하면 userObj.photoUrl이 바로 안 바뀐다
-  //왜????????????
-  //닉네임같은 경우 바로 userObj.displayName으로 바꿔졌는데??
   
+
 
 
   //2.프로필 사진 변경시, 리뷰 변경
@@ -149,7 +148,7 @@ const EditProfileImg = ({ userObj }) => {
           })
         }
       })
-      setChangeImgonReviews(result)
+      setChangeImgOnReviews(result)
 
     }
 
@@ -158,15 +157,15 @@ const EditProfileImg = ({ userObj }) => {
 
   },[ImgUrl])
 
-
-  //2.리뷰의 프로필 사진 변경
+  
+  //2.changeImgOnReviews 바탕으로 updateDoc진행
   useEffect(()=>{
     const changeReviewImg=async ()=>{
 
-      for(let i=0; i<changeImgonReviews.length; i++){
+      for(let i=0; i<changeImgOnReviews.length; i++){
 
         await updateDoc(
-          doc(dbService, 'reviews', `${changeImgonReviews[i].targetDocumentId}`),{
+          doc(dbService, 'reviews', `${changeImgOnReviews[i].targetDocumentId}`),{
             userImg:ImgUrl
           }
         )
@@ -175,7 +174,57 @@ const EditProfileImg = ({ userObj }) => {
     }
     changeReviewImg()
 
-  },[changeImgonReviews])
+  },[changeImgOnReviews])
+
+
+
+//changeImgOnPost,setChangeImgOnPost
+  //3.프로필 사진 변경시, post사진 변경
+  useEffect(()=>{
+
+    const getTargetPost=async ()=>{
+
+      const getPostList = await getDocs(collection(dbService, 'posts'))
+      let result=[]
+
+      getPostList.forEach(i=>{
+        if(i.data().userId===userObj.uid){
+          result.push({
+            targetDocumentId: i.id
+          })
+        }
+      })
+      setChangeImgOnPost(result)
+
+    }
+
+    getTargetPost()
+    
+
+  },[ImgUrl])
+
+  //3.changeImgOnPost를 바탕으로 updateDoc 진행
+  useEffect(()=>{
+
+    const changePostImg=async ()=>{
+
+      for(let i=0; i<changeImgOnPost.length; i++){
+
+        await updateDoc(
+          doc(dbService, 'posts', `${changeImgOnPost[i].targetDocumentId}`),{
+            userImg:ImgUrl
+          }
+        )
+      }
+      
+    }
+
+
+
+    changePostImg()
+
+  },[changeImgOnPost])
+
 
 
 
