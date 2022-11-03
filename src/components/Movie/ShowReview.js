@@ -67,6 +67,7 @@ const ShowReview = ({ detailInfo, userObj }) => {
     <div className="reviews">
       <Container>
         <h3>Reviews</h3>
+        <br/>
         <Row>
           <Col xs={12} md={12} lg={12}>
             <Tab.Container

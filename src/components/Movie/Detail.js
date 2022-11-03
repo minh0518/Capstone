@@ -9,11 +9,11 @@ import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'
 import Container from 'react-bootstrap/Container'
 
-const Detail = ({ movieInfo, userObj }) => {
+const Detail = ({ userObj }) => {
   //왜 새로고침하면 movieInfo가 없어지는거지?
 
   const { id } = useParams()
-  const [detailInfo, setDetailInfo] = useState(movieInfo[id - 1])
+  const [detailInfo, setDetailInfo] = useState('')
   const [reviewMode, setReviewMode] = useState(false)
   const [writeMode, setWriteMode] = useState(false)
   const [moveFlag, setMoveFlag] = useState(false)
@@ -29,70 +29,79 @@ const Detail = ({ movieInfo, userObj }) => {
     }
   }
 
+  useEffect(() => {
+    const getMoviesFromstorage = () => {
+      let result = JSON.parse(sessionStorage.getItem('movies'))
+
+      console.log(result[id - 1])
+      setDetailInfo(result[id - 1])
+    }
+
+    getMoviesFromstorage()
+  }, [])
+
   return (
-    <div className="first">
-      <div className="second">
-        <div>
-          <img
-            src={detailInfo.naver.image}
-            width="170px"
-            height="250px"
-            alt="img"
-          ></img>
-        </div>
-        <div className="info">
-          <ListGroup variant="flush">
-            <ListGroup.Item>현재 {detailInfo.kofic.rank}위</ListGroup.Item>
-            <ListGroup.Item>
-              <h5>개봉일</h5>
-              {detailInfo.kofic.openDt}
-            </ListGroup.Item>
-            <ListGroup.Item>
-              <h5>관객수</h5>
-              {detailInfo.kofic.audiAcc.replace(
-                /(\d)(?=(?:\d{3})+(?!\d))/g,
-                '$1,',
-              )}
-              명
-            </ListGroup.Item>
-            <ListGroup.Item>
-              <h5>감독</h5> {detailInfo.naver.director.split('|').join('')}
-            </ListGroup.Item>
-            <ListGroup.Item>
-              <h5>출연</h5>
-              {detailInfo.naver.actor.split('|').join(',')}
-            </ListGroup.Item>
-            <ListGroup.Item>
-              <h5>네이버 평점</h5>
-              {detailInfo.naver.userRating}
-            </ListGroup.Item>
-          </ListGroup>
-        </div>
-      </div>
-      <hr />
+    <div>
+      {detailInfo ? (
+        <div className="first">
+          <div className="second">
+            <div>
+              <img
+                src={detailInfo.naver.image}
+                width="170px"
+                height="250px"
+                alt="img"
+              ></img>
+            </div>
+            <div className="info">
+              <ListGroup variant="flush">
+                <ListGroup.Item>현재 {detailInfo.kofic.rank}위</ListGroup.Item>
+                <ListGroup.Item>
+                  <h5>개봉일</h5>
+                  {detailInfo.kofic.openDt}
+                </ListGroup.Item>
+                <ListGroup.Item>
+                  <h5>관객수</h5>
+                  {detailInfo.kofic.audiAcc.replace(
+                    /(\d)(?=(?:\d{3})+(?!\d))/g,
+                    '$1,',
+                  )}
+                  명
+                </ListGroup.Item>
+                <ListGroup.Item>
+                  <h5>감독</h5> {detailInfo.naver.director.split('|').join('')}
+                </ListGroup.Item>
+                <ListGroup.Item>
+                  <h5>출연</h5>
+                  {detailInfo.naver.actor.split('|').join(',')}
+                </ListGroup.Item>
+                <ListGroup.Item>
+                  <h5>네이버 평점</h5>
+                  {detailInfo.naver.userRating}
+                </ListGroup.Item>
+              </ListGroup>
+            </div>
+          </div>
+          <hr />
 
-      <Charts detailInfo={detailInfo} />
+          <Charts detailInfo={detailInfo} />
 
-      <hr />
+          <hr />
 
-      <div style={{ marginTop: '50px' }}>
-        <Container>
-          <Row>
-            <Col xs={12} md={12} lg={12}>
-              <button name="reviewMode" onClick={onToggleChange}>
-                리뷰
-              </button>
-            </Col>
-          </Row>
-        </Container>
-        {reviewMode ? (
-          <>
+          <div style={{ marginTop: '50px' }}>
+            <Container>
+              <Row>
+                <Col xs={12} md={12} lg={12}></Col>
+              </Row>
+            </Container>
+                  <br/>
+                  <br/>
             <ShowReview detailInfo={detailInfo} userObj={userObj} />
-          </>
-        ) : (
-          ''
-        )}
-      </div>
+          </div>
+        </div>
+      ) : (
+        <></>
+      )}
     </div>
   )
 }

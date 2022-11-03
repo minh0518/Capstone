@@ -13,18 +13,11 @@ import 'slick-carousel/slick/slick.css'
 import 'slick-carousel/slick/slick-theme.css'
 import styled from 'styled-components'
 
-
-const Home = ({ setMovieInfo }) => {
-  
+const Home = () => {
   const [koficInfo, setKoficInfo] = useState([])
   const [naverInfo, setNaverInfo] = useState([])
   const [nationCategory, setNationCategories] = useState('')
   const [multiCategory, setMultiCategorie] = useState('')
-
-  // const styleObj = {
-  //   display: 'flex',
-  //   listStyle: 'none',
-  // }
 
   const makeDate = () => {
     let today = new Date()
@@ -115,10 +108,9 @@ const Home = ({ setMovieInfo }) => {
         }
       }
 
+      sessionStorage.setItem('movies', JSON.stringify(NaverInfoArr))
       //console.log(tmp)
       setNaverInfo(NaverInfoArr)
-      setMovieInfo(NaverInfoArr) //여기서 카테고리로 만들어진 영화들이 상위(App.js)까지 전달
-      //AppRouter에서 Detail컴포넌트로 넘겨줄때 사용 하기때문에 이것도 반드시 해줘야 한다
     }
     getMovies()
   }, [koficInfo])
@@ -206,8 +198,8 @@ const Home = ({ setMovieInfo }) => {
       overflow-x: hidden;
     }
 
-    .slick-slide div { //슬라이더  컨텐츠
-
+    .slick-slide div {
+      //슬라이더  컨텐츠
     }
 
     .slick-dots {
@@ -223,7 +215,7 @@ const Home = ({ setMovieInfo }) => {
         </div>
       </div> */}
 
-        <h2 className='boxOfficePont'>Box Office</h2>
+      <h2 className="boxOfficePont">Box Office</h2>
 
       <Box>
         <ButtonGroup className="mb-2">
@@ -268,9 +260,21 @@ const Home = ({ setMovieInfo }) => {
               return (
                 <div>
                   <h5>{index + 1}위</h5>
-                  <Link variant="primary" to={`/movie/detail/${index + 1}`} style={{ textDecoration: 'none' , color:'black'}}>
-                  <img src={i.naver.image} alt="MovieImg" style={{marginBottom:'20px'}}></img>
-                    <h4>{i.kofic.movieNm.length>10? `${(i.kofic.movieNm).slice(0,10)}...`:i.kofic.movieNm}</h4>
+                  <Link
+                    variant="primary"
+                    to={`/movie/detail/${index + 1}`}
+                    style={{ textDecoration: 'none', color: 'black' }}
+                  >
+                    <img
+                      src={i.naver.image}
+                      alt="MovieImg"
+                      style={{ marginBottom: '20px' }}
+                    ></img>
+                    <h4>
+                      {i.kofic.movieNm.length > 10
+                        ? `${i.kofic.movieNm.slice(0, 10)}...`
+                        : i.kofic.movieNm}
+                    </h4>
                   </Link>
                 </div>
               )

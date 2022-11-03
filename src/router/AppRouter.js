@@ -22,7 +22,7 @@ import UserProfile from '../components/profile/UserProfile'
 import { Container } from '../styles/Container.styled'
 
 
-const AppRouter = ({ isLoggedIn ,setMovieInfo,movieInfo,userObj }) => {
+const AppRouter = ({ isLoggedIn ,userObj }) => {
   return (
     <Router>
   {isLoggedIn && <Navigation userObj={userObj}/>} 
@@ -32,11 +32,11 @@ const AppRouter = ({ isLoggedIn ,setMovieInfo,movieInfo,userObj }) => {
         {isLoggedIn ? ( //로그인 됐을 때
           <>
             <Route path="/" element={<MainSelect/>}></Route>
-            <Route path="/movie" element={<Home setMovieInfo={setMovieInfo}/>}></Route>
+            <Route path="/movie" element={<Home/>}></Route>
             <Route path="/myProfile" element={<MyProfile userObj={userObj}/> } ></Route>
             <Route path="/myProfile/editProfileImg" element={<EditProfileImg userObj={userObj}/>}></Route>
             <Route path="/userProfile/:id" element={<UserProfile userObj={userObj}/>}></Route>
-            <Route path='/movie/detail/:id' element={<Detail movieInfo={movieInfo} userObj={userObj}/>}></Route>
+            <Route path='/movie/detail/:id' element={<Detail userObj={userObj}/>}></Route>
             <Route path='/social' element={<Social userObj={userObj}/>}></Route>
             <Route path='/social/post/:documentId' element={<Post userObj={userObj}/>}></Route>
             <Route path='/chatList' element={<ChatList userObj={userObj}/>}></Route>

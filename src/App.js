@@ -17,7 +17,6 @@ function App() {
   //Home에서 이걸 사용하는 것이다
   //여기에다가는 info변수로 계속 받아준다
 
-  const [movieInfo, setMovieInfo] = useState([])
   const [userObj, setUserObj] = useState(null)
 
   const [profileInfo, setProfileInfo] = useState(null)
@@ -109,8 +108,7 @@ function App() {
       {init ? (
         <AppRouter
           isLoggedIn={isLoggedIn}
-          setMovieInfo={setMovieInfo}
-          movieInfo={movieInfo}
+
           userObj={userObj}
         />
       ) : (

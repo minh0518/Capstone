@@ -37,7 +37,6 @@ const Charts = ({ detailInfo }) => {
       },
     ],
     options: {
-      colors: ['black'],
       chart: {
         height: 350,
         type: 'radar',
@@ -63,7 +62,6 @@ const Charts = ({ detailInfo }) => {
       },
     ],
     options: {
-      colors: ['black'],
       chart: {
         height: 350,
         type: 'bar',
@@ -162,7 +160,6 @@ const Charts = ({ detailInfo }) => {
       },
     ],
     options: {
-      colors: ['black'],
       chart: {
         height: 350,
         type: 'line',
