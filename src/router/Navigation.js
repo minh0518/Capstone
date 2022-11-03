@@ -42,9 +42,6 @@ const Navigation = ({ userObj }) => {
     navigate('/')
   }
 
-  console.log(userObj)
-  console.log(currentLogin)
-
   return (
     <nav>
       <>

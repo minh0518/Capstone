@@ -1,15 +1,10 @@
-import { authService, storageService , dbService } from '../../fbase'
+import { authService, storageService, dbService } from '../../fbase'
 import { updateProfile } from 'firebase/auth'
-import React, { useState, useRef , useEffect} from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { getDownloadURL, ref, uploadString } from 'firebase/storage'
 import { v4 as uuidv4 } from 'uuid'
 import { doc, getDocs, addDoc, collection, updateDoc } from 'firebase/firestore'
-
-
-
-
-
 
 //지금까지 프로필 업데이트를 하면 authService.currentUser , userObj , profile(firestore) 에 변경이 일어났다
 //authService.currentUser를 변경하면 자동으로 userObj가 바뀌도록 했으므로 그건 상관이 없었으므로
@@ -25,23 +20,28 @@ import { doc, getDocs, addDoc, collection, updateDoc } from 'firebase/firestore'
 
 //그래서 여기서도 반드시, 프로필 이미지를 변경할 때 profile(firestore)또한 업데이트 해줘야 한다
 
-
 const EditProfileImg = ({ userObj }) => {
   //이미지 관련 상태 추가
   const [attachment, setAttachment] = useState('')
 
-
   const [profileID, setProfileID] = useState({
-    documentId:''
+    documentId: '',
   })
-  
+
+  //이건 특정 기능을 하는건 아니고 프로필 이미지가 바뀌면
+  //다른 페이지의 모든 프로필부분들을 다 바꾸기 위해
+  //useEffect를 실행시켜야 하는데 그 의존성 배열로 사용하기 위해
+  //추가한 상태값이다
+  const [ImgUrl, setImgUrl] = useState('')
+
+  const [changeImgonChatDialogInfo, setChangeImgonChatDialogInfo] = useState([])
+
   useEffect(() => {
     const getProfiles = async () => {
       const profiles = await getDocs(collection(dbService, 'profiles'))
 
       profiles.forEach((i) => {
         if (i.data().uid === userObj.uid) {
-         
           setProfileID({
             documentId: i.id,
           })
@@ -52,9 +52,69 @@ const EditProfileImg = ({ userObj }) => {
     getProfiles()
   }, [])
 
-  console.log(profileID)
+  //sender receiver 찾지 말고 그냥 userObj랑 uid가 같은 이름 변경하면 됨
+  //uid가 같은것에 따라서 sender이닞 receiver인지만 구분해서
+  //userObj의 displayName으로 바꾸면 됨
+  useEffect(() => {
+    const changeImgonChatDialog = async () => {
+      
+      const getChatList = await getDocs(collection(dbService, 'chatTest'))
 
+      //전체 결과
+      //즉, chatList를 다 돌면서 바꿔야 할 documentid와 , 바뀐 이미지를 포함한 dialog들을
+      //한 세트로 가지고 있는 객체 >> 이것들을 여러개 가지고 있음
+      //즉 이걸로 마지막에 setChangeImgonChatDialogInfo해주면 됨
+      let result = []
 
+      getChatList.forEach((i) => {
+        let modifiedchats = []
+
+        if ( //대화에 내가 이미지를 바꾼 계정이 있다면
+          i.data().receiverId === userObj.uid ||
+          i.data().senderId === userObj.uid
+        ) {
+          i.data().dialog.map((singledialog) => {
+            if (singledialog.senderId === userObj.uid) { //그 대화의 이미지들을 죄다 바꿔서 다시 생성함
+              modifiedchats.push({
+                ...singledialog,
+                senderImg: ImgUrl,
+              })
+            } else {
+              modifiedchats.push(singledialog)
+            }
+          })
+
+          //chatList단위로 push
+          result.push({
+            targetDocumentId: i.id,
+            targetDialog: modifiedchats,
+          })
+        }
+      })
+
+      setChangeImgonChatDialogInfo(result)
+    }
+
+    changeImgonChatDialog()
+  }, [ImgUrl])
+
+  console.log(changeImgonChatDialogInfo)
+
+  useEffect(() => {
+
+    const changeImg = async () => {
+      for (let i = 0; i < changeImgonChatDialogInfo.length; i++) {
+        await updateDoc(
+          doc(dbService, 'chatTest', `${changeImgonChatDialogInfo[i].targetDocumentId}`),{
+            dialog:changeImgonChatDialogInfo[i].targetDialog
+          }
+        )
+      }
+    }
+
+    changeImg()
+
+  }, [changeImgonChatDialogInfo])
 
   const onFileChange = (e) => {
     const theFile = e.target.files[0]
@@ -95,6 +155,7 @@ const EditProfileImg = ({ userObj }) => {
 
     //그리고 public url을 받아온다
     const attachmentUrl = await getDownloadURL(fileRef)
+    setImgUrl(attachmentUrl)
 
     if (attachmentUrl !== authService.currentUser.photoURL) {
       //바꾸려는 이미지가 다른 경우에만
@@ -102,15 +163,12 @@ const EditProfileImg = ({ userObj }) => {
         photoURL: attachmentUrl,
       })
 
-
       //위에서 말한 profile(firestore) 사진부분 업데이트
       //실제로 사용할 때 여기까지 진행되려면 시간이 걸리므로 최소 3초 이상은 기다려야 함
       await updateDoc(doc(dbService, 'profiles', `${profileID.documentId}`), {
-        photoURL:attachmentUrl
+        photoURL: attachmentUrl,
       })
     }
-
-
   }
 
   return (

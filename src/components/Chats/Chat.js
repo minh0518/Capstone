@@ -125,7 +125,7 @@ const Chat = ({ userObj }) => {
       뒤로가기 버튼을 따로 만듦 */}
       <Offcanvas show={show}>
         <Offcanvas.Header>
-          <Offcanvas.Title>Offcanvas</Offcanvas.Title>
+          <Offcanvas.Title>Chats</Offcanvas.Title>
         </Offcanvas.Header>
         <Offcanvas.Body>
 

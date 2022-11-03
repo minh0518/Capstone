@@ -19,7 +19,6 @@ const Post = ({ userObj }) => {
     getReviews()
   }, [])
 
-  console.log(post)
 
   const navigate = useNavigate()
   const onDelteClick= async ()=>{
