@@ -43,6 +43,9 @@ const Profile = ({ userObj }) => {
   //대화내용의 닉네임 변경시 사용
   const [changeDialogDisplayName,setChangeDialogDisplayName]=useState([])
 
+
+  const[changeReviewDisplayName,setChangeReviewDisplayName]=useState([])
+
   const genre = {
     ALL: '',
     SF: 18,
@@ -102,13 +105,13 @@ const Profile = ({ userObj }) => {
   // }
 
   
+  //1. 닉네임 변경시 대화목록의 닉네임 , 대화내용의 닉네임 수정 
   //sender receiver 찾지 말고 그냥 userObj랑 uid가 같은 이름 변경하면 됨
   //uid가 같은것에 따라서 sender이닞 receiver인지만 구분해서
   //userObj의 displayName으로 바꾸면 됨
-  //대화목록의 닉네임 , 대화내용의 닉네임 수정 시작
   useEffect(() => {
 
-    //대화목록의 닉네임 수정
+    //1-1.대화목록의 닉네임 수정
     const getChatList = async () => {
       let result = []
 
@@ -131,7 +134,7 @@ const Profile = ({ userObj }) => {
       setChangeChatListDisplayName(result)
     }
 
-    //대화내용 닉네임 수정
+    //1-2.대화내용 닉네임 수정
     //이것 또한 EditProfileImg에서 이미지를 바꿀때 했듯이,
     //직접 대화를 다 돌면서 대화를 통째로 가져와서 updateDoc해야한다
     const getDialog=async()=>{
@@ -173,7 +176,7 @@ const Profile = ({ userObj }) => {
 
   console.log(changeDialogDisplayName)
 
-  //changeDisplayName를 바탕으로 대화목록에 대해서 updateDoc 진행
+  //1.changeDisplayName를 바탕으로 대화목록에 대해서 updateDoc 진행
   useEffect(() => {
     const changeChatListName = async () => {
       for (let i = 0; i < changeChatListDisplayName.length; i++) {
@@ -219,6 +222,49 @@ const Profile = ({ userObj }) => {
   }, [changeChatListDisplayName,changeDialogDisplayName])
 
 
+
+
+
+  //2.닉네임 변경 시, 리뷰 닉네임 수정
+  useEffect(()=>{
+
+    const getReviewList=async ()=>{
+      let result = []
+
+      const reviews = await getDocs(collection(dbService, 'reviews'))
+
+      reviews.forEach(i=>{
+        if(i.data().userId===userObj.uid){
+          result.push({
+            targetDocumentId: i.id
+          })
+        }
+      })
+
+      setChangeReviewDisplayName(result)
+
+    }
+
+    getReviewList()
+
+  },[profile])
+
+  //2.changeReviewDisplayName를 바탕으로 리뷰목록 대해서 updateDoc 진행
+  useEffect(()=>{
+
+    const changeReviewsDisplayName=async ()=>{
+      for (let i = 0; i < changeReviewDisplayName.length; i++) {
+        await updateDoc(
+          doc(dbService, 'reviews', `${changeReviewDisplayName[i].targetDocumentId}`),{
+            userName:userObj.displayName
+          }
+        )
+      }
+    }
+
+    changeReviewsDisplayName()
+
+  },[changeReviewDisplayName])
 
 
 

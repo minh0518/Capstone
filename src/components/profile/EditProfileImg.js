@@ -129,6 +129,8 @@ const EditProfileImg = ({ userObj }) => {
 
 
   //아니 근데 프로필 사진을 변경하면 userObj.photoUrl이 바로 안 바뀐다
+  //왜????????????
+  //닉네임같은 경우 바로 userObj.displayName으로 바꿔졌는데??
   
 
 
