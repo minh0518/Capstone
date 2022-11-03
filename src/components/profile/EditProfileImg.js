@@ -28,10 +28,9 @@ const EditProfileImg = ({ userObj }) => {
     documentId: '',
   })
 
-  //이건 특정 기능을 하는건 아니고 프로필 이미지가 바뀌면
-  //다른 페이지의 모든 프로필부분들을 다 바꾸기 위해
-  //useEffect를 실행시켜야 하는데 그 의존성 배열로 사용하기 위해
-  //추가한 상태값이다
+  //변경된 이미지 링크 상태값
+  //이미지를 변경했을때 다른 곳에 있는 모든 이미지들을 동시에 변경해주기
+  //위해서 사용된다
   const [ImgUrl, setImgUrl] = useState('')
 
   const [changeImgonChatDialogInfo, setChangeImgonChatDialogInfo] = useState([])
@@ -52,17 +51,15 @@ const EditProfileImg = ({ userObj }) => {
     getProfiles()
   }, [])
 
-  //sender receiver 찾지 말고 그냥 userObj랑 uid가 같은 이름 변경하면 됨
-  //uid가 같은것에 따라서 sender이닞 receiver인지만 구분해서
-  //userObj의 displayName으로 바꾸면 됨
+
   useEffect(() => {
     const changeImgonChatDialog = async () => {
       
       const getChatList = await getDocs(collection(dbService, 'chatTest'))
 
       //전체 결과
-      //즉, chatList를 다 돌면서 바꿔야 할 documentid와 , 바뀐 이미지를 포함한 dialog들을
-      //한 세트로 가지고 있는 객체 >> 이것들을 여러개 가지고 있음
+      //즉, chatList를 다 돌면서 
+      // {바꿔야 할 documentid , 바뀐 이미지로 변경한 dialog들 } >> 이것들을 여러개 가지고 있음
       //즉 이걸로 마지막에 setChangeImgonChatDialogInfo해주면 됨
       let result = []
 
@@ -79,7 +76,7 @@ const EditProfileImg = ({ userObj }) => {
                 ...singledialog,
                 senderImg: ImgUrl,
               })
-            } else {
+            } else { //바꿔야할 이미지가 없는 대화라면 그대로 push
               modifiedchats.push(singledialog)
             }
           })
@@ -100,6 +97,7 @@ const EditProfileImg = ({ userObj }) => {
 
   console.log(changeImgonChatDialogInfo)
 
+  //changeImgonChatDialogInfo를 바탕으로 updateDoc진행
   useEffect(() => {
 
     const changeImg = async () => {

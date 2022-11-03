@@ -37,6 +37,12 @@ const Profile = ({ userObj }) => {
   const [bestPickArr, setBestPickArr] = useState('')
   //bestPick을 새로 추가or삭제하기 직전의 값들을 담고 있음
 
+
+  //대화목록의 닉네임 변경시 사용
+  const [changeChatListDisplayName, setChangeChatListDisplayName] = useState([])
+  //대화내용의 닉네임 변경시 사용
+  const [changeDialogDisplayName,setChangeDialogDisplayName]=useState([])
+
   const genre = {
     ALL: '',
     SF: 18,
@@ -95,6 +101,130 @@ const Profile = ({ userObj }) => {
   //   navigate('/')
   // }
 
+  
+  //sender receiver 찾지 말고 그냥 userObj랑 uid가 같은 이름 변경하면 됨
+  //uid가 같은것에 따라서 sender이닞 receiver인지만 구분해서
+  //userObj의 displayName으로 바꾸면 됨
+  //대화목록의 닉네임 , 대화내용의 닉네임 수정 시작
+  useEffect(() => {
+
+    //대화목록의 닉네임 수정
+    const getChatList = async () => {
+      let result = []
+
+      const chats = await getDocs(collection(dbService, 'chatTest'))
+
+      chats.forEach((i) => {
+        if (i.data().receiverId === userObj.uid) {
+          result.push({
+            targetDocumentId: i.id,
+            receiverName: userObj.displayName,
+          })
+        } else if (i.data().senderId === userObj.uid) {
+          result.push({
+            targetDocumentId: i.id,
+            senderName: userObj.displayName,
+          })
+        }
+      })
+
+      setChangeChatListDisplayName(result)
+    }
+
+    //대화내용 닉네임 수정
+    //이것 또한 EditProfileImg에서 이미지를 바꿀때 했듯이,
+    //직접 대화를 다 돌면서 대화를 통째로 가져와서 updateDoc해야한다
+    const getChat=async()=>{
+      const chats = await getDocs(collection(dbService, 'chatTest'))
+      let result = []
+
+      chats.forEach(i=>{
+        let modifiedchats = []
+
+        if ( //대화에 내가 닉네임을 바꾼 계정이 있다면
+          i.data().receiverId === userObj.uid ||
+          i.data().senderId === userObj.uid
+        ) {
+          (i.data().dialog).map(singledialog=>{
+            if(singledialog.senderId===userObj.uid){
+              modifiedchats.push({
+                ...singledialog,
+                senderName: userObj.displayName
+              })
+            }else {
+              modifiedchats.push(singledialog)
+            }
+          })
+          //chatList단위로 push
+          result.push({
+            targetDocumentId: i.id,
+            targetDialog: modifiedchats,
+          })
+        }
+
+      })
+
+      setChangeDialogDisplayName(result)
+    }
+
+    getChatList()
+    getChat()
+  }, [profile])
+
+  console.log(changeDialogDisplayName)
+
+  //changeDisplayName를 바탕으로 대화목록에 대해서 updateDoc 진행
+  useEffect(() => {
+    const changeChatListName = async () => {
+      for (let i = 0; i < changeChatListDisplayName.length; i++) {
+        if (changeChatListDisplayName[i].receiverName) {
+          await updateDoc(
+            doc(
+              dbService,
+              'chatTest',
+              `${changeChatListDisplayName[i].targetDocumentId}`,
+            ),
+            {
+              receiverName: changeChatListDisplayName[i].receiverName,
+            },
+          )
+        } else if (changeChatListDisplayName[i].senderName) {
+          await updateDoc(
+            doc(
+              dbService,
+              'chatTest',
+              `${changeChatListDisplayName[i].targetDocumentId}`,
+            ),
+            {
+              senderName: changeChatListDisplayName[i].senderName,
+            },
+          )
+        }
+      }
+    }
+
+
+    const changeDialogName= async ()=>{
+      for (let i = 0; i < changeDialogDisplayName.length; i++) {
+        await updateDoc(
+          doc(dbService, 'chatTest', `${changeDialogDisplayName[i].targetDocumentId}`),{
+            dialog:changeDialogDisplayName[i].targetDialog
+          }
+        )
+      }
+    }
+
+    changeChatListName()
+    changeDialogName()
+  }, [changeChatListDisplayName,changeDialogDisplayName])
+
+
+
+
+
+
+
+
   const onChange = (e) => {
     let { name, value } = e.target
 
@@ -143,12 +273,9 @@ const Profile = ({ userObj }) => {
   const onClick = async (e) => {
     const updateResult = doc(dbService, 'profiles', `${profile.documentId}`)
 
-    
     //bestPickValue !== '' 를 여러곳에 사용해서 bestPickValue값의 유뮤에 따른 로직을 분리
     //다른건 profile속성을 그대로 사용해서 상관이 없지만 bestPick은 따로 상태로 관리하기 때문에
     //공백인 경우를 분리해야줘야 한다. 안 그러면 빈 값이 계속해서 들어감
-
-
 
     if (bestPickValue !== '') {
       await updateDoc(updateResult, {
@@ -202,7 +329,6 @@ const Profile = ({ userObj }) => {
   }
 
   const onDeleteClick = async (e) => {
-    
     let arr = profile.bestPick
 
     arr = arr.filter((i) => {
@@ -233,7 +359,7 @@ const Profile = ({ userObj }) => {
 
   return (
     <div>
-      <h2 className='profilePont'>{`${userObj.displayName}'s Profile`}</h2>
+      <h2 className="profilePont">{`${userObj.displayName}'s Profile`}</h2>
       <br />
       <br />
       <Container>
@@ -316,7 +442,7 @@ const Profile = ({ userObj }) => {
                                       border: '0',
                                       outline: '0',
                                       background: 'transparent',
-                                      color:'red'
+                                      color: 'red',
                                     }}
                                   >
                                     X
@@ -365,8 +491,9 @@ const Profile = ({ userObj }) => {
                               <ShowLocation
                                 placeName={profile.favoriteTheater}
                               />
-                              <h5><b>{profile.favoriteTheater}</b></h5>
-                              
+                              <h5>
+                                <b>{profile.favoriteTheater}</b>
+                              </h5>
                             </>
                           ) : (
                             '아직 선택되지 않았습니다'
