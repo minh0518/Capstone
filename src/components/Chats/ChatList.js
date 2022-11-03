@@ -29,6 +29,11 @@ const ChatList = ({ userObj }) => {
   //채팅의 documentId와 이름들을 담는 상태
   const [chatInfo, setChatInfo] = useState([])
 
+  //중복처리를 위한 채팅 리스트
+  const [chatList, setChatList] = useState([])
+
+  //console.log(userObj)
+
   //현재 post활동을 한 사람들 이름과 id를 가져옴
   useEffect(() => {
     const getPosts = async () => {
@@ -90,6 +95,57 @@ const ChatList = ({ userObj }) => {
 
   console.log(chatInfo)
 
+  //위 2개 useEffect는 채팅을 위한 것이고
+  //이건 채팅 중복 방지를 위한 것
+  useEffect(() => {
+    const getChats = async () => {
+      let list = []
+      const dbChats = await getDocs(collection(dbService, 'chatTest'))
+      dbChats.forEach((i) => {
+        list.push({
+          first: i.data().receiverId,
+          second: i.data().senderId,
+        })
+      })
+
+      setChatList(list)
+    }
+
+    getChats()
+  }, [chatInfo])
+
+  //중복 확인 함수
+  const duplicateCheck = (target) => {
+    //기존에 있는 채팅 목록들과 (chatList) , 
+    //내가 입력한 상대방 uid와 내 uid([target[0].uid, userObj.uid])
+    
+    //이것들을 하나씩 비교하는데
+    //다 배열형태로 가져와서 정렬한다 그리고 
+    //정렬한 값이 같으면 둘이 같은 것이다
+    
+    //채팅 보내는사람 , 받는사람 둘 다 같으면 중복이므로
+    //정렬하는 이유는 여기서 보내는 사람 , 받는사람의 기준이 없어서
+    //(a계정에서는 내가 보내는사람이지만 b계정에서는 내가 받는사람)
+
+    //그리고 둘중 하나라도 다르다면 어차피 정렬해도 값이 다르다
+
+    for (let i = 0; i < chatList.length; i++) {
+      let chatListArr = Object.values(chatList[i]).sort()
+      let inputArr = [target[0].uid, userObj.uid].sort()
+
+      console.log(chatListArr)
+      console.log(inputArr)
+
+      if (JSON.stringify(chatListArr) === JSON.stringify(inputArr)) {
+        window.alert('이미 존재하는 대화 입니다')
+        return true
+      }
+    }
+
+    return false
+
+  }
+
   //채팅시작 누르면
   const onSubmit = async (e) => {
     e.preventDefault()
@@ -98,6 +154,15 @@ const ChatList = ({ userObj }) => {
     const target = allPostUsersInfo.filter((i) => {
       return i.name === name
     })
+
+    console.log(target)
+
+
+    //중복체크 함수 호출
+    if(duplicateCheck(target)){
+      return 
+    }
+    
 
     //대화 상대 이름을 입력하고 버튼을 누르면 firestore에 새로운 문서가 생성
     //2명(나,상대방) 의 이름,uid,대화내용이들어갈 dialog로 구성
@@ -113,7 +178,7 @@ const ChatList = ({ userObj }) => {
     //allPostUsersInfo중에서 대화를 걸 상대방의 {name: , id: }으로 상태 업뎃
     setChatTarget(target[0])
   }
-  console.log(allPostUsersInfo)
+//  console.log(allPostUsersInfo)
 
   return (
     <div>
@@ -162,24 +227,21 @@ const ChatList = ({ userObj }) => {
 
       <hr />
 
-
-
-  
       <div
-        style={{ display: 'flex', justifyContent: 'center', marginTop: '100px' }}
+        style={{
+          display: 'flex',
+          justifyContent: 'center',
+          marginTop: '100px',
+        }}
       >
         <div>
-         <h3>대화목록</h3>
+          <h3>대화목록</h3>
         </div>
-        </div>          
-        
-      
+      </div>
+
       <div
         style={{ display: 'flex', justifyContent: 'center', marginTop: '50px' }}
       >
-        
-        
-        
         {/* chatTarget으로 대화이름을 보여주면 안될까 싶었는데
         그렇게 되면 onSubmit를 반드시 수행해야 해서 
         반드시 DB에서 가져와서 보여줘야 한다 */}
