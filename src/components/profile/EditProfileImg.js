@@ -106,7 +106,7 @@ const EditProfileImg = ({ userObj }) => {
 
   console.log(changeImgonChatDialogInfo)
 
-  //changeImgonChatDialogInfo를 바탕으로 updateDoc진행
+  //1.changeImgonChatDialogInfo를 바탕으로 updateDoc진행
   useEffect(() => {
 
     const changeImg = async () => {
@@ -159,7 +159,7 @@ const EditProfileImg = ({ userObj }) => {
   },[ImgUrl])
 
 
-  //리뷰의 프로필 사진 변경
+  //2.리뷰의 프로필 사진 변경
   useEffect(()=>{
     const changeReviewImg=async ()=>{
 
