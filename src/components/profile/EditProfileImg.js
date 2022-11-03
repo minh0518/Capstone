@@ -33,7 +33,14 @@ const EditProfileImg = ({ userObj }) => {
   //위해서 사용된다
   const [ImgUrl, setImgUrl] = useState('')
 
+  //프로필사진이 변경됐을 때, 채팅의 대화창에 있는 프로필사진 수정을 위해 존재
   const [changeImgonChatDialogInfo, setChangeImgonChatDialogInfo] = useState([])
+
+
+
+  const [changeImgonReviews,setChangeImgonReviews]=useState('')
+
+  
 
   useEffect(() => {
     const getProfiles = async () => {
@@ -52,8 +59,10 @@ const EditProfileImg = ({ userObj }) => {
   }, [])
 
 
+
+  //1.프로필 사진 변경시, 채팅의 대화 프로필사진 변경
   useEffect(() => {
-    const changeImgonChatDialog = async () => {
+    const getTargetDialog = async () => {
       
       const getChatList = await getDocs(collection(dbService, 'chatTest'))
 
@@ -92,7 +101,7 @@ const EditProfileImg = ({ userObj }) => {
       setChangeImgonChatDialogInfo(result)
     }
 
-    changeImgonChatDialog()
+    getTargetDialog()
   }, [ImgUrl])
 
   console.log(changeImgonChatDialogInfo)
@@ -113,6 +122,63 @@ const EditProfileImg = ({ userObj }) => {
     changeImg()
 
   }, [changeImgonChatDialogInfo])
+
+
+  console.log(userObj)
+
+
+
+  //아니 근데 프로필 사진을 변경하면 userObj.photoUrl이 바로 안 바뀐다
+  
+
+
+  //2.프로필 사진 변경시, 리뷰 변경
+  useEffect(()=>{
+
+    const getTargetReview=async ()=>{
+
+      const getReviewList = await getDocs(collection(dbService, 'reviews'))
+      let result=[]
+
+      getReviewList.forEach(i=>{
+        if(i.data().userId===userObj.uid){
+          result.push({
+            targetDocumentId: i.id
+          })
+        }
+      })
+      setChangeImgonReviews(result)
+
+    }
+
+    getTargetReview()
+    
+
+  },[ImgUrl])
+
+
+  //리뷰의 프로필 사진 변경
+  useEffect(()=>{
+    const changeReviewImg=async ()=>{
+
+      for(let i=0; i<changeImgonReviews.length; i++){
+
+        await updateDoc(
+          doc(dbService, 'reviews', `${changeImgonReviews[i].targetDocumentId}`),{
+            userImg:ImgUrl
+          }
+        )
+      }
+      
+    }
+    changeReviewImg()
+
+  },[changeImgonReviews])
+
+
+
+
+
 
   const onFileChange = (e) => {
     const theFile = e.target.files[0]

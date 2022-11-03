@@ -134,7 +134,7 @@ const Profile = ({ userObj }) => {
     //대화내용 닉네임 수정
     //이것 또한 EditProfileImg에서 이미지를 바꿀때 했듯이,
     //직접 대화를 다 돌면서 대화를 통째로 가져와서 updateDoc해야한다
-    const getChat=async()=>{
+    const getDialog=async()=>{
       const chats = await getDocs(collection(dbService, 'chatTest'))
       let result = []
 
@@ -168,7 +168,7 @@ const Profile = ({ userObj }) => {
     }
 
     getChatList()
-    getChat()
+    getDialog()
   }, [profile])
 
   console.log(changeDialogDisplayName)
