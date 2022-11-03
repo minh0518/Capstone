@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import { useParams, Link } from 'react-router-dom'
-import { getDoc, getDocs, addDoc, doc } from 'firebase/firestore'
+import { useParams, Link ,useNavigate} from 'react-router-dom'
+import { getDoc, getDocs, deleteDoc, doc } from 'firebase/firestore'
 import { dbService } from '../../fbase'
 import ShowLocation from '../map/ShowLocation'
 
@@ -18,6 +18,22 @@ const Post = ({ userObj }) => {
 
     getReviews()
   }, [])
+
+  console.log(post)
+
+  const navigate = useNavigate()
+  const onDelteClick= async ()=>{
+
+    const ok = window.confirm('삭제하시겠습니까?')
+      
+    
+
+    if (ok) {
+      await deleteDoc(doc(dbService, 'posts', `${documentId}`))
+      window.alert('삭제가 완료되었습니다')
+      navigate(-1)
+    }
+  }
 
   return (
     <div style={{ display: 'flex', justifyContent: 'center' }}>
@@ -39,7 +55,7 @@ const Post = ({ userObj }) => {
             <div style={{ paddingTop: '10px' }}>
               {userObj.uid === post.userId ? (
                 <>
-                  <button>삭제하기</button>
+                  <button onClick={onDelteClick}>삭제하기</button>
                 </>
               ) : (
                 ''
