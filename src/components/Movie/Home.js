@@ -74,7 +74,8 @@ const Home = () => {
         let response = await axios.get(`/v1/search/movie.json`, {
           params: {
             query: koficInfo[i].movieNm,
-            display: 10,
+            display: 20, 
+            //최소한 20개는 받아와야 그 중에서 정확한 영화가 하는 포함되어있다
           },
           headers: {
             'X-Naver-Client-Id': ID_KEY,
@@ -89,7 +90,8 @@ const Home = () => {
         //이것들을 필터링한 결과값을 NaverResult에 각각 1개씩 담는다
 
         //예술영화 같은 경우 애초에 네이버에서 받아지지 않는 경우가
-        //존재한다 그래서 이럴땐 어쩔 수 없이 빈 문자열을 리턴
+        //존재한다 (이상한 영화까지 다 받아지는게 아니라 아예 리턴값이 없는 것이다)
+        //그래서 이럴땐 어쩔 수 없이 빈 문자열을 리턴
         if (response.data.items.length === 0) {
           NaverInfoArr.push({
             kofic: koficInfo[i],
@@ -125,11 +127,13 @@ const Home = () => {
   //네이버API에게 제목을 전달해주면 이상한 영화를 가져오는 경우가 많으므로
   //필터링 로직 추가
   const filterTitle = (arr, query) => {
+    console.log(arr)
     if (arr.length === 1) {
       //받아온 것이 1개뿐이면 그걸 그대로 사용
       return arr[0]
     } else {
       //<b></b>태그 제거 후 제목과 완전히 같은 것만 추출
+      //(이렇게 해도 되고 사실 <b></b>안에 있는값만 추출해서 제목과 완전히 같은지 비교해도 됨)
       arr = arr.map((i) => {
         return {
           ...i,
@@ -146,7 +150,8 @@ const Home = () => {
       })
 
       //근데 위에서도 제목이 같이 않는다면 arr은 남는게 없다
-      //그래서 어쩔 수 없이 빈 문자열로 리턴
+      //이건진짜 최종적으로 어쩔 수 없이 에러를 넘겨야 하는 상황이므로
+      //빈 문자열로 리턴
       if (!arr.length) {
         return ''
       }
@@ -154,6 +159,7 @@ const Home = () => {
       //그런데도 같은 제목의 영화가 존재할 수 있음
       //그래서 위의 필터링을 거쳤는데도 여러개가 아직 남아 있다면
       //개봉연도 중에서 가장 최근인 것으로 추출
+      //(근데 재개봉한 영화는 이 로직이 먹히질 않는다....)
       if (arr.length !== 1) {
         //아직 여러개가 남아 있다면
         //가장 원시적인 max값을 탐색. 우선 맨 앞의 값을 최댓값으로 넣어줌
@@ -260,6 +266,7 @@ const Home = () => {
             } else {
               return (
                 <div>
+                  {/* <div style={{width:'200px',height:'270px',backgroundColor:'lightgrey'}}> */}
                   <h5>{index + 1}위</h5>
                   <Link
                     variant="primary"
@@ -277,6 +284,7 @@ const Home = () => {
                         : i.kofic.movieNm}
                     </h4>
                   </Link>
+                  {/* </div> */}
                 </div>
               )
             }
