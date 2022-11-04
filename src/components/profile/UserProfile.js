@@ -93,6 +93,7 @@ const UserProfile = ({ userObj }) => {
                   </ul>
                 </ListGroup.Item>
                 <ListGroup.Item>
+                <b>자주 가는 영화관</b>
                   {profile.favoriteTheater ? (
                     //  profile.favoriteTheater가 있을 경우에만 지도로 보여줌
                     <>

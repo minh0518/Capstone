@@ -7,7 +7,7 @@ import '../../styles/mainSelect.scss'
 const MainSelect = () => {
   const Container = styled.div`
     display: flex;
-    height: 100%;
+    height: 60%;
     justify-content: center;
     align-items: center;
   `

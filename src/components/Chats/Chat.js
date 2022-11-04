@@ -164,6 +164,8 @@ const Chat = ({ userObj }) => {
                 )
               })
             : 'wait..'}
+            <br/>
+            <br/>
           <form onSubmit={onSubmit}>
             <input
               name="dialog"
@@ -184,14 +186,7 @@ const Chat = ({ userObj }) => {
         <Offcanvas.Body></Offcanvas.Body>
       </Offcanvas>
 
-      <form onSubmit={onSubmit}>
-        <input name="dialog" onChange={onChange} value={dialog.context}></input>
-        {dialog.context.length === 0 ? (
-          <input type="submit" value="보내기" disabled />
-        ) : (
-          <input type="submit" value="보내기" />
-        )}
-      </form>
+    
 
       {/* <ul>
         {chat.dialog

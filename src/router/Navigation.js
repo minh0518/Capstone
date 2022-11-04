@@ -49,22 +49,19 @@ const Navigation = ({ userObj }) => {
         {[false].map((expand) => (
           <Navbar key={expand} expand={expand} className="mb-3">
             <Container fluid>
-              <Navbar.Brand href="/">
-                <div style={{ display: 'inline-block', marginLeft: '150px' }}>
-                  <img src={logoImg} width="240px" height="210px" alt="img" />
-                </div>
-                {/* <Link
+              <Navbar.Brand href="#">
+                <Link
                   to="/myProfile"
                   style={{ textDecoration: 'none', color: 'black' }}
                 >
                   <img
                     src={currentLogin.userImg}
-                    width="50px"
-                    height="50px"
+                    width="40px"
+                    height="40px"
                     alt="img"
-                    style={{ borderRadius: '50px', marginLeft: '70px' }}
+                    style={{ borderRadius: '50px', marginLeft: '20px' }}
                   />
-                  <h5
+                  {/* <h5
                     style={{
                       marginTop: '14px',
                       marginLeft: '15px',
@@ -72,11 +69,25 @@ const Navigation = ({ userObj }) => {
                     }}
                   >
                     {currentLogin.userDisplayName}
-                  </h5>
-                </Link> */}
+                  </h5> */}
+                </Link>
               </Navbar.Brand>
 
+              {/* 로고가 정 중앙에 있질 않아서 어쩔 수 없이 왼쪽으로30px 이동
+              어차피 맨 왼쪽에 있는 프사는 고정너비이고, 이 요소는 프사와 오른쪽 메뉴바를 제외하고
+              자동으로 중앙정렬 되므로 px단위로 움직여도 상관없다 */}
+              <div style={{marginRight:'30px'}}> 
+              <Link
+                  to="/"
+                  style={{ textDecoration: 'none', color: 'black' }}
+                >
+               
+                  <img src={logoImg} width="240px" height="210px" alt="img" />
+                
+                </Link>
+                </div>
               <Navbar.Toggle
+
                 aria-controls={`offcanvasNavbar-expand-${expand}`}
               />
               <Navbar.Offcanvas
