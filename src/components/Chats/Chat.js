@@ -15,6 +15,8 @@ import { useParams, useNavigate } from 'react-router-dom'
 import Button from 'react-bootstrap/Button'
 import Offcanvas from 'react-bootstrap/Offcanvas'
 import Toast from 'react-bootstrap/Toast'
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
+import Tooltip from 'react-bootstrap/Tooltip'
 
 const Chat = ({ userObj }) => {
   const { id } = useParams() //각 대화방의 document를 가져옴
@@ -25,6 +27,7 @@ const Chat = ({ userObj }) => {
     senderName: userObj.displayName,
     senderId: userObj.uid,
     senderImg: userObj.photoURL,
+    time: '',
   })
   //이 단위로 firestore의 dialog에 추가가 됨
 
@@ -50,9 +53,8 @@ const Chat = ({ userObj }) => {
     const dateStr = month + '.' + day + ' ' + hours + ':' + minutes
 
     console.log(dateStr)
-    
+
     return dateStr
-    
   }
 
   //useNavigate()사용
@@ -90,6 +92,7 @@ const Chat = ({ userObj }) => {
         //아마 혹시 몰라서 그냥 사용한 것 같다
         ...prev,
         context: value,
+        time: makeDate(),
       }))
     }
   }
@@ -109,6 +112,7 @@ const Chat = ({ userObj }) => {
       senderName: userObj.displayName,
       senderId: userObj.uid,
       senderImg: userObj.photoURL,
+      time: '',
     })
   }
 
@@ -140,7 +144,8 @@ const Chat = ({ userObj }) => {
         </Offcanvas.Header>
         <Offcanvas.Body>
           {chat === undefined ? goBack() : ''}
-          {/* 이 방법이 맞는지는 모르겠지만 도중에 상대방이 나가기를 눌러버리면
+          {/* 이 방법이 맞는지는 모르겠지만(작동은 매우 잘 됨) 
+          도중에 상대방이 나가기를 눌러버리면
           다른 한 쪽에서는 에러가 발생하므로 그 쪽에서도 자동으로 뒤로가기 */}
 
           {chat.dialog
@@ -156,22 +161,45 @@ const Chat = ({ userObj }) => {
                     style={{ display: 'flex', flexDirection: flexDirection }}
                   >
                     <div style={{ width: '250px' }}>
-                      <Toast>
-                        <Toast.Header>
-                          <img
-                            src={i.senderImg}
-                            width="40px"
-                            height="40px"
-                            alt="img"
-                            style={{
-                              borderRadius: '50px',
-                              marginRight: '10px',
-                            }}
-                          />
-                          <strong className="me-auto">{i.senderName}</strong>
-                        </Toast.Header>
-                        <Toast.Body>{i.context}</Toast.Body>
-                      </Toast>
+
+                    {/* 대화내용을 Toast만 사용한 것이 아니라 Tooltip까지 사용한 이유는 
+                    대화 시간도 같이 보여주기 위해서이다 */}
+                      <OverlayTrigger
+                        placement={flexDirection === 'row' ? 'right' : 'left'}
+                        overlay={
+                          <Tooltip
+                            id={`tooltip-${
+                              flexDirection === 'row' ? 'right' : 'left'
+                            }`}
+                          >
+                            {i.time}
+                          </Tooltip>
+                        }
+                      >
+                        <Toast>
+                          <Toast.Header>
+                            <img
+                              src={i.senderImg}
+                              width="40px"
+                              height="40px"
+                              alt="img"
+                              style={{
+                                borderRadius: '50px',
+                                marginRight: '10px',
+                              }}
+                            />
+                            <strong className="me-auto">{i.senderName}</strong>
+                          </Toast.Header>
+                          <Toast.Body>
+                            {i.context}
+
+                            {/* <div style={{ display:'flex' }}>
+                          <div style={{ flex: '1' }}>{i.context}</div>
+                          <div>{i.time}</div>
+                          </div> */}
+                          </Toast.Body>
+                        </Toast>
+                      </OverlayTrigger>
                     </div>
                   </div>
                 )
