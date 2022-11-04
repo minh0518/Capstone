@@ -8,8 +8,9 @@ import Container from 'react-bootstrap/Container'
 import Nav from 'react-bootstrap/Nav'
 import Navbar from 'react-bootstrap/Navbar'
 import Offcanvas from 'react-bootstrap/Offcanvas'
-import Button from 'react-bootstrap/Button';
+import Button from 'react-bootstrap/Button'
 
+import logoImg from '../logo/MovieAppLogo.png'
 
 const Navigation = ({ userObj }) => {
   const [currentLogin, setCurrentLogin] = useState({
@@ -46,30 +47,33 @@ const Navigation = ({ userObj }) => {
     <nav>
       <>
         {[false].map((expand) => (
-          <Navbar key={expand} bg="light" expand={expand} className="mb-3">
+          <Navbar key={expand} expand={expand} className="mb-3">
             <Container fluid>
               <Navbar.Brand href="/">
-                로고자리
-                
-                <Link to='/myProfile' style={{ textDecoration: 'none', color:'black'}}>
-                <img
-                  src={currentLogin.userImg}
-                  width="50px"
-                  height="50px"
-                  alt="img"
-                  style={{ borderRadius: '50px', marginLeft: '70px' }}
-                />
-                <h5
-                  style={{
-                    marginTop: '14px',
-                    marginLeft: '15px',
-                    display: 'inline-block',
-                  }}
+                <div style={{ display: 'inline-block', marginLeft: '150px' }}>
+                  <img src={logoImg} width="240px" height="210px" alt="img" />
+                </div>
+                {/* <Link
+                  to="/myProfile"
+                  style={{ textDecoration: 'none', color: 'black' }}
                 >
-                  {currentLogin.userDisplayName}
-                </h5>
-                </Link>
-                
+                  <img
+                    src={currentLogin.userImg}
+                    width="50px"
+                    height="50px"
+                    alt="img"
+                    style={{ borderRadius: '50px', marginLeft: '70px' }}
+                  />
+                  <h5
+                    style={{
+                      marginTop: '14px',
+                      marginLeft: '15px',
+                      display: 'inline-block',
+                    }}
+                  >
+                    {currentLogin.userDisplayName}
+                  </h5>
+                </Link> */}
               </Navbar.Brand>
 
               <Navbar.Toggle
@@ -82,7 +86,22 @@ const Navigation = ({ userObj }) => {
               >
                 <Offcanvas.Header closeButton>
                   <Offcanvas.Title id={`offcanvasNavbarLabel-expand-${expand}`}>
-                    Menu를 선택하세요
+                  <img
+                    src={currentLogin.userImg}
+                    width="50px"
+                    height="50px"
+                    alt="img"
+                    style={{ borderRadius: '50px'}}
+                  />
+                  <h5
+                    style={{
+                      marginTop: '14px',
+                      marginLeft: '15px',
+                      display: 'inline-block',
+                    }}
+                  >
+                    {currentLogin.userDisplayName}
+                  </h5>
                   </Offcanvas.Title>
                 </Offcanvas.Header>
                 <Offcanvas.Body>
@@ -93,8 +112,6 @@ const Navigation = ({ userObj }) => {
                     <Nav.Link href="/movie">Movie</Nav.Link>
                     <Nav.Link href="/social">Social</Nav.Link>
                     <Nav.Link onClick={onLogOutClick}>Log Out</Nav.Link>
-
-                    
                   </Nav>
                 </Offcanvas.Body>
               </Navbar.Offcanvas>
