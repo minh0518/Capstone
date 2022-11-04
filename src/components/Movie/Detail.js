@@ -10,7 +10,6 @@ import Row from 'react-bootstrap/Row'
 import Container from 'react-bootstrap/Container'
 
 const Detail = ({ userObj }) => {
-  //왜 새로고침하면 movieInfo가 없어지는거지?
 
   const { id } = useParams()
   const [detailInfo, setDetailInfo] = useState('')
@@ -94,8 +93,6 @@ const Detail = ({ userObj }) => {
                 <Col xs={12} md={12} lg={12}></Col>
               </Row>
             </Container>
-                  <br/>
-                  <br/>
             <ShowReview detailInfo={detailInfo} userObj={userObj} />
           </div>
         </div>

@@ -153,7 +153,7 @@ const Chat = ({ userObj }) => {
                             width="40px"
                             height="40px"
                             alt="img"
-                            style={{ borderRadius: '50px' }}
+                            style={{ borderRadius: '50px' , marginRight :'10px' }}
                           />
                           <strong className="me-auto">{i.senderName}</strong>
                         </Toast.Header>

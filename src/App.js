@@ -108,7 +108,6 @@ function App() {
       {init ? (
         <AppRouter
           isLoggedIn={isLoggedIn}
-
           userObj={userObj}
         />
       ) : (

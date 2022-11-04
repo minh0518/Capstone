@@ -109,7 +109,8 @@ const Home = () => {
       }
 
       sessionStorage.setItem('movies', JSON.stringify(NaverInfoArr))
-      //console.log(tmp)
+      
+      
       setNaverInfo(NaverInfoArr)
     }
     getMovies()
@@ -193,7 +194,7 @@ const Home = () => {
     .slick-list {
       //슬라이드 스크린
       width: 100%;
-      height: 100%;
+      height: 350px;
       margin-top: 150px;
       overflow-x: hidden;
     }
