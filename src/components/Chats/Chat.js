@@ -37,10 +37,23 @@ const Chat = ({ userObj }) => {
   //최종적으로 이걸 통해 JSX로 화면에 대화 내용이 보여짐
 
   const [show, setShow] = useState(true)
-  const [flexDirection, setFlexDirection] = useState('')
 
-  const handleClose = () => setShow(false)
-  const handleShow = () => setShow(true)
+  const makeDate = () => {
+    const date = new Date()
+
+    //const year = date.getFullYear();
+    const month = ('0' + (date.getMonth() + 1)).slice(-2)
+    const day = ('0' + date.getDate()).slice(-2)
+    const hours = ('0' + date.getHours()).slice(-2)
+    const minutes = ('0' + date.getMinutes()).slice(-2)
+
+    const dateStr = month + '.' + day + ' ' + hours + ':' + minutes
+
+    console.log(dateStr)
+    
+    return dateStr
+    
+  }
 
   //useNavigate()사용
   const navigate = useNavigate()
@@ -111,12 +124,10 @@ const Chat = ({ userObj }) => {
   }
 
   const goBack = () => {
-    if(chat===undefined){
+    if (chat === undefined) {
       window.alert('상대방이 대화를 종료했습니다')
     }
     navigate('/chatList', { replace: true })
-
-    
   }
 
   return (
@@ -128,8 +139,7 @@ const Chat = ({ userObj }) => {
           <Offcanvas.Title>Chats</Offcanvas.Title>
         </Offcanvas.Header>
         <Offcanvas.Body>
-
-          {chat===undefined? goBack():''} 
+          {chat === undefined ? goBack() : ''}
           {/* 이 방법이 맞는지는 모르겠지만 도중에 상대방이 나가기를 눌러버리면
           다른 한 쪽에서는 에러가 발생하므로 그 쪽에서도 자동으로 뒤로가기 */}
 
@@ -153,7 +163,10 @@ const Chat = ({ userObj }) => {
                             width="40px"
                             height="40px"
                             alt="img"
-                            style={{ borderRadius: '50px' , marginRight :'10px' }}
+                            style={{
+                              borderRadius: '50px',
+                              marginRight: '10px',
+                            }}
                           />
                           <strong className="me-auto">{i.senderName}</strong>
                         </Toast.Header>
@@ -164,8 +177,8 @@ const Chat = ({ userObj }) => {
                 )
               })
             : 'wait..'}
-            <br/>
-            <br/>
+          <br />
+          <br />
           <form onSubmit={onSubmit}>
             <input
               name="dialog"
@@ -185,8 +198,6 @@ const Chat = ({ userObj }) => {
         </Offcanvas.Body>
         <Offcanvas.Body></Offcanvas.Body>
       </Offcanvas>
-
-    
 
       {/* <ul>
         {chat.dialog

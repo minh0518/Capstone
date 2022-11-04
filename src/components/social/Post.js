@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react'
-import { useParams, Link ,useNavigate} from 'react-router-dom'
+import { useParams, Link, useNavigate } from 'react-router-dom'
 import { getDoc, getDocs, deleteDoc, doc } from 'firebase/firestore'
 import { dbService } from '../../fbase'
 import ShowLocation from '../map/ShowLocation'
+import ListGroup from 'react-bootstrap/ListGroup'
+import Button from 'react-bootstrap/Button';
 
 const Post = ({ userObj }) => {
   const { documentId } = useParams()
@@ -19,13 +21,9 @@ const Post = ({ userObj }) => {
     getReviews()
   }, [])
 
-
   const navigate = useNavigate()
-  const onDelteClick= async ()=>{
-
+  const onDelteClick = async () => {
     const ok = window.confirm('삭제하시겠습니까?')
-      
-    
 
     if (ok) {
       await deleteDoc(doc(dbService, 'posts', `${documentId}`))
@@ -45,16 +43,23 @@ const Post = ({ userObj }) => {
               style={{ textDecoration: 'none', color: 'black' }}
               to={`/userProfile/${post.userId}`}
             >
-              <h4>{post.userName}</h4>
+              <img
+                src={post.userImg}
+                width="40px"
+                height="40px"
+                alt="img"
+                style={{ borderRadius: '50px' }}
+              />
+              <h5>{post.userName}</h5>
             </Link>
-            <img src={post.userImg} width="50px" height="50px" alt="img" />
           </div>
           <div>
             {post.time}
             <div style={{ paddingTop: '10px' }}>
               {userObj.uid === post.userId ? (
                 <>
-                  <button onClick={onDelteClick}>삭제하기</button>
+                 <Button onClick={onDelteClick} variant="light">삭제하기</Button>
+                  {/* <button onClick={onDelteClick}>삭제하기</button> */}
                 </>
               ) : (
                 ''
@@ -76,14 +81,18 @@ const Post = ({ userObj }) => {
           <h2> {post.postTitle}</h2>
         </div>
         <div>
-          <ul style={{ listStyle: 'none', paddingLeft: '10px' }}>
-            <li>영화 제목 : {post.movieTitle}</li>
-            <li>지역 : {post.region}</li>
-            <li>영화관 : {post.theater}</li>
-          </ul>
+          <ListGroup variant="flush">
+            <p>영화 제목</p>
+            <ListGroup.Item>{post.movieTitle}</ListGroup.Item>
+            <p>지역</p>
+            <ListGroup.Item>{post.region}</ListGroup.Item>
+            <p>영화관</p>
+            <ListGroup.Item>{post.theater}</ListGroup.Item>
+          </ListGroup>
         </div>
 
-        <div style={{ marginTop: '100px', marginBottom: '400px' }}>
+        <div style={{ marginTop: '100px', marginBottom: '400px' , border:'1px solid black' , borderRadius:'10px' , width: '100%',
+              height: '200px'}}>
           {post.context}
         </div>
       </div>

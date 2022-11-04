@@ -254,6 +254,9 @@ const EditProfileImg = ({ userObj }) => {
     fileInput.current.value = ''
     //clear버튼 누르면 빈 문자열로 초기화
   }
+
+
+  
   const fileInput = useRef()
   const navigate = useNavigate()
 
