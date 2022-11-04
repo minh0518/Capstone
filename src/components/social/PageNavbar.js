@@ -11,16 +11,16 @@ const PageNavbar = ({ total, limit, page, setPage }) => {
   `
 
   const Button = styled.button`
+    background-color: white;
     border: none;
     border-radius: 8px;
     padding: 8px;
     margin: 0;
-    background: black;
-    color: white;
+    color: black;
     font-size: 1rem;
 
     &:hover {
-    color:black;
+      color: black;
       background: white;
       cursor: pointer;
       transform: translateY(-2px);
@@ -30,8 +30,8 @@ const PageNavbar = ({ total, limit, page, setPage }) => {
       background: grey;
       cursor: revert;
       transform: revert;
-    } 
- 
+    }
+
     &[aria-current] {
       background: gray;
       font-weight: bold;
