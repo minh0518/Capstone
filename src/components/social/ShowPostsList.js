@@ -6,6 +6,7 @@ import { Select } from '../../styles/Container.styled'
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
+import PageNavbar from './PageNavbar'
 
 const ShowPosts = ({ movieTitle, theater, region }) => {
   const [allPost, setAllPost] = useState([])
@@ -17,6 +18,10 @@ const ShowPosts = ({ movieTitle, theater, region }) => {
     theater: 'ALL',
     region: 'ALL',
   })
+
+  const [limit, setLimit] = useState(3)
+  const [page, setPage] = useState(1)
+  const offset = (page - 1) * limit
 
   useEffect(() => {
     const getPosts = async () => {
@@ -225,105 +230,118 @@ const ShowPosts = ({ movieTitle, theater, region }) => {
     }
   }
 
-
   return (
     <div>
       <Container style={{ marginTop: '60px' }}>
         <Row>
           <Col xs={12} md={12} lg={6}>
-
-                       {/*select 목록들의 윗부분에 여백을 줌*/}
+            {/*select 목록들의 윗부분에 여백을 줌*/}
             <div style={{ marginTop: '50px' }}>
-            <label htmlFor="title">영화 제목</label>
-            <Select
-              className="selectBox"
-              id="title"
-              name="title"
-              onChange={onChange}
-            >
-              <option value="default" disabled>
-                영화를 선택하세요
-              </option>
-              {movieTitle.map((i, index) => {
-                return (
-                  <option key={index} value={i}>
-                    {i}
-                  </option>
-                )
-              })}
-            </Select>
-            <br />
-            <label htmlFor="theater">영화관</label>
-            <Select id="theater" name="theater" onChange={onChange}>
-              <option value="default" disabled>
-                영화관을 선택하세요
-              </option>
-              {theater.map((i, index) => {
-                return (
-                  <option key={index} value={i}>
-                    {i}
-                  </option>
-                )
-              })}
-            </Select>
-            <br />
-            <label htmlFor="region">지역(구)</label>
-            <Select id="region" name="region" onChange={onChange}>
-              <option value="default" disabled>
-                지역(구)을 선택하세요
-              </option>
-              {region.map((i, index) => {
-                return (
-                  <option key={index} value={i}>
-                    {i}
-                  </option>
-                )
-              })}
-            </Select>
+              <label htmlFor="title">영화 제목</label>
+              <Select
+                className="selectBox"
+                id="title"
+                name="title"
+                onChange={onChange}
+              >
+                <option value="default" disabled>
+                  영화를 선택하세요
+                </option>
+                {movieTitle.map((i, index) => {
+                  return (
+                    <option key={index} value={i}>
+                      {i}
+                    </option>
+                  )
+                })}
+              </Select>
+              <br />
+              <label htmlFor="theater">영화관</label>
+              <Select id="theater" name="theater" onChange={onChange}>
+                <option value="default" disabled>
+                  영화관을 선택하세요
+                </option>
+                {theater.map((i, index) => {
+                  return (
+                    <option key={index} value={i}>
+                      {i}
+                    </option>
+                  )
+                })}
+              </Select>
+              <br />
+              <label htmlFor="region">지역(구)</label>
+              <Select id="region" name="region" onChange={onChange}>
+                <option value="default" disabled>
+                  지역(구)을 선택하세요
+                </option>
+                {region.map((i, index) => {
+                  return (
+                    <option key={index} value={i}>
+                      {i}
+                    </option>
+                  )
+                })}
+              </Select>
             </div>
           </Col>
           <Col xs={12} md={12} lg={6}>
             <div>
               <div style={{ width: '600px' }}>
-                {categorizedPosts.map((i) => {
+                {categorizedPosts.slice(offset, offset + limit).map((i) => {
                   return (
                     <>
-                      <div style={{display: 'flex',alignItems: 'center'}}>
-                        <div style={{ flex: '1'}}>
+                      <div style={{ display: 'flex', alignItems: 'center' }}>
+                        <div style={{ flex: '1' }}>
                           {/* 프로필 링크로 분리 */}
                           <Link
                             style={{ textDecoration: 'none', color: 'black' }}
                             to={`/userProfile/${i.userId}`}
                           >
-                                                        {/*게시글 목록들의 윗부분에 여백을 줌*/}
-                            <div style={{display:'flex' , marginTop:'50px'}}>
-                            <img
-                              src={i.userImg}
-                              width="50px"
-                              height="50px"
-                              alt="img"
-                              style={{borderRadius:'50px'}}
-                            />
-                            <h5 style={{marginTop:'14px' , marginLeft:'15px'}}>{i.userName}</h5>
+                            {/*게시글 목록들의 윗부분에 여백을 줌*/}
+                            <div style={{ display: 'flex', marginTop: '50px' }}>
+                              <img
+                                src={i.userImg}
+                                width="50px"
+                                height="50px"
+                                alt="img"
+                                style={{ borderRadius: '50px' }}
+                              />
+                              <h5
+                                style={{
+                                  marginTop: '14px',
+                                  marginLeft: '15px',
+                                }}
+                              >
+                                {i.userName}
+                              </h5>
                             </div>
                           </Link>
                         </div>
                         <div>{i.time}</div>
                       </div>
                       <Link
-                        style={{ textDecoration: 'none', color: 'black'}}
+                        style={{ textDecoration: 'none', color: 'black' }}
                         to={`/social/post/${i.id}`} //documentId를 사용
                       >
-                        <div style={{marginTop:'20px'}}>
-                        <strong>{i.postTitle}</strong>
+                        <div style={{ marginTop: '20px' }}>
+                          <strong>{i.postTitle}</strong>
                         </div>
                       </Link>
                       <hr />
                     </>
-                  )
+                  )  
                 })}
               </div>
             </div>
+            <footer>
+            <PageNavbar
+              total={categorizedPosts.length}
+              limit={limit}
+              page={page}
+              setPage={setPage}
+            />
+          </footer>
           </Col>
         </Row>
       </Container>
