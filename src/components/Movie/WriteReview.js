@@ -59,16 +59,18 @@ const WriteReview = ({ detailInfo, userObj }) => {
           value={newReview.context} 
           onChange={onChange}
           type="text"
-          placeholder="What's on yout mind about this movie"
+          placeholder="리뷰를 작성해주세요 (최대 120자)"
           maxLength={120}
+          style={{width:'600px'}}
         ></input>
         <input
           name="rating"
           value={newReview.rating}
           onChange={onChange}
-          type="text"
-          placeholder="rating"
-          maxLength={10}
+          type="number"
+          placeholder="평점"
+          step='0.5'
+          min="1" max="10"
         ></input>
 
         <input type="submit" value="등록" />

@@ -110,11 +110,12 @@ const MovieCompanyInfo = ({ movieCd,index }) => {
                   </Col>
                 </Row>
                 <Row>
-                    <Col><Button variant="light">
+                    <Col><Button variant="dark">
                     <Link
                     variant="primary"
                     to={`/movie/detail/${index + 1}`}
-                    style={{ textDecoration: 'none', color: 'black' }}
+                    style={{ textDecoration: 'none', color: 'white' }}
+                    
                   >리뷰 및 차트</Link></Button></Col>
                 </Row>
               </Container>

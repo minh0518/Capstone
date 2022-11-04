@@ -23,7 +23,6 @@ const Home = () => {
   const [nationCategory, setNationCategories] = useState('')
   const [multiCategory, setMultiCategorie] = useState('')
 
-
   const makeDate = () => {
     let today = new Date()
     let year = today.getFullYear() // 년도
@@ -231,7 +230,7 @@ const Home = () => {
                   setNationCategories(i.text)
                 }}
               >
-                {i.name}
+                <b>{i.name}</b>
               </Button>
             )
           })}
@@ -247,7 +246,7 @@ const Home = () => {
                   setMultiCategorie(i.text)
                 }}
               >
-                {i.name}
+                <b>{i.name}</b>
               </Button>
             )
           })}
