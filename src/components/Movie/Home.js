@@ -11,13 +11,18 @@ import Spinner from 'react-bootstrap/Spinner'
 import Slider from 'react-slick'
 import 'slick-carousel/slick/slick.css'
 import 'slick-carousel/slick/slick-theme.css'
+
+import Offcanvas from 'react-bootstrap/Offcanvas'
+
 import styled from 'styled-components'
+import MovieCompanyInfo from './MovieCompanyInfo'
 
 const Home = () => {
   const [koficInfo, setKoficInfo] = useState([])
   const [naverInfo, setNaverInfo] = useState([])
   const [nationCategory, setNationCategories] = useState('')
   const [multiCategory, setMultiCategorie] = useState('')
+
 
   const makeDate = () => {
     let today = new Date()
@@ -74,7 +79,7 @@ const Home = () => {
         let response = await axios.get(`/v1/search/movie.json`, {
           params: {
             query: koficInfo[i].movieNm,
-            display: 20, 
+            display: 20,
             //최소한 20개는 받아와야 그 중에서 정확한 영화가 하는 포함되어있다
           },
           headers: {
@@ -111,8 +116,7 @@ const Home = () => {
       }
 
       sessionStorage.setItem('movies', JSON.stringify(NaverInfoArr))
-      
-      
+
       setNaverInfo(NaverInfoArr)
     }
     getMovies()
@@ -127,7 +131,6 @@ const Home = () => {
   //네이버API에게 제목을 전달해주면 이상한 영화를 가져오는 경우가 많으므로
   //필터링 로직 추가
   const filterTitle = (arr, query) => {
-    console.log(arr)
     if (arr.length === 1) {
       //받아온 것이 1개뿐이면 그걸 그대로 사용
       return arr[0]
@@ -216,12 +219,6 @@ const Home = () => {
 
   return (
     <div>
-      {/* <div className="header">
-        <div>
-          <h2 className="pont">Box Office</h2>
-        </div>
-      </div> */}
-
       <h2 className="boxOfficePont">Box Office</h2>
 
       <Box>
@@ -265,7 +262,7 @@ const Home = () => {
               return ''
             } else {
               return (
-                <div>
+                <div key={index}>
                   {/* <div style={{width:'200px',height:'270px',backgroundColor:'lightgrey'}}> */}
                   <h5>{index + 1}위</h5>
                   <Link
@@ -284,7 +281,9 @@ const Home = () => {
                         : i.kofic.movieNm}
                     </h4>
                   </Link>
-                  {/* </div> */}
+                  <MovieCompanyInfo movieCd={i.kofic.movieCd} index={index} />
+                  {/* <button onClick={setChowCompanyInfo(prev=>!prev)}>Made by.</button>
+                  {showCompanyInfo&&<MovieCompanyInfo />} */}
                 </div>
               )
             }
