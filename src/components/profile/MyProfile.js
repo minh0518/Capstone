@@ -18,29 +18,13 @@ import { faVideo } from '@fortawesome/free-solid-svg-icons'
 import ShowLocation from '../map/ShowLocation'
 import '../../styles/profiles.scss'
 
-
-
-
-
-
-
-
 //프로필 사진이든 닉네임이든 authService.currentUser에 해당하는 사항을 변경하고
-  //updateProfile해주면
-  //새로고침안해도 즉각적으로 authService.currentUser는 바뀐다
-  //그렇지만  userObj는 최소한 새로고침은 해줘야 한다
-  //바로 즉각적으로 바뀌진 않는다
-  //그래서 최소한 프로필사진이든 이름이든 수정하고나서 그 페이지에서 새로고침을 해주고
-  //프로필화면과 , 상단 nav바의 상태가 바뀐 것을 확인하고 넘어가야 한다
-
-
-
-
-
-
-
-
-
+//updateProfile해주면
+//새로고침안해도 즉각적으로 authService.currentUser는 바뀐다
+//그렇지만  userObj는 최소한 새로고침은 해줘야 한다
+//바로 즉각적으로 바뀌진 않는다
+//그래서 최소한 프로필사진이든 이름이든 수정하고나서 그 페이지에서 새로고침을 해주고
+//프로필화면과 , 상단 nav바의 상태가 바뀐 것을 확인하고 넘어가야 한다
 
 const Profile = ({ userObj }) => {
   const [editMode, setEditMode] = useState(false)
@@ -61,17 +45,14 @@ const Profile = ({ userObj }) => {
   const [bestPickArr, setBestPickArr] = useState('')
   //bestPick을 새로 추가or삭제하기 직전의 값들을 담고 있음
 
-
   //대화목록의 닉네임 변경시 사용
   const [changeChatListDisplayName, setChangeChatListDisplayName] = useState([])
   //대화내용의 닉네임 변경시 사용
-  const [changeDialogDisplayName,setChangeDialogDisplayName]=useState([])
+  const [changeDialogDisplayName, setChangeDialogDisplayName] = useState([])
 
+  const [changeReviewDisplayName, setChangeReviewDisplayName] = useState([])
 
-  const[changeReviewDisplayName,setChangeReviewDisplayName]=useState([])
-
-
-  const [changePostDisplayName,setChangePostDisplayName]=useState([])
+  const [changePostDisplayName, setChangePostDisplayName] = useState([])
 
   const genre = {
     ALL: '',
@@ -131,16 +112,14 @@ const Profile = ({ userObj }) => {
   //   navigate('/')
   // }
 
-  console.log(authService.currentUser) 
+  console.log(authService.currentUser)
   console.log(userObj)
 
-  
-  //1. 닉네임 변경시 대화목록의 닉네임 , 대화내용의 닉네임 수정 
+  //1. 닉네임 변경시 대화목록의 닉네임 , 대화내용의 닉네임 수정
   //sender receiver 찾지 말고 그냥 userObj랑 uid가 같은 이름 변경하면 됨
   //uid가 같은것에 따라서 sender이닞 receiver인지만 구분해서
   //userObj의 displayName으로 바꾸면 됨
   useEffect(() => {
-
     //1-1.대화목록의 닉네임 수정
     const getChatList = async () => {
       let result = []
@@ -167,24 +146,25 @@ const Profile = ({ userObj }) => {
     //1-2.대화내용 닉네임 수정
     //이것 또한 EditProfileImg에서 이미지를 바꿀때 했듯이,
     //직접 대화를 다 돌면서 대화를 통째로 가져와서 updateDoc해야한다
-    const getDialog=async()=>{
+    const getDialog = async () => {
       const chats = await getDocs(collection(dbService, 'chatTest'))
       let result = []
 
-      chats.forEach(i=>{
+      chats.forEach((i) => {
         let modifiedchats = []
 
-        if ( //대화에 내가 닉네임을 바꾼 계정이 있다면
+        if (
+          //대화에 내가 닉네임을 바꾼 계정이 있다면
           i.data().receiverId === userObj.uid ||
           i.data().senderId === userObj.uid
         ) {
-          (i.data().dialog).map(singledialog=>{
-            if(singledialog.senderId===userObj.uid){
+          i.data().dialog.map((singledialog) => {
+            if (singledialog.senderId === userObj.uid) {
               modifiedchats.push({
                 ...singledialog,
-                senderName: userObj.displayName
+                senderName: userObj.displayName,
               })
-            }else {
+            } else {
               modifiedchats.push(singledialog)
             }
           })
@@ -194,7 +174,6 @@ const Profile = ({ userObj }) => {
             targetDialog: modifiedchats,
           })
         }
-
       })
 
       setChangeDialogDisplayName(result)
@@ -236,111 +215,107 @@ const Profile = ({ userObj }) => {
       }
     }
 
-
-    const changeDialogName= async ()=>{
+    const changeDialogName = async () => {
       for (let i = 0; i < changeDialogDisplayName.length; i++) {
         await updateDoc(
-          doc(dbService, 'chatTest', `${changeDialogDisplayName[i].targetDocumentId}`),{
-            dialog:changeDialogDisplayName[i].targetDialog
-          }
+          doc(
+            dbService,
+            'chatTest',
+            `${changeDialogDisplayName[i].targetDocumentId}`,
+          ),
+          {
+            dialog: changeDialogDisplayName[i].targetDialog,
+          },
         )
       }
     }
 
     changeChatListName()
     changeDialogName()
-  }, [changeChatListDisplayName,changeDialogDisplayName])
-
-
-
-
+  }, [changeChatListDisplayName, changeDialogDisplayName])
 
   //2.닉네임 변경 시, 리뷰 닉네임 수정
-  useEffect(()=>{
-
-    const getReviewList=async ()=>{
+  useEffect(() => {
+    const getReviewList = async () => {
       let result = []
 
       const reviews = await getDocs(collection(dbService, 'reviews'))
 
-      reviews.forEach(i=>{
-        if(i.data().userId===userObj.uid){
+      reviews.forEach((i) => {
+        if (i.data().userId === userObj.uid) {
           result.push({
-            targetDocumentId: i.id
+            targetDocumentId: i.id,
           })
         }
       })
 
       setChangeReviewDisplayName(result)
-
     }
 
     getReviewList()
-
-  },[profile])
+  }, [profile])
 
   //2.changeReviewDisplayName를 바탕으로 리뷰목록 대해서 updateDoc 진행
-  useEffect(()=>{
-
-    const changeReviewsDisplayName=async ()=>{
+  useEffect(() => {
+    const changeReviewsDisplayName = async () => {
       for (let i = 0; i < changeReviewDisplayName.length; i++) {
         await updateDoc(
-          doc(dbService, 'reviews', `${changeReviewDisplayName[i].targetDocumentId}`),{
-            userName:userObj.displayName
-          }
+          doc(
+            dbService,
+            'reviews',
+            `${changeReviewDisplayName[i].targetDocumentId}`,
+          ),
+          {
+            userName: userObj.displayName,
+          },
         )
       }
     }
 
     changeReviewsDisplayName()
-
-  },[changeReviewDisplayName])
-
-
-
-
+  }, [changeReviewDisplayName])
 
   //changePostDisplayName,setChangePostDisplayName
- //3.닉네임 변경 시, post 닉네임 수정
- useEffect(()=>{
+  //3.닉네임 변경 시, post 닉네임 수정
+  useEffect(() => {
+    const getPostList = async () => {
+      let result = []
 
-  const getPostList=async ()=>{
-    let result = []
+      const reviews = await getDocs(collection(dbService, 'posts'))
 
-    const reviews = await getDocs(collection(dbService, 'posts'))
-
-    reviews.forEach(i=>{
-      if(i.data().userId===userObj.uid){
-        result.push({
-          targetDocumentId: i.id
-        })
-      }
-    })
-
-    setChangePostDisplayName(result)
-  }
-
-  getPostList()
-
- },[profile])
-
- //3.changePostDisplayName를 바탕으로 updateDoc 진행
- useEffect(()=>{
-
-  const changePostsDisplayName=async ()=>{
-    for (let i = 0; i < changePostDisplayName.length; i++) {
-      await updateDoc(
-        doc(dbService, 'posts', `${changePostDisplayName[i].targetDocumentId}`),{
-          userName:userObj.displayName
+      reviews.forEach((i) => {
+        if (i.data().userId === userObj.uid) {
+          result.push({
+            targetDocumentId: i.id,
+          })
         }
-      )
+      })
+
+      setChangePostDisplayName(result)
     }
-  }
 
-  changePostsDisplayName()
+    getPostList()
+  }, [profile])
 
- },[changePostDisplayName])
+  //3.changePostDisplayName를 바탕으로 updateDoc 진행
+  useEffect(() => {
+    const changePostsDisplayName = async () => {
+      for (let i = 0; i < changePostDisplayName.length; i++) {
+        await updateDoc(
+          doc(
+            dbService,
+            'posts',
+            `${changePostDisplayName[i].targetDocumentId}`,
+          ),
+          {
+            userName: userObj.displayName,
+          },
+        )
+      }
+    }
 
+    changePostsDisplayName()
+  }, [changePostDisplayName])
 
   const onChange = (e) => {
     let { name, value } = e.target
@@ -483,170 +458,158 @@ const Profile = ({ userObj }) => {
         <Row xs={12} md={12} lg={12}>
           <Col>
             <ProfileBox>
-              <div>
-                <Card style={{ width: '30rem' }}>
-                  <Card.Img variant="top" src={userObj.photoURL} />
-                  <Card.Body>
-                    <Card.Title>
-                      {editMode ? (
-                        <ProfileInput
-                          name="displayName"
-                          onChange={onChange}
-                          value={profile.displayName}
-                        />
-                      ) : (
-                        <>{profile.displayName}</>
-                      )}
-                    </Card.Title>
-                    <Card.Text>
-                      생년월일 :
-                      {editMode ? (
-                        <ProfileInput
-                          name="birth"
-                          onChange={onChange}
-                          value={profile.birth}
-                          placeholder="YYYY.MM.DD"
-                        />
-                      ) : (
-                        <>{profile.birth}</>
-                      )}
-                    </Card.Text>
-                  </Card.Body>
-                  <ListGroup className="list-group-flush">
-                    <ListGroup.Item>
-                      관심 장르 :
-                      {editMode ? (
-                        <>
-                          <ProfileSelect
-                            id="preferredGenre"
-                            name="preferredGenre"
-                            onChange={onChange}
-                            value={profile.preferredGenre}
-                          >
-                            <option value="default" disabled>
-                              장르를 선택하세요
-                            </option>
-                            {Object.keys(genre).map((i, index) => {
-                              return (
-                                <option key={index} value={i}>
-                                  {i}
-                                </option>
-                              )
-                            })}
-                          </ProfileSelect>
-                        </>
-                      ) : (
-                        <> {profile.preferredGenre}</>
-                      )}
-                    </ListGroup.Item>
-                    <ListGroup.Item>
-                      Best Pick!
-                      {editMode ? (
-                        <>
-                          <ul style={{ listStyle: 'none' }}>
-                            {profile.bestPick.map((i) => {
-                              return (
-                                <li>
-                                  <FontAwesomeIcon
-                                    icon={faVideo}
-                                    style={{ paddingRight: '10px' }}
-                                  />
-                                  {i}
-                                  <button
-                                    value={i}
-                                    onClick={onDeleteClick}
-                                    style={{
-                                      border: '0',
-                                      outline: '0',
-                                      background: 'transparent',
-                                      color: 'red',
-                                    }}
-                                  >
-                                    X
-                                  </button>
-                                </li>
-                              )
-                            })}
-                          </ul>
-                          <ProfileInput
-                            name="bestPick"
-                            onChange={onChange}
-                            value={bestPickValue}
-                          />
-                        </>
-                      ) : (
-                        <>
-                          <ul style={{ listStyle: 'none' }}>
-                            {profile.bestPick.map((i) => {
-                              return (
-                                <li>
-                                  <FontAwesomeIcon
-                                    icon={faVideo}
-                                    style={{ paddingRight: '10px' }}
-                                  />
-                                  {i}
-                                </li>
-                              )
-                            })}
-                          </ul>
-                        </>
-                      )}
-                    </ListGroup.Item>
-                    <ListGroup.Item>
-                      <b>자주 가는 영화관</b>
-                      {editMode ? (
-                        <ProfileInput
-                          name="favoriteTheater"
-                          onChange={onChange}
-                          value={profile.favoriteTheater}
-                        />
-                      ) : (
-                        //  profile.favoriteTheater가 있을 경우에만 지도로 보여줌
-                        <>
-                          {profile.favoriteTheater ? (
-                            <>
-                              <ShowLocation
-                                placeName={profile.favoriteTheater}
-                              />
-                              <h5>
-                                <b>{profile.favoriteTheater}</b>
-                              </h5>
-                            </>
-                          ) : (
-                            '아직 선택되지 않았습니다'
-                          )}
-                        </>
-                      )}
-                    </ListGroup.Item>
-                  </ListGroup>
-                  <Card.Body>
-                    {/* <Link to="editProfileImg" style={{ textDecoration: 'none' }}>
-            프로필 이미지 수정
-          </Link> */}
-                    <Link
-                      to="editProfileImg"
-                      style={{ textDecoration: 'none' }}
-                    >
-                      <Button variant="outline-dark">프로필 이미지 수정</Button>
-                    </Link>
-                    {editMode ? (
-                      <Button variant="outline-dark" onClick={onClick}>
-                        완료
-                      </Button>
-                    ) : (
-                      <Button variant="outline-dark" onClick={onToggleChange}>
-                        수정하기
-                      </Button>
-                    )}
-                    {/* <Card.Link href="#">Another Link</Card.Link> */}
-                  </Card.Body>
-                </Card>
-
-                {/* <button onClick={onLogOutClick}>Log Out</button> */}
+              <div style={{borderRight:'1px solid black' , paddingRight:'50px',marginRight:'50px' }}>
+                <img src={userObj.photoURL} style={{width:'330px' ,height:'400px' , borderRadius:'20px'}} alt="" />
               </div>
+
+              <ListGroup variant="flush">
+                <ListGroup.Item>
+                  {editMode ? (
+                    <ProfileInput
+                      name="displayName"
+                      onChange={onChange}
+                      value={profile.displayName}
+                    />
+                  ) : (
+                    <h5><b>{profile.displayName}</b></h5>
+                  )}
+                  생년월일 :
+                  {editMode ? (
+                    <ProfileInput
+                      name="birth"
+                      onChange={onChange}
+                      value={profile.birth}
+                      placeholder="YYYY.MM.DD"
+                    />
+                  ) : (
+                    <>{profile.birth}</>
+                  )}
+                </ListGroup.Item>
+                <ListGroup.Item>
+                  {' '}
+                  관심 장르 :
+                  {editMode ? (
+                    <>
+                      <ProfileSelect
+                        id="preferredGenre"
+                        name="preferredGenre"
+                        onChange={onChange}
+                        value={profile.preferredGenre}
+                      >
+                        <option value="default" disabled>
+                          장르를 선택하세요
+                        </option>
+                        {Object.keys(genre).map((i, index) => {
+                          return (
+                            <option key={index} value={i}>
+                              {i}
+                            </option>
+                          )
+                        })}
+                      </ProfileSelect>
+                    </>
+                  ) : (
+                    <> {profile.preferredGenre}</>
+                  )}
+                </ListGroup.Item>
+                <ListGroup.Item>
+                  {' '}
+                  Best Pick!
+                  {editMode ? (
+                    <>
+                      <ul style={{ listStyle: 'none' }}>
+                        {profile.bestPick.map((i) => {
+                          return (
+                            <li>
+                              <FontAwesomeIcon
+                                icon={faVideo}
+                                style={{ paddingRight: '10px' }}
+                              />
+                              {i}
+                              <button
+                                value={i}
+                                onClick={onDeleteClick}
+                                style={{
+                                  border: '0',
+                                  outline: '0',
+                                  background: 'transparent',
+                                  color: 'red',
+                                }}
+                              >
+                                X
+                              </button>
+                            </li>
+                          )
+                        })}
+                      </ul>
+                      <ProfileInput
+                        name="bestPick"
+                        onChange={onChange}
+                        value={bestPickValue}
+                      />
+                    </>
+                  ) : (
+                    <>
+                      <ul style={{ listStyle: 'none' }}>
+                        {profile.bestPick.map((i) => {
+                          return (
+                            <li>
+                              <FontAwesomeIcon
+                                icon={faVideo}
+                                style={{ paddingRight: '10px' }}
+                              />
+                              {i}
+                            </li>
+                          )
+                        })}
+                      </ul>
+                    </>
+                  )}
+                </ListGroup.Item>
+                <ListGroup.Item>
+                  {' '}
+                  <b>자주 가는 영화관</b>
+                  {editMode ? (
+                    <ProfileInput
+                      name="favoriteTheater"
+                      onChange={onChange}
+                      value={profile.favoriteTheater}
+                    />
+                  ) : (
+                    //  profile.favoriteTheater가 있을 경우에만 지도로 보여줌
+                    <>
+                      {profile.favoriteTheater ? (
+                        <>
+                          <ShowLocation placeName={profile.favoriteTheater} />
+                          <h5>
+                            <b>{profile.favoriteTheater}</b>
+                          </h5>
+                        </>
+                      ) : (
+                        '아직 선택되지 않았습니다'
+                      )}
+                    </>
+                  )}
+                </ListGroup.Item>
+                <ListGroup.Item>
+                <Link to="editProfileImg" style={{ textDecoration: 'none' }}>
+                  <Button variant="outline-dark">프로필 이미지 수정</Button>
+                </Link>
+                {editMode ? (
+                  <Button variant="outline-dark" onClick={onClick}>
+                    완료
+                  </Button>
+                ) : (
+                  <Button variant="outline-dark" onClick={onToggleChange}>
+                    수정하기
+                  </Button>
+                )}
+                </ListGroup.Item>
+              </ListGroup>
             </ProfileBox>
           </Col>
         </Row>
+
         <Row xs={12} md={12} lg={12}>
           <Col
             xs={{ span: 12, offset: 1 }}
