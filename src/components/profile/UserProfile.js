@@ -15,9 +15,7 @@ import { faVideo } from '@fortawesome/free-solid-svg-icons'
 import ShowLocation from '../map/ShowLocation'
 
 const UserProfile = ({ userObj }) => {
-  
   const { id } = useParams()
-
 
   const [profile, setProfile] = useState({
     displayName: '',
@@ -42,72 +40,75 @@ const UserProfile = ({ userObj }) => {
     getProfiles()
   }, [])
 
-  
-
   return (
     <div>
-      <h2 className='profilePont'>{`${profile.displayName}'s Profile`}</h2>
+      <h2 className="profilePont">{`${profile.displayName}'s Profile`}</h2>
       <br />
       <br />
       <Container>
         <Row xs={12} md={12} lg={12}>
           <Col>
             <ProfileBox>
-              <div>
-                <Card style={{ width: '30rem' }}>
-                  <Card.Img variant="top" src={profile.photoURL} />
-                  <Card.Body>
-                    <Card.Title>{profile.displayName}</Card.Title>
-                    <Card.Text>생년월일 :{profile.birth}</Card.Text>
-                  </Card.Body>
-                  <ListGroup className="list-group-flush">
-                    <ListGroup.Item>
-                      관심 장르 :{profile.preferredGenre}
-                    </ListGroup.Item>
-                    <ListGroup.Item>
-                      Best Pick!
-                      <ul style={{ listStyle: 'none' }}>
-                        {profile.bestPick.map((i) => {
-                          return (
-                            <li>
-                              <FontAwesomeIcon
-                                icon={faVideo}
-                                style={{ paddingRight: '10px' }}
-                              />
-                              {i}
-                            </li>
-                          )
-                        })}
-                      </ul>
-                    </ListGroup.Item>
-                     <ListGroup.Item>
-                      <b>자주 가는 영화관</b>
-                      {profile.favoriteTheater ? (
-                            <>
-                              <ShowLocation
-                                placeName={profile.favoriteTheater}
-                              />
-                              <h5><b>{profile.favoriteTheater}</b></h5>
-                            </>
-                          ) : (
-                            '아직 선택되지 않았습니다'
-                          )}
-                    </ListGroup.Item>
-                  </ListGroup>
-                </Card>
+              <div
+                style={{
+                  borderRight: '1px solid black',
+                  paddingRight: '50px',
+                  marginRight: '50px',
+                }}
+              >
+                <img
+                  src={profile.photoURL}
+                  style={{
+                    width: '330px',
+                    height: '400px',
+                    borderRadius: '20px',
+                  }}
+                  alt=""
+                />
               </div>
+              <ListGroup variant="flush">
+                <ListGroup.Item>
+                  <h5>
+                    <b>{profile.displayName}</b>
+                  </h5>
+                  생년월일 :<>{profile.birth}</>
+                </ListGroup.Item>
+                <ListGroup.Item>
+                  관심 장르 :<> {profile.preferredGenre}</>
+                </ListGroup.Item>
+                <ListGroup.Item>
+                  Best Pick!
+                  <ul style={{ listStyle: 'none' }}>
+                    {profile.bestPick.map((i) => {
+                      return (
+                        <li>
+                          <FontAwesomeIcon
+                            icon={faVideo}
+                            style={{ paddingRight: '10px' }}
+                          />
+                          {i}
+                        </li>
+                      )
+                    })}
+                  </ul>
+                </ListGroup.Item>
+                <ListGroup.Item>
+                  {profile.favoriteTheater ? (
+                    //  profile.favoriteTheater가 있을 경우에만 지도로 보여줌
+                    <>
+                      <ShowLocation placeName={profile.favoriteTheater} />
+                      <h5>
+                        <b>{profile.favoriteTheater}</b>
+                      </h5>
+                    </>
+                  ) : (
+                    '아직 선택되지 않았습니다'
+                  )}
+                </ListGroup.Item>
+              </ListGroup>
             </ProfileBox>
           </Col>
         </Row>
-        {/* <Row xs={12} md={12} lg={12}>
-          <Col
-            xs={{ span: 12, offset: 1 }}
-            md={{ span: 12, offset: 2 }}
-            lg={{ span: 12, offset: 4 }}
-          >
-            <Recommand preferredGenre={profile.preferredGenre} />
-          </Col>
-        </Row> */}
       </Container>
     </div>
   )
