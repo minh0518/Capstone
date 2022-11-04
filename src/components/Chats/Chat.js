@@ -18,6 +18,7 @@ import Toast from 'react-bootstrap/Toast'
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
 import Tooltip from 'react-bootstrap/Tooltip'
 
+
 const Chat = ({ userObj }) => {
   const { id } = useParams() //각 대화방의 document를 가져옴
 
@@ -220,8 +221,8 @@ const Chat = ({ userObj }) => {
             )}
           </form>
           <div style={{ marginTop: '40px' }}>
-            <button onClick={onDeleteClick}>대화 나가기</button>
-            <button onClick={goBack}>뒤로 가기</button>
+          <Button variant="secondary" onClick={onDeleteClick} >대화 나가기</Button>{' '}
+          <Button variant="secondary" onClick={goBack}>뒤로 가기</Button>
           </div>
         </Offcanvas.Body>
         <Offcanvas.Body></Offcanvas.Body>
