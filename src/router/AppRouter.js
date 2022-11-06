@@ -20,6 +20,7 @@ import ChatList from '../components/chats/ChatList'
 import EditProfileImg from '../components/profile/EditProfileImg'
 import UserProfile from '../components/profile/UserProfile'
 import { Container } from '../styles/Container.styled'
+import UsersPickMovie from '../components/profile/UsersPickMovie'
 
 
 const AppRouter = ({ isLoggedIn ,userObj }) => {
@@ -36,6 +37,7 @@ const AppRouter = ({ isLoggedIn ,userObj }) => {
             <Route path="/myProfile" element={<MyProfile userObj={userObj}/> } ></Route>
             <Route path="/myProfile/editProfileImg" element={<EditProfileImg userObj={userObj}/>}></Route>
             <Route path="/userProfile/:id" element={<UserProfile userObj={userObj}/>}></Route>
+            <Route path="/userProfile/:id/:movieName" element={<UsersPickMovie userObj={userObj}/>}></Route>
             <Route path='/movie/detail/:id' element={<Detail userObj={userObj}/>}></Route>
             <Route path='/social' element={<Social userObj={userObj}/>}></Route>
             <Route path='/social/post/:documentId' element={<Post userObj={userObj}/>}></Route>

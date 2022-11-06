@@ -14,7 +14,8 @@ const MainSelect = () => {
 
   return (
     <Container>
-      <div>
+      {/* 뭔가 중앙이 안 맞아서 살짝 왼쪽으로 땡김 */}
+      <div style={{marginRight:'40px'}}>
         <Link
           className='mainMenuButton'
           to="/movie"

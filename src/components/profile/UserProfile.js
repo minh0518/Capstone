@@ -13,6 +13,7 @@ import Col from 'react-bootstrap/Col'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faVideo } from '@fortawesome/free-solid-svg-icons'
 import ShowLocation from '../map/ShowLocation'
+import UsersPickMovie from './UsersPickMovie'
 
 const UserProfile = ({ userObj }) => {
   const { id } = useParams()
@@ -26,6 +27,7 @@ const UserProfile = ({ userObj }) => {
     photoURL: '',
     favoriteTheater: '',
   })
+
 
   useEffect(() => {
     const getProfiles = async () => {
@@ -86,14 +88,18 @@ const UserProfile = ({ userObj }) => {
                             icon={faVideo}
                             style={{ paddingRight: '10px' }}
                           />
-                          {i}
+                          <Link to={`/userProfile/${id}/${i}`}>
+                            {/* <button onClick={() => setShow((prev) => !prev)}> */}
+                              {i}
+                            {/* </button> */}
+                          </Link>
                         </li>
                       )
                     })}
                   </ul>
                 </ListGroup.Item>
                 <ListGroup.Item>
-                <b>자주 가는 영화관</b>
+                  <b>자주 가는 영화관</b>
                   {profile.favoriteTheater ? (
                     //  profile.favoriteTheater가 있을 경우에만 지도로 보여줌
                     <>
