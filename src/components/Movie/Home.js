@@ -7,6 +7,11 @@
 // 끊김없이 (기존의 방식애로 그냥 props로 넘겨주면 새로고침하면 바로 에러가 발생) 
 //서비스를 이용할 수 있도록 했습니다
 
+
+//영화 진흥위원화가 리턴해주는 제목과 네이버api에서 찾아오는 영화들의 차이가 존재하므로
+//네이버api가 리턴하는 것들을 받아서 보다 더 정확한 영화들을 보여주기 위해 
+//따로 문자열 필터링 알고리즘을 적용해서 영화들을 보여주도록 했습니다
+
 import React from 'react'
 import { useEffect, useState } from 'react'
 import axios from 'axios'

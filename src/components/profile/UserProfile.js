@@ -6,6 +6,13 @@
 // 실제 네이버 영화정보로 이동하게 할 수 있게 됩니다
 
 
+//여기 또한 영화 진흥위원화가 리턴해주는 제목과 네이버api에서 찾아오는 영화들의 차이가 존재하므로
+//네이버api가 리턴하는 것들을 받아서 보다 더 정확한 영화들을 보여주기 위해 
+//따로 문자열 필터링 알고리즘을 적용해서 영화들을 보여주도록 했습니다
+//(Home페이지에서 사용한 것과 살짝 다른 필터링 로직입니다)
+
+
+
 import { getDocs, addDoc, collection } from 'firebase/firestore'
 import React, { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
