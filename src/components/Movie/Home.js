@@ -230,7 +230,7 @@ const Home = () => {
                   setNationCategories(i.text)
                 }}
               >
-                <b>{i.name}</b>
+                {i.name}
               </Button>
             )
           })}
@@ -246,7 +246,7 @@ const Home = () => {
                   setMultiCategorie(i.text)
                 }}
               >
-                <b>{i.name}</b>
+                {i.name}
               </Button>
             )
           })}

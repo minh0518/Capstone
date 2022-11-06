@@ -117,12 +117,12 @@ const Navigation = ({ userObj }) => {
                 </Offcanvas.Header>
                 <Offcanvas.Body>
                   <Nav className="justify-content-end flex-grow-1 pe-3">
-                    <Nav.Link href="/">Main Menu</Nav.Link>
-                    <Nav.Link href="/myProfile">My Profile</Nav.Link>
-                    <Nav.Link href="/chatList">테스트용 Chat</Nav.Link>
-                    <Nav.Link href="/movie">Movie</Nav.Link>
-                    <Nav.Link href="/social">Social</Nav.Link>
-                    <Nav.Link onClick={onLogOutClick}>Log Out</Nav.Link>
+                    <Nav.Link href="/"><b>Main Menu</b></Nav.Link>
+                    <Nav.Link href="/myProfile"><b>My Profile</b></Nav.Link>
+                    <Nav.Link href="/chatList"><b>Chat</b></Nav.Link>
+                    <Nav.Link href="/movie"><b>Box Office</b></Nav.Link>
+                    <Nav.Link href="/social"><b>Social</b></Nav.Link>
+                    <Nav.Link onClick={onLogOutClick}><b>Log Out</b></Nav.Link>
                   </Nav>
                 </Offcanvas.Body>
               </Navbar.Offcanvas>

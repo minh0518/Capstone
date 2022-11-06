@@ -140,13 +140,20 @@ const UsersPickMovie = ({ userObj, movieName }) => {
                         <Card style={{ width: '9rem' }}>
                           <Card.Img variant="top" src={i.image} />
                           <Card.Body>
-                            <Card.Title>{movieName}</Card.Title>
+                            <Card.Title><b>{movieName}</b></Card.Title>
                             <Card.Text>{i.pubDate}</Card.Text>
-                            <a href={i.link} style={{ appearance: 'none',
-            backgroundColor: 'transparent',
-            border: '0',
-            outline: '0',
-            color:'green'}}>Go NAVER</a>
+                            <a
+                              href={i.link}
+                              style={{
+                                appearance: 'none',
+                                backgroundColor: 'transparent',
+                                border: '0',
+                                outline: '0',
+                                color: 'green',
+                              }}
+                            >
+                              Go NAVER
+                            </a>
                             {/* <Button variant="success" onClick={{}}>Naver</Button> */}
                           </Card.Body>
                         </Card>
