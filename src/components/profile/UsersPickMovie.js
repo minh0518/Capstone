@@ -10,22 +10,18 @@ import Spinner from 'react-bootstrap/Spinner'
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faVideo } from '@fortawesome/free-solid-svg-icons'
 
-const UsersPickMovie = ({ userObj }) => {
-  const { id, movieName } = useParams()
-
-  const [show, setShow] = useState(true)
-
-  const navigate = useNavigate()
-
-  //show를 false로 해줄 필요 없이 그냥 뒤로가기 해버림
-  const handleClose = () => {
-    navigate(-1)
-  }
-
+const UsersPickMovie = ({ userObj, movieName }) => {
   const [movies, setMovies] = useState([])
 
   let NaverInfoResult = []
+
+  const [show, setShow] = useState(false)
+
+  const handleClose = () => setShow(false)
+  const handleShow = () => setShow(true)
 
   useEffect(() => {
     const getMovies = async () => {
@@ -43,9 +39,6 @@ const UsersPickMovie = ({ userObj }) => {
         },
       })
 
-      let NaverFilterResult = []
-
-
       if (response.data.items.length === 0) {
         NaverInfoResult.push('')
       } else {
@@ -58,7 +51,7 @@ const UsersPickMovie = ({ userObj }) => {
       setMovies(NaverInfoResult)
     }
     getMovies()
-  }, [])
+  }, [show])
 
   //console.log(bestPick)
   console.log(movies[0])
@@ -99,7 +92,6 @@ const UsersPickMovie = ({ userObj }) => {
       //   })
       // }
 
-
       return arr
       //Home에서 사용된 로직과 다르게
       //여기선 arr을 리턴한다
@@ -108,53 +100,78 @@ const UsersPickMovie = ({ userObj }) => {
     }
   }
 
-  
-
   // 구조가 지금 movies = [Array(5)]이므로
   // movies[0]에 접근해야 정보가 존재한다
   return (
-    <Offcanvas show={show} onHide={handleClose} placement="bottom">
-      <Offcanvas.Header closeButton>
-        <Offcanvas.Title>{movieName}</Offcanvas.Title>
-      </Offcanvas.Header>
-      <Offcanvas.Body>
-        {movies[0] ? (
+    <>
+      <li>
+        <FontAwesomeIcon icon={faVideo} style={{ paddingRight: '10px' }} />
+        <button
+          style={{
+            appearance: 'none',
+            backgroundColor: 'transparent',
+            border: '0',
+            outline: '0',
+          }}
+          onClick={handleShow}
+        >
+          {movieName}
+        </button>
+      </li>
 
-          <Container>
-            <Row>
-              {movies[0].map((i) => {
-                if(i.image&&i.link){
-                  return (
-                    <Col xl={3} md={4} sm={6}>
-                      <Card style={{ width: '9rem' }}>
-                        <Card.Img variant="top" src={i.image} />
-                        <Card.Body>
-                          <Card.Title>{movieName}</Card.Title>
-                          <Card.Text>{i.pubDate}</Card.Text>
-                          <Button variant="success">Naver</Button>
-                        </Card.Body>
-                      </Card>
-                    </Col>
-                  )
-                }
-                else{
-                  return <></>
-                }
-
-              })}
-            </Row>
-          </Container>
-        ) : (
-          <div style={{
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center'
-          }}>
-          <Spinner animation="border" />
-          </div>
-        )}
-      </Offcanvas.Body>
-    </Offcanvas>
+      <Offcanvas
+        show={show}
+        onHide={handleClose}
+        placement="bottom"
+        scroll={true}
+        backdrop={false}
+      >
+        <Offcanvas.Header closeButton>
+          <Offcanvas.Title>{movieName}</Offcanvas.Title>
+        </Offcanvas.Header>
+        <Offcanvas.Body>
+          {movies[0] ? (
+            <Container>
+              <Row>
+                {movies[0].map((i) => {
+                  if (i.image && i.link) {
+                    return (
+                      <Col xl={3} md={4} sm={6}>
+                        <Card style={{ width: '9rem' }}>
+                          <Card.Img variant="top" src={i.image} />
+                          <Card.Body>
+                            <Card.Title>{movieName}</Card.Title>
+                            <Card.Text>{i.pubDate}</Card.Text>
+                            <a href={i.link} style={{ appearance: 'none',
+            backgroundColor: 'transparent',
+            border: '0',
+            outline: '0',
+            color:'green'}}>Go NAVER</a>
+                            {/* <Button variant="success" onClick={{}}>Naver</Button> */}
+                          </Card.Body>
+                        </Card>
+                      </Col>
+                    )
+                  } else {
+                    return <></>
+                  }
+                })}
+              </Row>
+            </Container>
+          ) : (
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}
+            >
+              <Spinner animation="border" />
+            </div>
+          )}
+        </Offcanvas.Body>
+      </Offcanvas>
+    </>
   )
 }
 

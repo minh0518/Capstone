@@ -28,6 +28,10 @@ const UserProfile = ({ userObj }) => {
     favoriteTheater: '',
   })
 
+  // const [show, setShow] = useState(false);
+
+  // const handleClose = () => setShow(false);
+  // const handleShow = () => setShow(true);
 
   useEffect(() => {
     const getProfiles = async () => {
@@ -82,19 +86,7 @@ const UserProfile = ({ userObj }) => {
                   Best Pick!
                   <ul style={{ listStyle: 'none' }}>
                     {profile.bestPick.map((i) => {
-                      return (
-                        <li>
-                          <FontAwesomeIcon
-                            icon={faVideo}
-                            style={{ paddingRight: '10px' }}
-                          />
-                          <Link to={`/userProfile/${id}/${i}`}>
-                            {/* <button onClick={() => setShow((prev) => !prev)}> */}
-                              {i}
-                            {/* </button> */}
-                          </Link>
-                        </li>
-                      )
+                      return <UsersPickMovie userObj={userObj} movieName={i} />
                     })}
                   </ul>
                 </ListGroup.Item>
