@@ -77,7 +77,7 @@ const Post = ({ userObj }) => {
             {post.specificTheater ? (
               <>
                 <ShowLocation placeName={post.specificTheater} />
-                {post.specificTheater}
+                <b>{post.specificTheater}</b>
               </>
             ) : (
               ''

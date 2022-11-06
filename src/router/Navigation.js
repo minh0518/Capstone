@@ -126,7 +126,7 @@ const Navigation = ({ userObj }) => {
                     <Nav.Link href="/chatList"><b>Chat</b></Nav.Link>
                     <Nav.Link href="/movie"><b>Box Office</b></Nav.Link>
                     <Nav.Link href="/social"><b>Social</b></Nav.Link>
-                    <Nav.Link onClick={onLogOutClick}><b>Log Out</b></Nav.Link>
+                    <Nav.Link onClick={onLogOutClick} style={{color:'red'}}><b>Log Out</b></Nav.Link>
                   </Nav>
                 </Offcanvas.Body>
               </Navbar.Offcanvas>

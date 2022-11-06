@@ -223,7 +223,7 @@ const WritePost = ({ movieTitle, theater, region, userObj }) => {
           />
           <br />
           <br />
-          <input type="submit" value="등록"></input>
+          <Button type="submit" variant="secondary">등록</Button>
         </form>
       </div>
     </div>
