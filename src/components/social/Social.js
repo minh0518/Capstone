@@ -1,3 +1,10 @@
+//Social기능을 선택했을 때 가장 먼저 보여지는 페이지입니다
+//기존 Post게시글들을 보여주는 ShowPostsList  (디폴트)
+//새로운 Post게시글을 작성할 수 있는 WritePost
+//이 2개를 선택할 수 있습니다
+
+
+
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import WritePost from './WritePost'

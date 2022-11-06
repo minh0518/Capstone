@@ -1,3 +1,7 @@
+//Social페이지의 ShowPostsList페이지에서 기존에 작성된 Post들을 목록 형태로 보여주는데
+//여기서 Post게시글이 많을 경우 페이징 처리를 하게 됩니다
+//그 페이징 처리에서 사용되는 하단 버튼bar 입니다
+
 import React from 'react'
 import styled from 'styled-components'
 

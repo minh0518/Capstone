@@ -1,3 +1,6 @@
+//ChatList 페이지에서 채팅 목록을 보여준다면 
+//여기는 각 채팅 목록에 대해서 실시간 처리를 이용한 채팅을 하는 공간입니다
+
 import React, { useEffect, useState } from 'react'
 import {
   addDoc,

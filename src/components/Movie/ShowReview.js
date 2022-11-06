@@ -1,3 +1,7 @@
+//Detail페이지에서 기존 리뷰목록들을 나열해주는 페이지입니다
+//여기서 Bootstrap의 Tab디자인을 사용하며
+//각각 ReviewsForName , ReviewsForOthers 로 나눠서 리뷰를 보여줍니다
+
 import { getDocs, collection } from 'firebase/firestore'
 import React, { useEffect, useState } from 'react'
 import WriteReview from './WriteReview'

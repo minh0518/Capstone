@@ -1,3 +1,7 @@
+//새로 회원가입시 사용되는 페이지입니다
+//그러나 중간에 로직을 수정함으로써(회원가입 하지 않고 소셜로그인으로 대체) 
+//이 페이지는 더이상 사용되지 않습니다
+
 import { authService } from '../../fbase'
 import React, { useState } from 'react'
 import {

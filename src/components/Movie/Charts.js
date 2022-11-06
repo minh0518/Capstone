@@ -1,3 +1,7 @@
+//Detail페이지에서 각 영화들에 대한 차트들을 보여줄 때 사용되는 페이지입니다
+//영화진흥위원회 api에서 제공해주는 수치들을 이용해서 차트를 만들었으며
+//차트는 총 3개를 사용합니다
+
 import React, { useState, useEffect } from 'react'
 import ApexCharts from 'react-apexcharts'
 import Container from 'react-bootstrap/Container'

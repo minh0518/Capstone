@@ -1,3 +1,7 @@
+//상단에 고정되는 네비게이션 바 입니다
+//여기서 모든 메뉴로 자유자제로 이동할 수 있으며
+//채팅기능 또한 여기서 선택함으로써 이동 할 수 있습니다
+
 import React, { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { authService, dbService, storageService } from '../fbase'

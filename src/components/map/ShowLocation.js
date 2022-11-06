@@ -1,3 +1,7 @@
+//이 프로젝트에서 사용되는 카카오Map api부분을 사용하는 공간입니다
+//각 페이지마다 지도서비스가 필요할 경우 이 컴포넌트를 호출하게 됩니다
+
+
 import React, { useEffect } from 'react'
 
 const { kakao } = window

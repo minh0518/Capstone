@@ -1,3 +1,7 @@
+//리뷰를 새로 작성하는 페이지입니다
+//ShowReview페이지에서 기존 리뷰들 목록을 보여줌과 동시에
+//여기서 새로운 리뷰를 작성하고자 한다면 이 페이지를 호출하게 되는 것입니다
+
 import { addDoc, collection } from 'firebase/firestore'
 import React, { useState } from 'react'
 import { dbService } from '../../fbase'

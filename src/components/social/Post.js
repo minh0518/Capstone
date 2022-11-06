@@ -1,3 +1,11 @@
+//ShowPostsList에서 Post게시글 목록들을 보여주고 있으며
+//이때 각 Post게시글을 클릭하게 되면 그 Post의 전체 내용을 볼 수 있는 페이지입니다
+//다른 유저가 작성한 모든 내용들을 볼 수 있습니다 (글 내용, 제목 , 지역 , 영화관 등...)
+
+//다른 유저의 프로필 사진 및 닉네임을 클릭하면 그 유저의 프로필(UserProfile)로 이동할 수 있습니다
+
+
+
 import React, { useEffect, useState } from 'react'
 import { useParams, Link, useNavigate } from 'react-router-dom'
 import { getDoc, getDocs, deleteDoc, doc } from 'firebase/firestore'

@@ -1,3 +1,8 @@
+//새로운 게시글을 작성하는 페이지입니다
+//여기서 각종 정보들을 바탕으로 게시글을 작성하며
+//특정영화관을 선택하고 싶을때 ModalForMap페이지를 모달로 호출하게 됩니다
+
+
 import React, { useState } from 'react'
 import { dbService } from '../../fbase'
 import { addDoc, collection } from 'firebase/firestore'

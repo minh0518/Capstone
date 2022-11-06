@@ -1,3 +1,9 @@
+//진행중인 채팅 목록을 보여주며 
+//무분별한 채팅을 막기 위해 Post페이지에서 게시글을 작성한 유저들을 대상으로만
+//새로운 채팅을 생성할 수 있게 만들었으며
+
+// 중복 채팅 방지 알고리즘을 적용했습니다
+
 import React, { useEffect, useState } from 'react'
 import {
   addDoc,

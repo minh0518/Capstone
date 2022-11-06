@@ -1,3 +1,7 @@
+//각 영화에 대한 차트 및 리뷰를 담당하는 페이지입니다
+//세션스토리지를 통해 새로고침을 해도 api로 호출한 정보가 끊기지 않게 처리했습니다
+
+
 import React, { useEffect, useState } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import WriteReview from './WriteReview'

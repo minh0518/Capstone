@@ -1,3 +1,11 @@
+// 내 프로필 말고 다른 사람의 프로필을 방문했을 때 보여지는 페이지입니다
+// 당연히 여기서는 수정 및 삭제가 되지 않으며
+// 내 프로필과 마찬가지로 그 사람의 프로필에 대해서 정보들을 보여주게 되며
+// 내 프로필과 차이점은 다른 유저가 설정해 놓은 BestPick 영화들을 클릭하게 될 시,
+// 그 영화 목록들을 띄워주며 (같은 영화제목이 있을 수 있으니까 우선 여러개 보여줍니다)
+// 실제 네이버 영화정보로 이동하게 할 수 있게 됩니다
+
+
 import { getDocs, addDoc, collection } from 'firebase/firestore'
 import React, { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
@@ -84,6 +92,7 @@ const UserProfile = ({ userObj }) => {
                 </ListGroup.Item>
                 <ListGroup.Item>
                   Best Pick!
+                  <p style={{color:'lightgray'}}>클릭해서 자세한 정보를 알아보세요</p>
                   <ul style={{ listStyle: 'none' }}>
                     {profile.bestPick.map((i) => {
                       return <UsersPickMovie userObj={userObj} movieName={i} />

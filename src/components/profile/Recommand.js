@@ -1,3 +1,7 @@
+//다른 유저 프로필 말고, 개인 프로필로 가서 원하는 영화 장르를 선택했을 때,
+//그 장르 정보를 바탕으로 현재 상영중인 영화 중에서 추천을 해주는 페이지입니다
+
+
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import Button from 'react-bootstrap/Button'

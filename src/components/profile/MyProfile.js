@@ -1,3 +1,19 @@
+//프로필을 수정하는 페이지입니다
+//프로필 사진을 바꿀때는 EditProfileImg페이지에서 바꾸게 되고
+//그 외 정보(이름,생년월일,BestPick등...)들은 페이지 이동 없이
+//여기서 수정을 하게 됩니다
+
+
+//프로필 정보들을 바꾸게 되면 
+//서버에서 사용된 인증 객체의 정보들도 바꿔줌과 동시에
+//기존에 프로필 정보가 사용된 모든 영역 
+//(ex Social페이지의 개시글들 , 채팅의 프로필 사진, 영화 리뷰 등..)
+//의 DB에 접근해서 죄다 새롭게 변경된 프로필 정보로 바꿔줍니다
+//그렇게 되면 프로필 정보를 수정했을 때 기존에 작성된 모든 부분의 프로필 정보가 
+//자동으로 바뀐 정보로 수정됩니다 
+
+
+
 import { authService, dbService, storageService } from '../../fbase'
 import { signOut, updateProfile } from 'firebase/auth'
 import React, { useState, useRef, useEffect } from 'react'

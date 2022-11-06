@@ -1,3 +1,8 @@
+// UserProfile페이지에서 BestPick으로 설정된 영화들을 클릭하게 될 시
+// 그 영화 목록들을 띄워주며 (같은 영화제목이 있을 수 있으니까 우선 여러개 보여줍니다)
+// 실제 네이버 영화정보로 이동하게 할 수 있게 됩니다
+
+
 import React, { useState, useEffect } from 'react'
 
 import axios from 'axios'
@@ -127,7 +132,7 @@ const UsersPickMovie = ({ userObj, movieName }) => {
         backdrop={false}
       >
         <Offcanvas.Header closeButton>
-          <Offcanvas.Title>{movieName}</Offcanvas.Title>
+          <Offcanvas.Title><b>{`선택된 영화 - ${movieName}`}</b></Offcanvas.Title>
         </Offcanvas.Header>
         <Offcanvas.Body>
           {movies[0] ? (

@@ -1,3 +1,12 @@
+//처음 MainSelect에서 BoxOffice를 선택했을때 보여지는 페이지입니다
+//2개의 api를 조합 및 문자열 처리 알고리즘을 통해 
+//카테고리를 선택할 수있으며 카테고리별로 박스오피스 순위 와 간략한 정보들 ,
+//그리고 보다 더 자세한 정보와 리뷰가 있는 Detail페이지로 이동할 수 있습니다
+
+//세션스토리지를 사용해서 다른 페이지에서 ( Detail페이지 ) 에서 이 api정보를 받아서
+// 끊김없이 (기존의 방식애로 그냥 props로 넘겨주면 새로고침하면 바로 에러가 발생) 
+//서비스를 이용할 수 있도록 했습니다
+
 import React from 'react'
 import { useEffect, useState } from 'react'
 import axios from 'axios'

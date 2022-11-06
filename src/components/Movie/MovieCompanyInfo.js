@@ -1,3 +1,6 @@
+//Home페이지에서 Detail페이지로 넘어가기 전에 아주 간단한 영화 정보를 
+//나열해주는 공간입니다 (제조사 , 영화관람등급 , 상영시간 등..)
+
 import React, { useState, useEffect } from 'react'
 import Offcanvas from 'react-bootstrap/Offcanvas'
 import Card from 'react-bootstrap/Card'

@@ -1,3 +1,11 @@
+//맨 처음 이 웹이 실행될때 작동하는 구간입니다
+//기본적으로 로그인 관련 동작들을 여기서 수행하며
+//여기서 만들어진 로그인 객체들을 모든 페이지에서 뿌려줍니다 
+//(그래서 모든 페이지에서 로그인 및 해당 유저마다 할 수 있는 동작들이 결정됩니다 ex 자기가 작성한 리뷰만 수장 및 삭제)
+//그리고 처음 로그인을 했을때 프로필 정보 또한 DB에 생성하며
+//중복 제거 알고리즘을 통해 중복 프로필을 방지합니다
+
+
 import React, { useEffect, useState } from 'react'
 import AppRouter from './router/AppRouter'
 import { authService, dbService } from './fbase'

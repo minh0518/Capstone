@@ -1,3 +1,6 @@
+//로그인 후 가장 먼저 보여지는 메인페이지입니다
+//이 웹 프로젝트에서 가장 큰 기능인 BoxOffice나 Social 기능 둘 중 하나를 선택하는 곳입니다
+
 import React from 'react'
 import { Routes, Route, Link, Navigate } from 'react-router-dom'
 //import {Container} from '../../styles/Container.styled'

@@ -1,3 +1,11 @@
+//Social 페이지에서 Post목록들을 보여주는 페이지입니다 
+//여기서 선택된 카테고리들을 바탕으로 정렬하는 알고리즘이 사용됐으며
+//모든 Post게시글들을 볼수도 있고 , 해당 카테고리별로 필터링을 거친 목록들만 볼 수 있습니다
+
+//여기서 다른 유저의 프로필 사진 및 닉네임을 클릭하면 그 유저의 프로필(UserProfile)로 이동할 수 있으며
+//게시글 제목을 클릭하면 게시글 세부사항 (Post)으로 이동할 수 있습니다
+
+
 import { getDocs, addDoc, collection } from 'firebase/firestore'
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
