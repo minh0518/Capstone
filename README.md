@@ -1,8 +1,10 @@
-```
-2023년 4월부로, 네이버 영화 API 서비스가 중단 됐으므로 실제 사용은 불가능합니다
-```
+<br>
+<br>
 
-<img src="https://github.com/minh0518/Capstone/assets/78631876/90f47975-e2c7-4c35-b040-a4480a715aa3" width="700" height="700"/>
+## 2023년 4월부로, 네이버 영화 API 서비스가 중단 됐으므로 실제 사용은 불가능합니다
+
+
+<img src="https://github.com/minh0518/Capstone/assets/78631876/90f47975-e2c7-4c35-b040-a4480a715aa3" width="400" height="400"/>
 
 ## **서경대학교 4학년 졸업작품 캡스톤 프로젝트**
 
